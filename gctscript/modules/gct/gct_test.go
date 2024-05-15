@@ -8,11 +8,11 @@ import (
 	"time"
 
 	objects "github.com/d5/tengo/v2"
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/account"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/gctscript/modules"
-	"github.com/thrasher-corp/gocryptotrader/gctscript/wrappers/validator"
+	"github.com/aaabigfish/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/exchanges/account"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	"github.com/aaabigfish/gocryptotrader/gctscript/modules"
+	"github.com/aaabigfish/gocryptotrader/gctscript/wrappers/validator"
 )
 
 var (

@@ -3,8 +3,8 @@ package btcmarkets
 import (
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/orderbook"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/exchanges/orderbook"
 )
 
 // Market holds a tradable market instrument

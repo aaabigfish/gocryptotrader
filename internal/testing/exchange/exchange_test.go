@@ -6,9 +6,9 @@ import (
 	"github.com/gorilla/websocket"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/thrasher-corp/gocryptotrader/config"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/binance"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/sharedtestvalues"
+	"github.com/aaabigfish/gocryptotrader/config"
+	"github.com/aaabigfish/gocryptotrader/exchanges/binance"
+	"github.com/aaabigfish/gocryptotrader/exchanges/sharedtestvalues"
 )
 
 // TestSetup exercises Setup

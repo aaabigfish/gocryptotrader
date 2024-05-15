@@ -5,12 +5,12 @@ import (
 	"fmt"
 
 	"github.com/shopspring/decimal"
-	"github.com/thrasher-corp/gocryptotrader/backtester/common"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/exchange"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventtypes/order"
-	gctcommon "github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/futures"
-	gctorder "github.com/thrasher-corp/gocryptotrader/exchanges/order"
+	"github.com/aaabigfish/gocryptotrader/backtester/common"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/exchange"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventtypes/order"
+	gctcommon "github.com/aaabigfish/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/exchanges/futures"
+	gctorder "github.com/aaabigfish/gocryptotrader/exchanges/order"
 )
 
 // SizeOrder is responsible for ensuring that the order size is within config limits

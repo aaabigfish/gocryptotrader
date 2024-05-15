@@ -4,8 +4,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/currency/coinmarketcap"
-	"github.com/thrasher-corp/gocryptotrader/currency/forexprovider"
+	"github.com/aaabigfish/gocryptotrader/currency/coinmarketcap"
+	"github.com/aaabigfish/gocryptotrader/currency/forexprovider"
 )
 
 // Storage contains the loaded storage currencies supported on available crypto

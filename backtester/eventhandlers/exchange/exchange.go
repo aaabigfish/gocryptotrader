@@ -8,17 +8,17 @@ import (
 
 	"github.com/gofrs/uuid"
 	"github.com/shopspring/decimal"
-	"github.com/thrasher-corp/gocryptotrader/backtester/common"
-	"github.com/thrasher-corp/gocryptotrader/backtester/data"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/exchange/slippage"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventtypes/fill"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventtypes/order"
-	"github.com/thrasher-corp/gocryptotrader/backtester/funding"
-	gctcommon "github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/engine"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	gctorder "github.com/thrasher-corp/gocryptotrader/exchanges/order"
+	"github.com/aaabigfish/gocryptotrader/backtester/common"
+	"github.com/aaabigfish/gocryptotrader/backtester/data"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/exchange/slippage"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventtypes/fill"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventtypes/order"
+	"github.com/aaabigfish/gocryptotrader/backtester/funding"
+	gctcommon "github.com/aaabigfish/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/engine"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	gctorder "github.com/aaabigfish/gocryptotrader/exchanges/order"
 )
 
 // Reset returns the exchange to initial settings

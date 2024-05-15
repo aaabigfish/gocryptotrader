@@ -10,9 +10,9 @@ import (
 	"os"
 	"testing"
 
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/sharedtestvalues"
-	testexch "github.com/thrasher-corp/gocryptotrader/internal/testing/exchange"
+	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
+	"github.com/aaabigfish/gocryptotrader/exchanges/sharedtestvalues"
+	testexch "github.com/aaabigfish/gocryptotrader/internal/testing/exchange"
 )
 
 var mockTests = false

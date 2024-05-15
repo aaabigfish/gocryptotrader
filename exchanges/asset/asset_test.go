@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/thrasher-corp/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/common"
 )
 
 func TestString(t *testing.T) {

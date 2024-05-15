@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/thrasher-corp/gocryptotrader/common/file"
-	"github.com/thrasher-corp/gocryptotrader/log"
+	"github.com/aaabigfish/gocryptotrader/common/file"
+	"github.com/aaabigfish/gocryptotrader/log"
 )
 
 const (

@@ -5,10 +5,10 @@ import (
 	"net/http"
 
 	"github.com/gorilla/websocket"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/stream"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/subscription"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	"github.com/aaabigfish/gocryptotrader/exchanges/stream"
+	"github.com/aaabigfish/gocryptotrader/exchanges/subscription"
 )
 
 // WsLinearConnect connects to linear a websocket feed

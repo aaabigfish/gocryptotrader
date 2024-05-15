@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/thrasher-corp/gocryptotrader/config"
+	"github.com/aaabigfish/gocryptotrader/config"
 )
 
 func TestSetupAPIServerManager(t *testing.T) {

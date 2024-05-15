@@ -5,9 +5,9 @@ import (
 	"time"
 
 	"github.com/shopspring/decimal"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/types"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	"github.com/aaabigfish/gocryptotrader/types"
 )
 
 const wsRateLimitMilliseconds = 250

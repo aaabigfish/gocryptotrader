@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/thrasher-corp/gocryptotrader/database/testhelpers"
+	"github.com/aaabigfish/gocryptotrader/database/testhelpers"
 )
 
 func TestMain(m *testing.M) {

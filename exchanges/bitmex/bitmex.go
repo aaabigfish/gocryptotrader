@@ -11,10 +11,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/common/crypto"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/request"
+	"github.com/aaabigfish/gocryptotrader/common/crypto"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
+	"github.com/aaabigfish/gocryptotrader/exchanges/request"
 )
 
 // Bitmex is the overarching type across this package

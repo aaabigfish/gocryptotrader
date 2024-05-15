@@ -3,11 +3,11 @@ package strategies
 import (
 	"errors"
 
-	"github.com/thrasher-corp/gocryptotrader/backtester/data"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/portfolio"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/portfolio/holdings"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventtypes/signal"
-	"github.com/thrasher-corp/gocryptotrader/backtester/funding"
+	"github.com/aaabigfish/gocryptotrader/backtester/data"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/portfolio"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/portfolio/holdings"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventtypes/signal"
+	"github.com/aaabigfish/gocryptotrader/backtester/funding"
 )
 
 // ErrStrategyAlreadyExists returned when a strategy matches the same name

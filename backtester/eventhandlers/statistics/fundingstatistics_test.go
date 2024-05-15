@@ -7,15 +7,15 @@ import (
 
 	"github.com/gofrs/uuid"
 	"github.com/shopspring/decimal"
-	"github.com/thrasher-corp/gocryptotrader/backtester/data"
-	"github.com/thrasher-corp/gocryptotrader/backtester/data/kline"
-	"github.com/thrasher-corp/gocryptotrader/backtester/funding"
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/common/key"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/engine"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	gctkline "github.com/thrasher-corp/gocryptotrader/exchanges/kline"
+	"github.com/aaabigfish/gocryptotrader/backtester/data"
+	"github.com/aaabigfish/gocryptotrader/backtester/data/kline"
+	"github.com/aaabigfish/gocryptotrader/backtester/funding"
+	"github.com/aaabigfish/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/common/key"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/engine"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	gctkline "github.com/aaabigfish/gocryptotrader/exchanges/kline"
 )
 
 func TestCalculateFundingStatistics(t *testing.T) {

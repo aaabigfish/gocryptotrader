@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
-	"github.com/thrasher-corp/gocryptotrader/log"
+	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
+	"github.com/aaabigfish/gocryptotrader/log"
 )
 
 // vars related to exchange functions

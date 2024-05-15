@@ -6,11 +6,11 @@ import (
 	"sort"
 
 	"github.com/shopspring/decimal"
-	"github.com/thrasher-corp/gocryptotrader/backtester/funding"
-	gctcommon "github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/common/key"
-	gctmath "github.com/thrasher-corp/gocryptotrader/common/math"
-	gctkline "github.com/thrasher-corp/gocryptotrader/exchanges/kline"
+	"github.com/aaabigfish/gocryptotrader/backtester/funding"
+	gctcommon "github.com/aaabigfish/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/common/key"
+	gctmath "github.com/aaabigfish/gocryptotrader/common/math"
+	gctkline "github.com/aaabigfish/gocryptotrader/exchanges/kline"
 )
 
 // CalculateFundingStatistics calculates funding statistics for total USD strategy results

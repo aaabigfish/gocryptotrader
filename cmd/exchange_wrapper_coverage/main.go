@@ -8,9 +8,9 @@ import (
 	"reflect"
 	"sync"
 
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/engine"
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
+	"github.com/aaabigfish/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/engine"
+	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
 )
 
 func main() {

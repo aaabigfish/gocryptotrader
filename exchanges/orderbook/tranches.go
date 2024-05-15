@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/thrasher-corp/gocryptotrader/common/math"
+	"github.com/aaabigfish/gocryptotrader/common/math"
 )
 
 // FullLiquidityExhaustedPercentage defines when a book has been completely

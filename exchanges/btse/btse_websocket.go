@@ -11,15 +11,15 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/thrasher-corp/gocryptotrader/common/crypto"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/order"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/orderbook"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/stream"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/subscription"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/trade"
-	"github.com/thrasher-corp/gocryptotrader/log"
+	"github.com/aaabigfish/gocryptotrader/common/crypto"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	"github.com/aaabigfish/gocryptotrader/exchanges/order"
+	"github.com/aaabigfish/gocryptotrader/exchanges/orderbook"
+	"github.com/aaabigfish/gocryptotrader/exchanges/stream"
+	"github.com/aaabigfish/gocryptotrader/exchanges/subscription"
+	"github.com/aaabigfish/gocryptotrader/exchanges/trade"
+	"github.com/aaabigfish/gocryptotrader/log"
 )
 
 const (

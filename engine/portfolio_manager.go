@@ -7,12 +7,12 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/account"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/log"
-	"github.com/thrasher-corp/gocryptotrader/portfolio"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
+	"github.com/aaabigfish/gocryptotrader/exchanges/account"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	"github.com/aaabigfish/gocryptotrader/log"
+	"github.com/aaabigfish/gocryptotrader/portfolio"
 )
 
 // PortfolioManagerName is an exported subsystem name

@@ -8,15 +8,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/config"
-	"github.com/thrasher-corp/gocryptotrader/core"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/kline"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/order"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/sharedtestvalues"
-	"github.com/thrasher-corp/gocryptotrader/portfolio/withdraw"
+	"github.com/aaabigfish/gocryptotrader/config"
+	"github.com/aaabigfish/gocryptotrader/core"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	"github.com/aaabigfish/gocryptotrader/exchanges/kline"
+	"github.com/aaabigfish/gocryptotrader/exchanges/order"
+	"github.com/aaabigfish/gocryptotrader/exchanges/sharedtestvalues"
+	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
 )
 
 // Please supply you own test keys here for due diligence testing.

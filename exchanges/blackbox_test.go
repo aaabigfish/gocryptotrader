@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
-	shared "github.com/thrasher-corp/gocryptotrader/exchanges/sharedtestvalues"
+	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
+	shared "github.com/aaabigfish/gocryptotrader/exchanges/sharedtestvalues"
 )
 
 type mockEx struct {

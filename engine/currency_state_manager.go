@@ -8,13 +8,13 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/currencystate"
-	"github.com/thrasher-corp/gocryptotrader/gctrpc"
-	"github.com/thrasher-corp/gocryptotrader/log"
+	"github.com/aaabigfish/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	"github.com/aaabigfish/gocryptotrader/exchanges/currencystate"
+	"github.com/aaabigfish/gocryptotrader/gctrpc"
+	"github.com/aaabigfish/gocryptotrader/log"
 )
 
 const (

@@ -6,9 +6,9 @@ import (
 	"strconv"
 
 	"github.com/gorilla/websocket"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/stream"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/subscription"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	"github.com/aaabigfish/gocryptotrader/exchanges/stream"
+	"github.com/aaabigfish/gocryptotrader/exchanges/subscription"
 )
 
 // WsOptionsConnect connects to options a websocket feed

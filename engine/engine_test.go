@@ -9,9 +9,9 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/config"
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
+	"github.com/aaabigfish/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/config"
+	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
 )
 
 // blockedCIExchanges are exchanges that are not able to be tested on CI

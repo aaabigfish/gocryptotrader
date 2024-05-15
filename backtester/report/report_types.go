@@ -4,13 +4,13 @@ import (
 	"errors"
 
 	"github.com/shopspring/decimal"
-	"github.com/thrasher-corp/gocryptotrader/backtester/config"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/statistics"
-	"github.com/thrasher-corp/gocryptotrader/common/convert"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/kline"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/order"
+	"github.com/aaabigfish/gocryptotrader/backtester/config"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/statistics"
+	"github.com/aaabigfish/gocryptotrader/common/convert"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	"github.com/aaabigfish/gocryptotrader/exchanges/kline"
+	"github.com/aaabigfish/gocryptotrader/exchanges/order"
 )
 
 // lightweight charts can only render 1100 candles

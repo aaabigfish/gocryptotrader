@@ -6,13 +6,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/backtester/common"
-	"github.com/thrasher-corp/gocryptotrader/backtester/data/kline"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	gctkline "github.com/thrasher-corp/gocryptotrader/exchanges/kline"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/trade"
-	"github.com/thrasher-corp/gocryptotrader/log"
+	"github.com/aaabigfish/gocryptotrader/backtester/common"
+	"github.com/aaabigfish/gocryptotrader/backtester/data/kline"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	gctkline "github.com/aaabigfish/gocryptotrader/exchanges/kline"
+	"github.com/aaabigfish/gocryptotrader/exchanges/trade"
+	"github.com/aaabigfish/gocryptotrader/log"
 )
 
 var errNoUSDData = errors.New("could not retrieve USD database candle data")

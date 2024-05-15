@@ -4,17 +4,17 @@ import (
 	"sync"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/config"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/account"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/currencystate"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/kline"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/order"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/protocol"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/request"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/stream"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/subscription"
+	"github.com/aaabigfish/gocryptotrader/config"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/exchanges/account"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	"github.com/aaabigfish/gocryptotrader/exchanges/currencystate"
+	"github.com/aaabigfish/gocryptotrader/exchanges/kline"
+	"github.com/aaabigfish/gocryptotrader/exchanges/order"
+	"github.com/aaabigfish/gocryptotrader/exchanges/protocol"
+	"github.com/aaabigfish/gocryptotrader/exchanges/request"
+	"github.com/aaabigfish/gocryptotrader/exchanges/stream"
+	"github.com/aaabigfish/gocryptotrader/exchanges/subscription"
 )
 
 // Endpoint authentication types

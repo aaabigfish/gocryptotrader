@@ -5,8 +5,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/thrasher-corp/gocryptotrader/config"
-	"github.com/thrasher-corp/gocryptotrader/core"
+	"github.com/aaabigfish/gocryptotrader/config"
+	"github.com/aaabigfish/gocryptotrader/core"
 	"github.com/urfave/cli/v2"
 )
 

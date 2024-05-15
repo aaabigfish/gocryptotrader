@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/shopspring/decimal"
-	gctorder "github.com/thrasher-corp/gocryptotrader/exchanges/order"
+	gctorder "github.com/aaabigfish/gocryptotrader/exchanges/order"
 )
 
 func TestBaseInitialFunds(t *testing.T) {

@@ -5,7 +5,7 @@ package btrpc;
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/thrasher-corp/gocryptotrader/backtester/btrpc";
+option go_package = "github.com/aaabigfish/gocryptotrader/backtester/btrpc";
 
 // struct definitions
 message StrategySettings {

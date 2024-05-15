@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/shopspring/decimal"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	gctorder "github.com/thrasher-corp/gocryptotrader/exchanges/order"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	gctorder "github.com/aaabigfish/gocryptotrader/exchanges/order"
 )
 
 // collateral related errors

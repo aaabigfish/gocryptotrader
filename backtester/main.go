@@ -9,15 +9,15 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/backtester/common"
-	"github.com/thrasher-corp/gocryptotrader/backtester/config"
-	backtest "github.com/thrasher-corp/gocryptotrader/backtester/engine"
-	"github.com/thrasher-corp/gocryptotrader/backtester/plugins/strategies"
-	"github.com/thrasher-corp/gocryptotrader/common/convert"
-	"github.com/thrasher-corp/gocryptotrader/common/file"
-	"github.com/thrasher-corp/gocryptotrader/engine"
-	"github.com/thrasher-corp/gocryptotrader/log"
-	"github.com/thrasher-corp/gocryptotrader/signaler"
+	"github.com/aaabigfish/gocryptotrader/backtester/common"
+	"github.com/aaabigfish/gocryptotrader/backtester/config"
+	backtest "github.com/aaabigfish/gocryptotrader/backtester/engine"
+	"github.com/aaabigfish/gocryptotrader/backtester/plugins/strategies"
+	"github.com/aaabigfish/gocryptotrader/common/convert"
+	"github.com/aaabigfish/gocryptotrader/common/file"
+	"github.com/aaabigfish/gocryptotrader/engine"
+	"github.com/aaabigfish/gocryptotrader/log"
+	"github.com/aaabigfish/gocryptotrader/signaler"
 )
 
 var singleTaskStrategyPath, templatePath, outputPath, btConfigDir, strategyPluginPath, pprofURL string

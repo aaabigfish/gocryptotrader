@@ -4,10 +4,10 @@ import (
 	"fmt"
 
 	"github.com/shopspring/decimal"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/statistics"
-	gctcommon "github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/common/key"
-	"github.com/thrasher-corp/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/statistics"
+	gctcommon "github.com/aaabigfish/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/common/key"
+	"github.com/aaabigfish/gocryptotrader/currency"
 )
 
 // createUSDTotalsChart used for creating a chart in the HTML report

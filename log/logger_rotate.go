@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/common/file"
+	"github.com/aaabigfish/gocryptotrader/common/file"
 )
 
 var (

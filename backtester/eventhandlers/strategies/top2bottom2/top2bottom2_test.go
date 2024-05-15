@@ -7,16 +7,16 @@ import (
 	"time"
 
 	"github.com/shopspring/decimal"
-	"github.com/thrasher-corp/gocryptotrader/backtester/data"
-	"github.com/thrasher-corp/gocryptotrader/backtester/data/kline"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/strategies/base"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventtypes/event"
-	eventkline "github.com/thrasher-corp/gocryptotrader/backtester/eventtypes/kline"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventtypes/signal"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	gctkline "github.com/thrasher-corp/gocryptotrader/exchanges/kline"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/order"
+	"github.com/aaabigfish/gocryptotrader/backtester/data"
+	"github.com/aaabigfish/gocryptotrader/backtester/data/kline"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/strategies/base"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventtypes/event"
+	eventkline "github.com/aaabigfish/gocryptotrader/backtester/eventtypes/kline"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventtypes/signal"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	gctkline "github.com/aaabigfish/gocryptotrader/exchanges/kline"
+	"github.com/aaabigfish/gocryptotrader/exchanges/order"
 )
 
 func TestName(t *testing.T) {

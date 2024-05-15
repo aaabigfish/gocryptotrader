@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/common/convert"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/order"
+	"github.com/aaabigfish/gocryptotrader/common/convert"
+	"github.com/aaabigfish/gocryptotrader/exchanges/order"
 )
 
 // datetime provides an internal conversion helper

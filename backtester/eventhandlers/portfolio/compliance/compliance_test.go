@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/shopspring/decimal"
-	gctorder "github.com/thrasher-corp/gocryptotrader/exchanges/order"
+	gctorder "github.com/aaabigfish/gocryptotrader/exchanges/order"
 )
 
 func TestAddSnapshot(t *testing.T) {

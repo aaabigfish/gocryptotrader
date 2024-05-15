@@ -13,9 +13,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/common/crypto"
-	"github.com/thrasher-corp/gocryptotrader/common/file"
+	"github.com/aaabigfish/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/common/crypto"
+	"github.com/aaabigfish/gocryptotrader/common/file"
 )
 
 // HTTPResponse defines expected response from the end point including request

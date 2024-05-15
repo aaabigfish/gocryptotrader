@@ -5,9 +5,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/futures"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/order"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/exchanges/futures"
+	"github.com/aaabigfish/gocryptotrader/exchanges/order"
 )
 
 // OrderManagerName is an exported subsystem name

@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/shopspring/decimal"
-	"github.com/thrasher-corp/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/currency"
 )
 
 func TestMatchesExchange(t *testing.T) {

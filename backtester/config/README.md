@@ -3,11 +3,11 @@
 <img src="/backtester/common/backtester.png?raw=true" width="350px" height="350px" hspace="70">
 
 
-[![Build Status](https://github.com/thrasher-corp/gocryptotrader/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/thrasher-corp/gocryptotrader/actions/workflows/tests.yml)
-[![Software License](https://img.shields.io/badge/License-MIT-orange.svg?style=flat-square)](https://github.com/thrasher-corp/gocryptotrader/blob/master/LICENSE)
-[![GoDoc](https://godoc.org/github.com/thrasher-corp/gocryptotrader?status.svg)](https://godoc.org/github.com/thrasher-corp/gocryptotrader/backtester/config)
+[![Build Status](https://github.com/aaabigfish/gocryptotrader/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/aaabigfish/gocryptotrader/actions/workflows/tests.yml)
+[![Software License](https://img.shields.io/badge/License-MIT-orange.svg?style=flat-square)](https://github.com/aaabigfish/gocryptotrader/blob/master/LICENSE)
+[![GoDoc](https://godoc.org/github.com/aaabigfish/gocryptotrader?status.svg)](https://godoc.org/github.com/aaabigfish/gocryptotrader/backtester/config)
 [![Coverage Status](http://codecov.io/github/thrasher-corp/gocryptotrader/coverage.svg?branch=master)](http://codecov.io/github/thrasher-corp/gocryptotrader?branch=master)
-[![Go Report Card](https://goreportcard.com/badge/github.com/thrasher-corp/gocryptotrader)](https://goreportcard.com/report/github.com/thrasher-corp/gocryptotrader)
+[![Go Report Card](https://goreportcard.com/badge/github.com/aaabigfish/gocryptotrader)](https://goreportcard.com/report/github.com/aaabigfish/gocryptotrader)
 
 
 This config package is part of the GoCryptoTrader codebase.
@@ -129,8 +129,8 @@ See below for a set of tables and fields, expected values and what they can do
 
 | Key           | Description                                                                                                                                                                                                                        | Example   |
 |---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
-| exchange-name | The exchange to set funds. See [here](https://github.com/thrasher-corp/gocryptotrader/blob/master/README.md) for a list of supported exchanges                                                                                     | `Binance` |
-| asset         | The asset type to set funds. Typically, this will be `spot`, however, see [this package](https://github.com/thrasher-corp/gocryptotrader/blob/master/exchanges/asset/asset.go) for the various asset types GoCryptoTrader supports | `spot`    |
+| exchange-name | The exchange to set funds. See [here](https://github.com/aaabigfish/gocryptotrader/blob/master/README.md) for a list of supported exchanges                                                                                     | `Binance` |
+| asset         | The asset type to set funds. Typically, this will be `spot`, however, see [this package](https://github.com/aaabigfish/gocryptotrader/blob/master/exchanges/asset/asset.go) for the various asset types GoCryptoTrader supports | `spot`    |
 | currency      | The currency to set funds                                                                                                                                                                                                          | `BTC`     |
 | initial-funds | The initial funding for the currency                                                                                                                                                                                               | `1337`    |
 | transfer-fee  | If your strategy utilises transferring of funds via the Funding Manager, this is deducted upon doing so                                                                                                                            | `0.005`   |
@@ -139,8 +139,8 @@ See below for a set of tables and fields, expected values and what they can do
 
 | Key                          | Description                                                                                                                                                                                                                                                            | Example                         |
 |------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|
-| exchange-name                | The exchange to load. See [here](https://github.com/thrasher-corp/gocryptotrader/blob/master/README.md) for a list of supported exchanges                                                                                                                              | `Binance`                       |
-| asset                        | The asset type. Typically, this will be `spot`, however, see [this package](https://github.com/thrasher-corp/gocryptotrader/blob/master/exchanges/asset/asset.go) for the various asset types GoCryptoTrader supports                                                  | `spot`                          |
+| exchange-name                | The exchange to load. See [here](https://github.com/aaabigfish/gocryptotrader/blob/master/README.md) for a list of supported exchanges                                                                                                                              | `Binance`                       |
+| asset                        | The asset type. Typically, this will be `spot`, however, see [this package](https://github.com/aaabigfish/gocryptotrader/blob/master/exchanges/asset/asset.go) for the various asset types GoCryptoTrader supports                                                  | `spot`                          |
 | base                         | The base of a currency                                                                                                                                                                                                                                                 | `BTC`                           |
 | quote                        | The quote of a currency                                                                                                                                                                                                                                                | `USDT`                          |
 | spot-details                 | An optional field which contains initial funding data for SPOT currency pairs                                                                                                                                                                                          | See SpotSettings table below    |
@@ -296,12 +296,12 @@ When submitting a PR, please abide by our coding guidelines:
 
 + Code must adhere to the official Go [formatting](https://golang.org/doc/effective_go.html#formatting) guidelines (i.e. uses [gofmt](https://golang.org/cmd/gofmt/)).
 + Code must be documented adhering to the official Go [commentary](https://golang.org/doc/effective_go.html#commentary) guidelines.
-+ Code must adhere to our [coding style](https://github.com/thrasher-corp/gocryptotrader/blob/master/doc/coding_style.md).
++ Code must adhere to our [coding style](https://github.com/aaabigfish/gocryptotrader/blob/master/doc/coding_style.md).
 + Pull requests need to be based on and opened against the `master` branch.
 
 ## Donations
 
-<img src="https://github.com/thrasher-corp/gocryptotrader/blob/master/web/src/assets/donate.png?raw=true" hspace="70">
+<img src="https://github.com/aaabigfish/gocryptotrader/blob/master/web/src/assets/donate.png?raw=true" hspace="70">
 
 If this framework helped you in any way, or you would like to support the developers working on it, please donate Bitcoin to:
 

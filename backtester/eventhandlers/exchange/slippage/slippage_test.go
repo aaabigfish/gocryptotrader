@@ -5,10 +5,10 @@ import (
 	"testing"
 
 	"github.com/shopspring/decimal"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/bitstamp"
-	gctorder "github.com/thrasher-corp/gocryptotrader/exchanges/order"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	"github.com/aaabigfish/gocryptotrader/exchanges/bitstamp"
+	gctorder "github.com/aaabigfish/gocryptotrader/exchanges/order"
 )
 
 func TestRandomSlippage(t *testing.T) {

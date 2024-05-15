@@ -15,12 +15,12 @@ import (
 	"github.com/gorilla/websocket"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/thrasher-corp/gocryptotrader/config"
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/mock"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/sharedtestvalues"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/subscription"
-	testutils "github.com/thrasher-corp/gocryptotrader/internal/testing/utils"
+	"github.com/aaabigfish/gocryptotrader/config"
+	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
+	"github.com/aaabigfish/gocryptotrader/exchanges/mock"
+	"github.com/aaabigfish/gocryptotrader/exchanges/sharedtestvalues"
+	"github.com/aaabigfish/gocryptotrader/exchanges/subscription"
+	testutils "github.com/aaabigfish/gocryptotrader/internal/testing/utils"
 )
 
 // Setup takes an empty exchange instance and loads config for it from testdata/configtest and connects a NewTestWebsocket

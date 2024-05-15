@@ -18,7 +18,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/thrasher-corp/gocryptotrader/common/file"
+	"github.com/aaabigfish/gocryptotrader/common/file"
 )
 
 func TestSendHTTPRequest(t *testing.T) {

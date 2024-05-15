@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	math "github.com/thrasher-corp/gocryptotrader/common/math"
-	"github.com/thrasher-corp/gocryptotrader/currency"
+	math "github.com/aaabigfish/gocryptotrader/common/math"
+	"github.com/aaabigfish/gocryptotrader/currency"
 )
 
 const fullLiquidityUsageWarning = "[WARNING]: Full liquidity exhausted."

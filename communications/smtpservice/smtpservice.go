@@ -6,8 +6,8 @@ import (
 	"net/smtp"
 	"strings"
 
-	"github.com/thrasher-corp/gocryptotrader/communications/base"
-	"github.com/thrasher-corp/gocryptotrader/log"
+	"github.com/aaabigfish/gocryptotrader/communications/base"
+	"github.com/aaabigfish/gocryptotrader/log"
 )
 
 const (

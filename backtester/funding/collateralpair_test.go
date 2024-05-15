@@ -5,9 +5,9 @@ import (
 	"testing"
 
 	"github.com/shopspring/decimal"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	gctorder "github.com/thrasher-corp/gocryptotrader/exchanges/order"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	gctorder "github.com/aaabigfish/gocryptotrader/exchanges/order"
 )
 
 func TestCollateralCanPlaceOrder(t *testing.T) {

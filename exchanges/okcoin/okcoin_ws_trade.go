@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"strconv"
 
-	"github.com/thrasher-corp/gocryptotrader/exchanges/stream"
+	"github.com/aaabigfish/gocryptotrader/exchanges/stream"
 )
 
 // WsPlaceOrder place trade order through the websocket channel.

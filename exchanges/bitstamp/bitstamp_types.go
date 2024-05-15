@@ -3,7 +3,7 @@ package bitstamp
 import (
 	"errors"
 
-	"github.com/thrasher-corp/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/currency"
 )
 
 // Transaction types

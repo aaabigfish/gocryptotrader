@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/thrasher-corp/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/currency"
 )
 
 func testSetup() Base {

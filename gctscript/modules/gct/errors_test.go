@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/thrasher-corp/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/common"
 )
 
 func TestErrorResponse(t *testing.T) {

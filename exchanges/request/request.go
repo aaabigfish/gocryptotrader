@@ -11,11 +11,11 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/common/timedmutex"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/mock"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/nonce"
-	"github.com/thrasher-corp/gocryptotrader/log"
+	"github.com/aaabigfish/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/common/timedmutex"
+	"github.com/aaabigfish/gocryptotrader/exchanges/mock"
+	"github.com/aaabigfish/gocryptotrader/exchanges/nonce"
+	"github.com/aaabigfish/gocryptotrader/log"
 )
 
 const (

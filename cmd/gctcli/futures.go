@@ -5,13 +5,13 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/collateral"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/futures"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/margin"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/order"
-	"github.com/thrasher-corp/gocryptotrader/gctrpc"
+	"github.com/aaabigfish/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/exchanges/collateral"
+	"github.com/aaabigfish/gocryptotrader/exchanges/futures"
+	"github.com/aaabigfish/gocryptotrader/exchanges/margin"
+	"github.com/aaabigfish/gocryptotrader/exchanges/order"
+	"github.com/aaabigfish/gocryptotrader/gctrpc"
 	"github.com/urfave/cli/v2"
 )
 

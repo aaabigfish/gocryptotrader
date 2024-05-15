@@ -10,17 +10,17 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/common/convert"
-	"github.com/thrasher-corp/gocryptotrader/common/file"
-	"github.com/thrasher-corp/gocryptotrader/communications/base"
-	"github.com/thrasher-corp/gocryptotrader/connchecker"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/database"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	gctscript "github.com/thrasher-corp/gocryptotrader/gctscript/vm"
-	"github.com/thrasher-corp/gocryptotrader/log"
-	"github.com/thrasher-corp/gocryptotrader/portfolio/banking"
+	"github.com/aaabigfish/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/common/convert"
+	"github.com/aaabigfish/gocryptotrader/common/file"
+	"github.com/aaabigfish/gocryptotrader/communications/base"
+	"github.com/aaabigfish/gocryptotrader/connchecker"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/database"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	gctscript "github.com/aaabigfish/gocryptotrader/gctscript/vm"
+	"github.com/aaabigfish/gocryptotrader/log"
+	"github.com/aaabigfish/gocryptotrader/portfolio/banking"
 )
 
 const (

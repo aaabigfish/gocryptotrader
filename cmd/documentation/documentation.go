@@ -14,9 +14,9 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/common/file"
-	"github.com/thrasher-corp/gocryptotrader/core"
+	"github.com/aaabigfish/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/common/file"
+	"github.com/aaabigfish/gocryptotrader/core"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )

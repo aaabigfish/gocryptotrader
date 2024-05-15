@@ -4,8 +4,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/common/key"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/orderbook"
+	"github.com/aaabigfish/gocryptotrader/common/key"
+	"github.com/aaabigfish/gocryptotrader/exchanges/orderbook"
 )
 
 // Config defines the configuration variables for the websocket buffer; snapshot

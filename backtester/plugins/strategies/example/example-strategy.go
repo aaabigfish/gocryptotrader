@@ -1,13 +1,13 @@
 package main
 
 import (
-	"github.com/thrasher-corp/gocryptotrader/backtester/data"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/portfolio"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/strategies"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/strategies/base"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventtypes/signal"
-	"github.com/thrasher-corp/gocryptotrader/backtester/funding"
-	gctorder "github.com/thrasher-corp/gocryptotrader/exchanges/order"
+	"github.com/aaabigfish/gocryptotrader/backtester/data"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/portfolio"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/strategies"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/strategies/base"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventtypes/signal"
+	"github.com/aaabigfish/gocryptotrader/backtester/funding"
+	gctorder "github.com/aaabigfish/gocryptotrader/exchanges/order"
 )
 
 func main() {

@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/thrasher-corp/gocryptotrader/common/file"
-	"github.com/thrasher-corp/gocryptotrader/config"
+	"github.com/aaabigfish/gocryptotrader/common/file"
+	"github.com/aaabigfish/gocryptotrader/config"
 )
 
 // EncryptOrDecrypt returns a string from a boolean

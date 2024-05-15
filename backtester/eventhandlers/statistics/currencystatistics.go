@@ -5,11 +5,11 @@ import (
 	"fmt"
 
 	"github.com/shopspring/decimal"
-	"github.com/thrasher-corp/gocryptotrader/backtester/data"
-	gctcommon "github.com/thrasher-corp/gocryptotrader/common"
-	gctmath "github.com/thrasher-corp/gocryptotrader/common/math"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	gctorder "github.com/thrasher-corp/gocryptotrader/exchanges/order"
+	"github.com/aaabigfish/gocryptotrader/backtester/data"
+	gctcommon "github.com/aaabigfish/gocryptotrader/common"
+	gctmath "github.com/aaabigfish/gocryptotrader/common/math"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	gctorder "github.com/aaabigfish/gocryptotrader/exchanges/order"
 )
 
 // CalculateResults calculates all statistics for the exchange, asset, currency pair

@@ -6,9 +6,9 @@ import (
 	"strings"
 	"testing"
 
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/bitfinex"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/sharedtestvalues"
+	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
+	"github.com/aaabigfish/gocryptotrader/exchanges/bitfinex"
+	"github.com/aaabigfish/gocryptotrader/exchanges/sharedtestvalues"
 )
 
 type broken struct {

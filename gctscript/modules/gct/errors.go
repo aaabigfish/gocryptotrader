@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	objects "github.com/d5/tengo/v2"
-	"github.com/thrasher-corp/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/common"
 )
 
 const standardFormatting = "%s"

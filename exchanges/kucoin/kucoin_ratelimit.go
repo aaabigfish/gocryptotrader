@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/exchanges/request"
+	"github.com/aaabigfish/gocryptotrader/exchanges/request"
 	"golang.org/x/time/rate"
 )
 

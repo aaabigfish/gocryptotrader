@@ -7,13 +7,13 @@ import (
 	"time"
 
 	"github.com/shopspring/decimal"
-	"github.com/thrasher-corp/gocryptotrader/common/key"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/collateral"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/fundingrate"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/margin"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/order"
+	"github.com/aaabigfish/gocryptotrader/common/key"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	"github.com/aaabigfish/gocryptotrader/exchanges/collateral"
+	"github.com/aaabigfish/gocryptotrader/exchanges/fundingrate"
+	"github.com/aaabigfish/gocryptotrader/exchanges/margin"
+	"github.com/aaabigfish/gocryptotrader/exchanges/order"
 )
 
 var (

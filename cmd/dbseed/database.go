@@ -4,11 +4,11 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/thrasher-corp/gocryptotrader/config"
-	"github.com/thrasher-corp/gocryptotrader/database"
-	dbPSQL "github.com/thrasher-corp/gocryptotrader/database/drivers/postgres"
-	dbsqlite3 "github.com/thrasher-corp/gocryptotrader/database/drivers/sqlite3"
-	"github.com/thrasher-corp/gocryptotrader/database/repository"
+	"github.com/aaabigfish/gocryptotrader/config"
+	"github.com/aaabigfish/gocryptotrader/database"
+	dbPSQL "github.com/aaabigfish/gocryptotrader/database/drivers/postgres"
+	dbsqlite3 "github.com/aaabigfish/gocryptotrader/database/drivers/sqlite3"
+	"github.com/aaabigfish/gocryptotrader/database/repository"
 	"github.com/thrasher-corp/sqlboiler/boil"
 	"github.com/urfave/cli/v2"
 )

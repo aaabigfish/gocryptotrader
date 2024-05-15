@@ -5,14 +5,14 @@ import (
 	"time"
 
 	objects "github.com/d5/tengo/v2"
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/kline"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/order"
-	"github.com/thrasher-corp/gocryptotrader/gctscript/modules/ta/indicators"
-	"github.com/thrasher-corp/gocryptotrader/gctscript/wrappers"
-	"github.com/thrasher-corp/gocryptotrader/portfolio/withdraw"
+	"github.com/aaabigfish/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	"github.com/aaabigfish/gocryptotrader/exchanges/kline"
+	"github.com/aaabigfish/gocryptotrader/exchanges/order"
+	"github.com/aaabigfish/gocryptotrader/gctscript/modules/ta/indicators"
+	"github.com/aaabigfish/gocryptotrader/gctscript/wrappers"
+	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
 )
 
 const (

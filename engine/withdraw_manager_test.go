@@ -7,13 +7,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/okx"
-	"github.com/thrasher-corp/gocryptotrader/portfolio"
-	"github.com/thrasher-corp/gocryptotrader/portfolio/banking"
-	"github.com/thrasher-corp/gocryptotrader/portfolio/withdraw"
+	"github.com/aaabigfish/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
+	"github.com/aaabigfish/gocryptotrader/exchanges/okx"
+	"github.com/aaabigfish/gocryptotrader/portfolio"
+	"github.com/aaabigfish/gocryptotrader/portfolio/banking"
+	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
 )
 
 const (

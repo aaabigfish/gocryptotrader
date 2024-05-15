@@ -4,13 +4,13 @@ import (
 	"strings"
 
 	"github.com/shopspring/decimal"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/exchange"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/portfolio/holdings"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/portfolio/risk"
-	gctcommon "github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/common/key"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/futures"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/exchange"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/portfolio/holdings"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/portfolio/risk"
+	gctcommon "github.com/aaabigfish/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/common/key"
+	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	"github.com/aaabigfish/gocryptotrader/exchanges/futures"
 )
 
 // Setup creates a portfolio manager instance and sets private fields

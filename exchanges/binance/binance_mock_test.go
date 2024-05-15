@@ -10,7 +10,7 @@ import (
 	"os"
 	"testing"
 
-	testexch "github.com/thrasher-corp/gocryptotrader/internal/testing/exchange"
+	testexch "github.com/aaabigfish/gocryptotrader/internal/testing/exchange"
 )
 
 var mockTests = true

@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/gofrs/uuid"
-	"github.com/thrasher-corp/gocryptotrader/common/convert"
+	"github.com/aaabigfish/gocryptotrader/common/convert"
 )
 
 var (

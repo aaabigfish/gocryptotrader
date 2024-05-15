@@ -3,8 +3,8 @@ package okcoin
 import (
 	"strconv"
 
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/types"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/types"
 )
 
 var withdrawalFeeMaps = map[currency.Code]float64{

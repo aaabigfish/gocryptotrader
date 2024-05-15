@@ -4,8 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/thrasher-corp/gocryptotrader/communications"
-	"github.com/thrasher-corp/gocryptotrader/communications/base"
+	"github.com/aaabigfish/gocryptotrader/communications"
+	"github.com/aaabigfish/gocryptotrader/communications/base"
 )
 
 func TestSetup(t *testing.T) {

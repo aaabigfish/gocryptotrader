@@ -1,8 +1,8 @@
 package eventholder
 
 import (
-	"github.com/thrasher-corp/gocryptotrader/backtester/common"
-	gctcommon "github.com/thrasher-corp/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/backtester/common"
+	gctcommon "github.com/aaabigfish/gocryptotrader/common"
 )
 
 // Reset returns struct to defaults

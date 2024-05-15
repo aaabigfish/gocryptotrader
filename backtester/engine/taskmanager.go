@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/gofrs/uuid"
-	gctcommon "github.com/thrasher-corp/gocryptotrader/common"
+	gctcommon "github.com/aaabigfish/gocryptotrader/common"
 )
 
 var (

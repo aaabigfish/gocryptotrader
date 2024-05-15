@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/thrasher-corp/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/currency"
 )
 
 // CurrencyDetails stores a map of currencies associated with their ID

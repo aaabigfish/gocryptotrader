@@ -8,11 +8,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/database"
-	"github.com/thrasher-corp/gocryptotrader/database/drivers"
-	"github.com/thrasher-corp/gocryptotrader/database/repository/exchange"
-	"github.com/thrasher-corp/gocryptotrader/database/testhelpers"
+	"github.com/aaabigfish/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/database"
+	"github.com/aaabigfish/gocryptotrader/database/drivers"
+	"github.com/aaabigfish/gocryptotrader/database/repository/exchange"
+	"github.com/aaabigfish/gocryptotrader/database/testhelpers"
 )
 
 var (

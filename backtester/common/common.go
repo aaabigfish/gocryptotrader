@@ -5,8 +5,8 @@ import (
 	"regexp"
 	"strings"
 
-	gctorder "github.com/thrasher-corp/gocryptotrader/exchanges/order"
-	"github.com/thrasher-corp/gocryptotrader/log"
+	gctorder "github.com/aaabigfish/gocryptotrader/exchanges/order"
+	"github.com/aaabigfish/gocryptotrader/log"
 )
 
 // CanTransact checks whether an order side is valid

@@ -4,7 +4,7 @@ import (
 	"errors"
 
 	"github.com/shopspring/decimal"
-	"github.com/thrasher-corp/gocryptotrader/currency"
+	"github.com/aaabigfish/gocryptotrader/currency"
 )
 
 // Mode defines the different collateral types supported by exchanges

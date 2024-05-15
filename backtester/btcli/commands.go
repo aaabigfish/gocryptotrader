@@ -6,9 +6,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/backtester/btrpc"
-	"github.com/thrasher-corp/gocryptotrader/backtester/config"
-	"github.com/thrasher-corp/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/backtester/btrpc"
+	"github.com/aaabigfish/gocryptotrader/backtester/config"
+	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/urfave/cli/v2"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )

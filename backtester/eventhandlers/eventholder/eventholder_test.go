@@ -4,9 +4,9 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/thrasher-corp/gocryptotrader/backtester/common"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventtypes/order"
-	gctcommon "github.com/thrasher-corp/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/backtester/common"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventtypes/order"
+	gctcommon "github.com/aaabigfish/gocryptotrader/common"
 )
 
 func TestReset(t *testing.T) {

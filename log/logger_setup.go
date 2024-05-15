@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/thrasher-corp/gocryptotrader/common/convert"
+	"github.com/aaabigfish/gocryptotrader/common/convert"
 )
 
 var (

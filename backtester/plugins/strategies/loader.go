@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"plugin"
 
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/strategies"
-	gctcommon "github.com/thrasher-corp/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/strategies"
+	gctcommon "github.com/aaabigfish/gocryptotrader/common"
 )
 
 var errNoStrategies = errors.New("no strategies contained in plugin. please refer to docs")

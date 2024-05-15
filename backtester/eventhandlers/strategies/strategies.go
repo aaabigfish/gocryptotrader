@@ -6,12 +6,12 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/strategies/base"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/strategies/binancecashandcarry"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/strategies/dollarcostaverage"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/strategies/rsi"
-	"github.com/thrasher-corp/gocryptotrader/backtester/eventhandlers/strategies/top2bottom2"
-	"github.com/thrasher-corp/gocryptotrader/common"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/strategies/base"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/strategies/binancecashandcarry"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/strategies/dollarcostaverage"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/strategies/rsi"
+	"github.com/aaabigfish/gocryptotrader/backtester/eventhandlers/strategies/top2bottom2"
+	"github.com/aaabigfish/gocryptotrader/common"
 )
 
 // LoadStrategyByName returns the strategy by its name

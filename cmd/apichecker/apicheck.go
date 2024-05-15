@@ -16,11 +16,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/common"
-	gctfile "github.com/thrasher-corp/gocryptotrader/common/file"
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/request"
-	"github.com/thrasher-corp/gocryptotrader/log"
+	"github.com/aaabigfish/gocryptotrader/common"
+	gctfile "github.com/aaabigfish/gocryptotrader/common/file"
+	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
+	"github.com/aaabigfish/gocryptotrader/exchanges/request"
+	"github.com/aaabigfish/gocryptotrader/log"
 	"golang.org/x/net/html"
 )
 

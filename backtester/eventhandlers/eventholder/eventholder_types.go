@@ -1,7 +1,7 @@
 package eventholder
 
 import (
-	"github.com/thrasher-corp/gocryptotrader/backtester/common"
+	"github.com/aaabigfish/gocryptotrader/backtester/common"
 )
 
 // Holder contains the event queue for backtester processing
