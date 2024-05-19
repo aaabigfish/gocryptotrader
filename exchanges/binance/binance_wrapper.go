@@ -9,7 +9,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/shopspring/decimal"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/config"
@@ -34,6 +33,7 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/trade"
 	"github.com/aaabigfish/gocryptotrader/log"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
+	"github.com/shopspring/decimal"
 )
 
 // SetDefaults sets the basic defaults for Binance
@@ -878,6 +878,10 @@ func (b *Binance) GetHistoricTrades(ctx context.Context, p currency.Pair, a asse
 		}
 	}
 	return result, nil
+}
+
+func (b *Binance) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	return nil, fmt.Errorf("%s SubmitOrders not support", b.Name)
 }
 
 // SubmitOrder submits a new order
@@ -2424,9 +2428,9 @@ func (b *Binance) GetFuturesPositionSummary(ctx context.Context, req *futures.Po
 		}
 		var accountPosition *UPosition
 		var leverage, maintenanceMargin, initialMargin,
-			liquidationPrice, markPrice, positionSize,
-			collateralTotal, collateralUsed, collateralAvailable,
-			unrealisedPNL, openPrice, isolatedMargin float64
+		liquidationPrice, markPrice, positionSize,
+		collateralTotal, collateralUsed, collateralAvailable,
+		unrealisedPNL, openPrice, isolatedMargin float64
 
 		for i := range ai.Positions {
 			if ai.Positions[i].Symbol != fPair.String() {
@@ -2556,9 +2560,9 @@ func (b *Binance) GetFuturesPositionSummary(ctx context.Context, req *futures.Po
 		}
 		collateralMode := collateral.SingleMode
 		var leverage, maintenanceMargin, initialMargin,
-			liquidationPrice, markPrice, positionSize,
-			collateralTotal, collateralUsed, collateralAvailable,
-			pnl, openPrice, isolatedMargin float64
+		liquidationPrice, markPrice, positionSize,
+		collateralTotal, collateralUsed, collateralAvailable,
+		pnl, openPrice, isolatedMargin float64
 
 		var accountPosition *FuturesAccountInformationPosition
 		fps := fPair.String()

@@ -10,7 +10,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/shopspring/decimal"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/config"
@@ -32,6 +31,7 @@ import (
 	"github.com/aaabigfish/gocryptotrader/log"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
 	"github.com/aaabigfish/gocryptotrader/types"
+	"github.com/shopspring/decimal"
 )
 
 // unfundedFuturesAccount defines an error string when an account associated
@@ -1166,6 +1166,45 @@ func (g *Gateio) SubmitOrder(ctx context.Context, s *order.Submit) (*order.Submi
 	default:
 		return nil, fmt.Errorf("%w asset type: %v", asset.ErrNotSupported, s.AssetType)
 	}
+}
+
+func (g *Gateio) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	var args []CreateOrderRequestData
+
+	for _, s := range ss {
+		_pair := currency.NewPairWithDelimiter(s.Pair.Base.String(), s.Pair.Quote.String(), "_")
+		_text := s.Text
+		if s.Text == "" {
+			_text = fmt.Sprintf("t-%v",time.Now().Unix())
+		}
+		args = append(args, CreateOrderRequestData{
+			Side:         s.Side.Lower(),
+			CurrencyPair: _pair,
+			Type:         order.Limit.Lower(),
+			Price:        types.Number(s.Price),
+			Amount:       types.Number(s.Amount),
+			Account:      s.AssetType.String(),
+			Text:         _text,
+		})
+	}
+	orders, err := g.CreateBatchOrders(ctx, args)
+	if err != nil {
+		return nil, err
+	}
+	var res []*order.SubmitResponse
+	for _, spotOrder := range orders {
+		_status, _ := order.StringToOrderStatus(spotOrder.Status)
+		vo := &order.SubmitResponse{
+			OrderID: spotOrder.OrderID,
+			Price:   spotOrder.Price.Float64(),
+			Amount:  spotOrder.Amount.Float64(),
+			Text:    spotOrder.Text,
+			Date:    spotOrder.CreateTime.Time(),
+			Status:  _status,
+		}
+		res = append(res, vo)
+	}
+	return res, nil
 }
 
 // ModifyOrder will allow of changing orderbook placement and limit to market conversion

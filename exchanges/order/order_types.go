@@ -4,10 +4,10 @@ import (
 	"errors"
 	"time"
 
-	"github.com/gofrs/uuid"
 	"github.com/aaabigfish/gocryptotrader/currency"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
 	"github.com/aaabigfish/gocryptotrader/exchanges/margin"
+	"github.com/gofrs/uuid"
 )
 
 // var error definitions
@@ -91,6 +91,7 @@ type Submit struct {
 	Hidden bool
 	// TradeMode specifies the trading mode for margin and non-margin orders: see okcoin_wrapper.go
 	TradeMode string
+	Text      string
 }
 
 // SubmitResponse is what is returned after submitting an order to an exchange
@@ -126,6 +127,7 @@ type SubmitResponse struct {
 	BorrowSize  float64
 	LoanApplyID string
 	MarginType  margin.Type
+	Text        string
 }
 
 // Modify contains all properties of an order
