@@ -1175,7 +1175,7 @@ func (g *Gateio) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*orde
 		_pair := currency.NewPairWithDelimiter(s.Pair.Base.String(), s.Pair.Quote.String(), "_")
 		_text := s.Text
 		if s.Text == "" {
-			_text = fmt.Sprintf("t-%v",time.Now().Unix())
+			_text = fmt.Sprintf("t-%v", time.Now().Unix())
 		}
 		args = append(args, CreateOrderRequestData{
 			Side:         s.Side.Lower(),
@@ -1194,8 +1194,12 @@ func (g *Gateio) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*orde
 	var res []*order.SubmitResponse
 	for _, spotOrder := range orders {
 		_status, _ := order.StringToOrderStatus(spotOrder.Status)
+		_side, _ := order.StringToOrderSide(spotOrder.Side)
+		_type, _ := order.StringToOrderType(spotOrder.Type)
 		vo := &order.SubmitResponse{
 			OrderID: spotOrder.OrderID,
+			Side:    _side,
+			Type:    _type,
 			Price:   spotOrder.Price.Float64(),
 			Amount:  spotOrder.Amount.Float64(),
 			Text:    spotOrder.Text,
