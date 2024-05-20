@@ -10,9 +10,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gorilla/websocket"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/config"
@@ -29,6 +26,9 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/ticker"
 	testexch "github.com/aaabigfish/gocryptotrader/internal/testing/exchange"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
+	"github.com/gorilla/websocket"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 // Please supply you own test keys here for due diligence testing.
@@ -1757,19 +1757,26 @@ func TestGetAggregatedBalance(t *testing.T) {
 }
 
 func TestSpotNewOrder(t *testing.T) {
-	t.Parallel()
-	sharedtestvalues.SkipTestIfCredentialsUnset(t, h, canManipulateRealOrders)
-
-	cp, err := currency.NewPairFromString(testSymbol)
+	h.SetDefaults()
+	h.GetBase().API.SetKey("")
+	h.GetBase().API.SetSecret("")
+	cp, err := currency.NewPairFromString("mxc/usdt")
 	if err != nil {
 		t.Error(err)
 	}
+	id, err := h.GetAccountID(context.Background())
+	if err != nil {
+		t.Error(err)
+	}
+	t.Log(id)
+	t.Log("################")
 	arg := SpotNewOrderRequestParams{
 		Symbol:    cp,
-		AccountID: 1997024,
-		Amount:    0.01,
-		Price:     10.1,
-		Type:      SpotNewOrderRequestTypeBuyLimit,
+		AccountID: int(id[0].ID),
+		Amount:    700,
+		Source:    "spot-api",
+		Price:     0.015,
+		Type:      SpotNewOrderRequestTypeSellLimit,
 	}
 
 	_, err = h.SpotNewOrder(context.Background(), &arg)

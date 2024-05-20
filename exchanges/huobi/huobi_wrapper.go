@@ -9,7 +9,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/shopspring/decimal"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/config"
@@ -30,6 +29,7 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/trade"
 	"github.com/aaabigfish/gocryptotrader/log"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
+	"github.com/shopspring/decimal"
 )
 
 // SetDefaults sets default values for the exchange
@@ -467,16 +467,18 @@ func (h *HUOBI) UpdateTicker(ctx context.Context, p currency.Pair, a asset.Item)
 	}
 	switch a {
 	case asset.Spot:
-		tickerData, err := h.Get24HrMarketSummary(ctx, p)
+		tickerData, err := h.GetMarketDetailMerged(ctx, p)
 		if err != nil {
 			return nil, err
 		}
 		err = ticker.ProcessTicker(&ticker.Price{
-			High:         tickerData.Tick.High,
-			Low:          tickerData.Tick.Low,
-			Volume:       tickerData.Tick.Volume,
-			Open:         tickerData.Tick.Open,
-			Close:        tickerData.Tick.Close,
+			High:         tickerData.High,
+			Low:          tickerData.Low,
+			Volume:       tickerData.Volume,
+			Open:         tickerData.Open,
+			Close:        tickerData.Close,
+			Bid:          tickerData.Bid[0],
+			Ask:          tickerData.Ask[0],
 			Pair:         p,
 			ExchangeName: h.Name,
 			AssetType:    asset.Spot,
@@ -991,6 +993,70 @@ func (h *HUOBI) GetHistoricTrades(_ context.Context, _ currency.Pair, _ asset.It
 	return nil, common.ErrFunctionNotSupported
 }
 
+func (h *HUOBI) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	for _, s := range ss {
+		if err := s.Validate(); err != nil {
+			return nil, err
+		}
+	}
+	var orderResps []BatchOrdersResp
+	switch ss[0].AssetType {
+	case asset.Spot:
+		accountID, err := strconv.ParseInt(ss[0].ClientID, 10, 64)
+		if err != nil {
+			id, err := h.GetAccountID(ctx)
+			if err != nil {
+				return nil, err
+			}
+			accountID = id[0].ID
+		}
+		var formattedType SpotNewOrderRequestParamsType
+		var batchParams []*SpotNewOrderRequestParams
+		for _, s := range ss {
+			var params = &SpotNewOrderRequestParams{
+				Amount:    s.Amount,
+				Source:    "api",
+				Symbol:    s.Pair,
+				AccountID: int(accountID),
+			}
+			switch {
+			case s.Side.IsLong() && s.Type == order.Market:
+				formattedType = SpotNewOrderRequestTypeBuyMarket
+			case s.Side.IsShort() && s.Type == order.Market:
+				formattedType = SpotNewOrderRequestTypeSellMarket
+			case s.Side.IsLong() && s.Type == order.Limit:
+				formattedType = SpotNewOrderRequestTypeBuyLimit
+				params.Price = s.Price
+			case s.Side.IsShort() && s.Type == order.Limit:
+				formattedType = SpotNewOrderRequestTypeSellLimit
+				params.Price = s.Price
+			}
+			params.Type = formattedType
+			batchParams = append(batchParams, params)
+		}
+		resp, err := h.BatchSpotNewOrder(ctx, batchParams)
+		if err != nil {
+			return nil, err
+		}
+		orderResps = resp
+	}
+
+	var resps []*order.SubmitResponse
+	for i := 0; i < len(ss); i++ {
+		submitResp, err := ss[i].DeriveSubmitResponse(fmt.Sprintf("%v", orderResps[i].OrderId))
+		if err != nil {
+			resps = append(resps, &order.SubmitResponse{
+				Exchange: ss[i].Exchange,
+				Status:   order.UnknownStatus,
+				OrderID:  fmt.Sprintf("%v", orderResps[i].OrderId),
+			})
+		} else {
+			resps = append(resps, submitResp)
+		}
+	}
+	return resps, nil
+}
+
 // SubmitOrder submits a new order
 func (h *HUOBI) SubmitOrder(ctx context.Context, s *order.Submit) (*order.SubmitResponse, error) {
 	if err := s.Validate(); err != nil {
@@ -1003,7 +1069,11 @@ func (h *HUOBI) SubmitOrder(ctx context.Context, s *order.Submit) (*order.Submit
 	case asset.Spot:
 		accountID, err := strconv.ParseInt(s.ClientID, 10, 64)
 		if err != nil {
-			return nil, err
+			id, err := h.GetAccountID(ctx)
+			if err != nil {
+				return nil, err
+			}
+			accountID = id[0].ID
 		}
 		var formattedType SpotNewOrderRequestParamsType
 		var params = SpotNewOrderRequestParams{

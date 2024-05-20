@@ -50,6 +50,7 @@ const (
 	huobiAccountQueryWithdrawAddress  = "/account/withdraw/"
 	huobiAggregatedBalance            = "/subuser/aggregate-balance"
 	huobiOrderPlace                   = "/order/orders/place"
+	huobiBatchOrderPlace              = "/order/batch-orders"
 	huobiOrderCancel                  = "/order/orders/%s/submitcancel"
 	huobiOrderCancelBatch             = "/order/orders/batchcancel"
 	huobiBatchCancelOpenOrders        = "/order/orders/batchCancelOpenOrders"
@@ -407,6 +408,65 @@ func (h *HUOBI) GetAggregatedBalance(ctx context.Context) ([]AggregatedBalance, 
 		false,
 	)
 	return result.AggregatedBalances, err
+}
+
+type BatchOrdersResp struct {
+	OrderId       int64  `json:"order-id"`
+	ClientOrderId string `json:"client-order-id"`
+	ErrorCode     string `json:"error-code"`
+	ErrorMsg      string `json:"error-msg"`
+}
+
+// SpotNewOrder submits an order to Huobi
+func (h *HUOBI) BatchSpotNewOrder(ctx context.Context, args []*SpotNewOrderRequestParams) ([]BatchOrdersResp, error) {
+	symbolValue, err := h.FormatSymbol(args[0].Symbol, asset.Spot)
+	if err != nil {
+		return nil, err
+	}
+	type Req struct {
+		AccountID int    `json:"account-id,string"`
+		Amount    string `json:"amount"`
+		Price     string `json:"price"`
+		Source    string `json:"source"`
+		Symbol    string `json:"symbol"`
+		Type      string `json:"type"`
+	}
+	var datas []Req
+	for _, arg := range args {
+		data := Req{
+			AccountID: arg.AccountID,
+			Amount:    strconv.FormatFloat(arg.Amount, 'f', -1, 64),
+			Symbol:    symbolValue,
+			Type:      string(arg.Type),
+		}
+		// Only set price if order type is not equal to buy-market or sell-market
+		if arg.Type != SpotNewOrderRequestTypeBuyMarket && arg.Type != SpotNewOrderRequestTypeSellMarket {
+			data.Price = strconv.FormatFloat(arg.Price, 'f', -1, 64)
+		}
+		if arg.Source != "" {
+			data.Source = arg.Source
+		}
+		datas = append(datas, data)
+	}
+
+	type result struct {
+		Data []BatchOrdersResp `json:"data"`
+	}
+
+	var _result result
+	err = h.SendAuthenticatedHTTPRequest(ctx,
+		exchange.RestSpot,
+		http.MethodPost,
+		huobiBatchOrderPlace,
+		nil,
+		datas,
+		&_result,
+		false,
+	)
+	for _, dd := range _result.Data {
+		println(dd.OrderId, "#", dd.ClientOrderId, "#", dd.ErrorCode, "#", dd.ErrorMsg)
+	}
+	return _result.Data, err
 }
 
 // SpotNewOrder submits an order to Huobi
