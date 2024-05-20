@@ -711,6 +711,9 @@ func (h *HUOBI) UpdateAccountInfo(ctx context.Context, assetType asset.Item) (ac
 				var currencyDetails []account.Balance
 			balance:
 				for j := range balances {
+					if balances[j].Balance == 0 {
+						continue balance
+					}
 					frozen := balances[j].Type == "frozen"
 					for i := range currencyDetails {
 						if currencyDetails[i].Currency.String() == balances[j].Currency {
@@ -718,6 +721,7 @@ func (h *HUOBI) UpdateAccountInfo(ctx context.Context, assetType asset.Item) (ac
 								currencyDetails[i].Hold = balances[j].Balance
 							} else {
 								currencyDetails[i].Total = balances[j].Balance
+								currencyDetails[i].Free = balances[j].Balance
 							}
 							continue balance
 						}
@@ -734,6 +738,7 @@ func (h *HUOBI) UpdateAccountInfo(ctx context.Context, assetType asset.Item) (ac
 							account.Balance{
 								Currency: currency.NewCode(balances[j].Currency),
 								Total:    balances[j].Balance,
+								Free:    balances[j].Balance,
 							})
 					}
 				}
