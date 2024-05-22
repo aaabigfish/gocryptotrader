@@ -4,11 +4,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/gofrs/uuid"
 	"sort"
 	"strings"
 	"time"
 
-	"github.com/shopspring/decimal"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/config"
@@ -33,6 +33,7 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/trade"
 	"github.com/aaabigfish/gocryptotrader/log"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
+	"github.com/shopspring/decimal"
 )
 
 // SetDefaults sets the basic defaults for Kucoin
@@ -669,6 +670,64 @@ func (ku *Kucoin) GetRecentTrades(ctx context.Context, p currency.Pair, assetTyp
 // GetHistoricTrades returns historic trade data within the timeframe provided
 func (ku *Kucoin) GetHistoricTrades(_ context.Context, _ currency.Pair, _ asset.Item, _, _ time.Time) ([]trade.Data, error) {
 	return nil, common.ErrFunctionNotSupported
+}
+
+// PostBulkOrder
+func (ku *Kucoin) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	_s := ss[0]
+	err := _s.Validate()
+	if err != nil {
+		return nil, err
+	}
+	sideString, err := ku.orderSideString(_s.Side)
+	if err != nil {
+		return nil, err
+	}
+	if _s.Type != order.UnknownType && _s.Type != order.Limit && _s.Type != order.Market {
+		return nil, fmt.Errorf("%w only limit and market are supported", order.ErrTypeIsInvalid)
+	}
+	_s.Pair, err = ku.FormatExchangeCurrency(_s.Pair, _s.AssetType)
+	if err != nil {
+		return nil, err
+	}
+	switch _s.AssetType {
+	case asset.Spot:
+		var orderReq []OrderRequest
+		var clientOIDs []string
+		for _, s := range ss {
+			v6, _ := uuid.NewGen().NewV6()
+			clientOID := strings.ReplaceAll(v6.String(), "-", "")
+			clientOIDs = append(clientOIDs, clientOID)
+			orderReq = append(orderReq, OrderRequest{
+				ClientOID: clientOID,
+				Side:      sideString,
+				Type:      s.Type.Lower(),
+				Price:     s.Price,
+				Size:      s.Amount,
+			})
+		}
+		bulkOrder, err := ku.PostBulkOrder(ctx, _s.Pair.String(), orderReq)
+		if err != nil {
+			return nil, err
+		}
+		var res []*order.SubmitResponse
+		for i, clientOID := range clientOIDs {
+			for _, resp := range bulkOrder {
+				if resp.ClientOID == clientOID {
+					submitResponse, err := ss[i].DeriveSubmitResponse(resp.ID)
+					if err != nil {
+						// todo
+						continue
+					}
+					res = append(res, submitResponse)
+				}
+
+			}
+		}
+		return res, nil
+	default:
+		return nil, fmt.Errorf("%w %v", asset.ErrNotSupported, _s.AssetType)
+	}
 }
 
 // SubmitOrder submits a new order

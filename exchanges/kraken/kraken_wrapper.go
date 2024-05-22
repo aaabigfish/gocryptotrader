@@ -2,14 +2,16 @@ package kraken
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/shopspring/decimal"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/convert"
 	"github.com/aaabigfish/gocryptotrader/common/key"
@@ -32,6 +34,7 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/trade"
 	"github.com/aaabigfish/gocryptotrader/log"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
+	"github.com/shopspring/decimal"
 )
 
 // SetDefaults sets current default settings
@@ -712,6 +715,58 @@ func (k *Kraken) GetRecentTrades(ctx context.Context, p currency.Pair, assetType
 // GetHistoricTrades returns historic trade data within the timeframe provided
 func (k *Kraken) GetHistoricTrades(_ context.Context, _ currency.Pair, _ asset.Item, _, _ time.Time) ([]trade.Data, error) {
 	return nil, common.ErrFunctionNotSupported
+}
+
+type payloadS struct {
+	Nonce    int        `json:"nonce"`
+	Orders   []payloadO `json:"orders"`
+	Pair     string     `json:"pair"`
+	Validate bool       `json:"validate"`
+	Deadline string     `json:"deadline"`
+}
+
+type payloadO struct {
+	OrderType   string `json:"ordertype"`
+	Price       string `json:"price"`
+	Price2      string `json:"price2,omitempty"`
+	Type        string `json:"type"`
+	Timeinforce string `json:"timeinforce"` //GTC
+	Userref     int    `json:"userref"`
+	Volume      string `json:"volume"`
+}
+
+func (k *Kraken) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+
+	url := "https://api.kraken.com/0/private/AddOrderBatch"
+	method := "POST"
+
+	var payload payloadS
+	marshal, _ := json.Marshal(payload)
+	client := &http.Client{
+	}
+	req, err := http.NewRequest(method, url, strings.NewReader(string(marshal)))
+
+	if err != nil {
+		return nil, nil
+	}
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Accept", "application/json")
+	req.Header.Add("API-Key", *k.Config.APIKey)
+	req.Header.Add("API-Sign", *k.Config.APISecret)
+
+	res, err := client.Do(req)
+	if err != nil {
+		return nil, nil
+	}
+	defer res.Body.Close()
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(string(body))
+
+	return nil, fmt.Errorf("%s SubmitOrders not support", k.Name)
 }
 
 // SubmitOrder submits a new order

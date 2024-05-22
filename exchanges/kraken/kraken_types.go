@@ -32,6 +32,7 @@ const (
 	krakenTradeVolume      = "TradeVolume"
 	krakenOrderCancel      = "CancelOrder"
 	krakenOrderPlace       = "AddOrder"
+	krakenBatchOrderPlace  = "AddOrderBatch"
 	krakenWithdrawInfo     = "WithdrawInfo"
 	krakenWithdraw         = "Withdraw"
 	krakenDepositMethods   = "DepositMethods"
@@ -418,6 +419,17 @@ type DepositMethods struct {
 type OrderDescription struct {
 	Close string `json:"close"`
 	Order string `json:"order"`
+}
+
+type AddOrder struct {
+	symbol    currency.Pair
+	side      string
+	orderType string
+	volume    float64
+	price     float64
+	price2    float64
+	leverage  float64
+	args      *AddOrderOptions
 }
 
 // AddOrderOptions represents the AddOrder options
