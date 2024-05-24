@@ -4,13 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/gofrs/uuid"
 	"math"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/shopspring/decimal"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/config"
@@ -34,6 +34,7 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/trade"
 	"github.com/aaabigfish/gocryptotrader/log"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
+	"github.com/shopspring/decimal"
 )
 
 const (
@@ -496,9 +497,6 @@ func (ok *Okx) UpdateOrderbook(ctx context.Context, pair currency.Pair, assetTyp
 
 // UpdateAccountInfo retrieves balances for all enabled currencies.
 func (ok *Okx) UpdateAccountInfo(ctx context.Context, assetType asset.Item) (account.Holdings, error) {
-	if err := ok.CurrencyPairs.IsAssetEnabled(assetType); err != nil {
-		return account.Holdings{}, err
-	}
 
 	var info account.Holdings
 	var acc account.SubAccount
@@ -707,9 +705,93 @@ allTrades:
 }
 
 func (ok *Okx) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
-	return nil, fmt.Errorf("%s SubmitOrders not support", ok.Name)
-}
+	var getOrderReq = func(ctx context.Context, s *order.Submit) (*PlaceOrderRequestParam, error) {
+		if err := s.Validate(); err != nil {
+			return nil, err
+		}
+		if !ok.SupportsAsset(s.AssetType) {
+			return nil, fmt.Errorf("%w: %v", asset.ErrNotSupported, s.AssetType)
+		}
+		if s.Amount <= 0 {
+			return nil, errors.New("amount, or size (sz) of quantity to buy or sell hast to be greater than zero")
+		}
+		pairFormat, err := ok.GetPairFormat(s.AssetType, true)
+		if err != nil {
+			return nil, err
+		}
+		if s.Pair.IsEmpty() {
+			return nil, currency.ErrCurrencyPairEmpty
+		}
+		instrumentID := pairFormat.Format(s.Pair)
+		tradeMode := ok.marginTypeToString(s.MarginType)
+		if s.Leverage != 0 && s.Leverage != 1 {
+			return nil, fmt.Errorf("%w received '%v'", order.ErrSubmitLeverageNotSupported, s.Leverage)
+		}
+		var sideType string
+		if s.Side.IsLong() {
+			sideType = order.Buy.Lower()
+		} else {
+			sideType = order.Sell.Lower()
+		}
 
+		amount := s.Amount
+		var targetCurrency string
+		if s.AssetType == asset.Spot && s.Type == order.Market {
+			targetCurrency = "base_ccy" // Default to base currency
+			if s.QuoteAmount > 0 {
+				amount = s.QuoteAmount
+				targetCurrency = "quote_ccy"
+			}
+		}
+		var orderRequest = &PlaceOrderRequestParam{
+			InstrumentID:  instrumentID,
+			TradeMode:     tradeMode,
+			Side:          sideType,
+			OrderType:     s.Type.Lower(),
+			Amount:        amount,
+			ClientOrderID: s.ClientOrderID,
+			Price:         s.Price,
+			QuantityType:  targetCurrency,
+		}
+		switch s.Type.Lower() {
+		case OkxOrderLimit, OkxOrderPostOnly, OkxOrderFOK, OkxOrderIOC:
+			orderRequest.Price = s.Price
+		}
+		return orderRequest, nil
+	}
+	var args []PlaceOrderRequestParam
+	var clientOIDs []string
+
+	for _, s := range ss {
+		v6, _ := uuid.NewGen().NewV6()
+		clientOID := strings.ReplaceAll(v6.String(), "-", "")
+		clientOIDs = append(clientOIDs, clientOID)
+		s.ClientOrderID = clientOID
+		req, err := getOrderReq(ctx, s)
+		if err != nil {
+			return nil, err
+		}
+		args = append(args, *req)
+	}
+	orders, err := ok.PlaceMultipleOrders(ctx, args)
+	if err != nil {
+		return nil, err
+	}
+
+	var res []*order.SubmitResponse
+	for i, clientOID := range clientOIDs {
+		for _, o := range orders {
+			if o.ClientOrderID == clientOID {
+				response, err := ss[i].DeriveSubmitResponse(o.OrderID)
+				if err != nil {
+					continue
+				}
+				res = append(res, response)
+			}
+		}
+	}
+	return res, nil
+}
 
 // SubmitOrder submits a new order
 func (ok *Okx) SubmitOrder(ctx context.Context, s *order.Submit) (*order.SubmitResponse, error) {
