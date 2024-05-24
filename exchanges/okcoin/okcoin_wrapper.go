@@ -569,6 +569,11 @@ func (o *Okcoin) GetAccountFundingHistory(ctx context.Context) ([]exchange.Fundi
 	return resp, nil
 }
 
+func (o *Okcoin) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+
+	return nil, nil
+}
+
 // SubmitOrder submits a new order
 func (o *Okcoin) SubmitOrder(ctx context.Context, s *order.Submit) (*order.SubmitResponse, error) {
 	if s == nil {

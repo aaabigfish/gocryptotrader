@@ -9,9 +9,9 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
-	"github.com/gorilla/websocket"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/crypto"
 	"github.com/aaabigfish/gocryptotrader/currency"
@@ -24,6 +24,7 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/ticker"
 	"github.com/aaabigfish/gocryptotrader/exchanges/trade"
 	"github.com/aaabigfish/gocryptotrader/log"
+	"github.com/gorilla/websocket"
 )
 
 const (
@@ -61,17 +62,33 @@ var comms = make(chan WsMessage)
 
 // WsConnect initiates a new websocket connection
 func (h *HUOBI) WsConnect() error {
-	if !h.Websocket.IsEnabled() || !h.IsEnabled() {
-		return stream.ErrWebsocketNotEnabled
+	//if !h.Websocket.IsEnabled() || !h.IsEnabled() {
+	//	return stream.ErrWebsocketNotEnabled
+	//}
+
+	err := h.Websocket.SetWebsocketURL(wsMarketURL, false, true)
+	if err != nil {
+		return err
 	}
-	var dialer websocket.Dialer
-	err := h.wsDial(&dialer)
+	if h.Websocket.Wg == nil {
+		h.Websocket.Wg = &sync.WaitGroup{}
+	}
+
+	if _err := h.Websocket.SetupNewConnection(stream.ConnectionSetup{
+		URL:                  wsMarketURL,
+		RateLimit:            rateLimit,
+		ResponseCheckTimeout: time.Second * time.Duration(10),
+		ResponseMaxLimit:     time.Second * time.Duration(10),
+	}); _err != nil {
+		return _err
+	}
+	err = h.wsDial(websocket.DefaultDialer)
 	if err != nil {
 		return err
 	}
 
 	if h.Websocket.CanUseAuthenticatedEndpoints() {
-		err = h.wsAuthenticatedDial(&dialer)
+		err = h.wsAuthenticatedDial(websocket.DefaultDialer)
 		if err != nil {
 			log.Errorf(log.ExchangeSys,
 				"%v - authenticated dial failed: %v\n",
@@ -205,6 +222,7 @@ func stringToOrderType(oType string) (order.Type, error) {
 func (h *HUOBI) wsHandleData(respRaw []byte) error {
 	var init WsResponse
 	err := json.Unmarshal(respRaw, &init)
+	fmt.Println("wsHandleData", "init", init)
 	if err != nil {
 		return err
 	}
@@ -515,6 +533,30 @@ func (h *HUOBI) WsProcessOrderbook(update *WsDepth, symbol string) error {
 }
 
 // GenerateDefaultSubscriptions Adds default subscriptions to websocket to be handled by ManageSubscriptions()
+func (h *HUOBI) GenSubscriptions(pairs currency.Pairs) ([]subscription.Subscription, error) {
+	var channels = []string{wsMarketKline}
+	var subscriptions []subscription.Subscription
+	if h.Websocket.CanUseAuthenticatedEndpoints() {
+		channels = append(channels, "orders.%v", "orders.%v.update")
+		subscriptions = append(subscriptions, subscription.Subscription{
+			Channel: "accounts",
+		})
+	}
+	for i := range channels {
+		for j := range pairs {
+			pairs[j].Delimiter = ""
+			channel := fmt.Sprintf(channels[i],
+				pairs[j].Lower().String())
+			subscriptions = append(subscriptions, subscription.Subscription{
+				Channel: channel,
+				Pair:    pairs[j],
+			})
+		}
+	}
+	return subscriptions, nil
+}
+
+// GenerateDefaultSubscriptions Adds default subscriptions to websocket to be handled by ManageSubscriptions()
 func (h *HUOBI) GenerateDefaultSubscriptions() ([]subscription.Subscription, error) {
 	var channels = []string{wsMarketKline,
 		wsMarketDepth,
@@ -548,12 +590,10 @@ func (h *HUOBI) GenerateDefaultSubscriptions() ([]subscription.Subscription, err
 // Subscribe sends a websocket message to receive data from the channel
 func (h *HUOBI) Subscribe(channelsToSubscribe []subscription.Subscription) error {
 	var creds *account.Credentials
-	if h.Websocket.CanUseAuthenticatedEndpoints() {
-		var err error
-		creds, err = h.GetCredentials(context.TODO())
-		if err != nil {
-			return err
-		}
+	var err error
+	creds, err = h.GetCredentials(context.TODO())
+	if err != nil {
+		return err
 	}
 	var errs error
 	for i := range channelsToSubscribe {

@@ -462,6 +462,10 @@ func (b *BTCMarkets) GetHistoricTrades(_ context.Context, _ currency.Pair, _ ass
 	return nil, common.ErrFunctionNotSupported
 }
 
+func (b *BTCMarkets) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	return nil, errors.New("not support")
+}
+
 // SubmitOrder submits a new order
 func (b *BTCMarkets) SubmitOrder(ctx context.Context, s *order.Submit) (*order.SubmitResponse, error) {
 	if err := s.Validate(); err != nil {

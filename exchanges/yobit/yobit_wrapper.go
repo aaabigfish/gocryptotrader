@@ -367,6 +367,10 @@ func (y *Yobit) GetHistoricTrades(_ context.Context, _ currency.Pair, _ asset.It
 	return nil, common.ErrFunctionNotSupported
 }
 
+func (y *Yobit) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	return nil, common.ErrFunctionNotSupported
+}
+
 // SubmitOrder submits a new order
 // Yobit only supports limit orders
 func (y *Yobit) SubmitOrder(ctx context.Context, s *order.Submit) (*order.SubmitResponse, error) {

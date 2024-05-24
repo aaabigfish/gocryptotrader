@@ -10,12 +10,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gofrs/uuid"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/currency"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
 	"github.com/aaabigfish/gocryptotrader/exchanges/validate"
 	"github.com/aaabigfish/gocryptotrader/log"
+	"github.com/gofrs/uuid"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )
@@ -696,6 +696,8 @@ func (t Type) String() string {
 		return "OPTIMAL_LIMIT_IOC"
 	case OCO:
 		return "OCO"
+	case TRADE:
+		return "TRADE"
 	default:
 		return "UNKNOWN"
 	}
@@ -1119,6 +1121,8 @@ func StringToOrderType(oType string) (Type, error) {
 		return OCO, nil
 	case ConditionalStop.String():
 		return ConditionalStop, nil
+	case TRADE.String():
+		return TRADE, nil
 	default:
 		return UnknownType, fmt.Errorf("'%v' %w", oType, errUnrecognisedOrderType)
 	}

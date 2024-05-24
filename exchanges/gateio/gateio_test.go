@@ -11,8 +11,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/config"
@@ -26,6 +24,8 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/sharedtestvalues"
 	testexch "github.com/aaabigfish/gocryptotrader/internal/testing/exchange"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 // Please supply your own APIKEYS here for due diligence testing
@@ -422,6 +422,7 @@ func TestGetSpotOrder(t *testing.T) {
 		t.Errorf("%s GetSpotOrder() error %v", g.Name, err)
 	}
 }
+
 func TestAmendSpotOrder(t *testing.T) {
 	t.Parallel()
 	_, err := g.AmendSpotOrder(context.Background(), "", getPair(t, asset.Spot), false, &PriceAndAmount{
@@ -2983,7 +2984,7 @@ func TestGenerateFuturesDefaultSubscriptions(t *testing.T) {
 }
 func TestGenerateOptionsDefaultSubscriptions(t *testing.T) {
 	t.Parallel()
-	if _, err := g.GenerateOptionsDefaultSubscriptions(); err != nil {
+	if _, err := g.GenerateOptionsDefaultSubscriptions(nil); err != nil {
 		t.Error(err)
 	}
 }

@@ -10,7 +10,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/shopspring/decimal"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/config"
@@ -32,6 +31,7 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/trade"
 	"github.com/aaabigfish/gocryptotrader/log"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
+	"github.com/shopspring/decimal"
 )
 
 // SetDefaults sets the basic defaults for Bitmex
@@ -675,6 +675,10 @@ allTrades:
 
 	sort.Sort(trade.ByDate(resp))
 	return trade.FilterTradesByTime(resp, timestampStart, timestampEnd), nil
+}
+
+func (b *Bitmex) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	return nil, errors.New("not support")
 }
 
 // SubmitOrder submits a new order

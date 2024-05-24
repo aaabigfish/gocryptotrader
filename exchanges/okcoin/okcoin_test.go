@@ -34,6 +34,7 @@ var (
 )
 
 func TestMain(m *testing.M) {
+	println("TestMain")
 	o.SetDefaults()
 	cfg := config.GetConfig()
 	err := cfg.LoadConfig("../../testdata/configtest.json", true)
@@ -114,10 +115,13 @@ func TestGetTicker(t *testing.T) {
 
 func TestGetOrderbooks(t *testing.T) {
 	t.Parallel()
-	_, err := o.GetOrderbook(context.Background(), spotTradablePair.String(), 200)
+	orderBook, err := o.GetOrderbook(context.Background(), spotTradablePair.String(), 200)
 	if err != nil {
 		t.Error(err)
 	}
+	t.Log(orderBook.Bids)
+	t.Log(orderBook.Asks)
+	t.Log(orderBook.Timestamp)
 }
 
 func TestGetCandlestick(t *testing.T) {

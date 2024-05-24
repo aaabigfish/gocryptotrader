@@ -5,6 +5,7 @@ import (
 	"errors"
 	"log"
 	"os"
+	"reflect"
 	"strconv"
 	"strings"
 	"testing"
@@ -3014,6 +3015,32 @@ func TestGetCurrencyTradeURL(t *testing.T) {
 		} else {
 			require.NoError(t, err)
 			assert.NotEmpty(t, resp)
+		}
+	}
+}
+
+func TestWsHuobi(t *testing.T) {
+	// 创建 Gateio 实例
+	ex := &HUOBI{}
+	ex.SetDefaults()
+	// 设置 API 凭证
+	//ex.API.SetKey(key1)
+	//ex.API.SetSecret(key2)
+	err := ex.WsConnect()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	//mxcPair, _ := currency.NewPairFromString("MXC-USDT")
+
+	t.Log("HUOBI 开始监听")
+	timer := time.NewTimer(time.Second)
+	for {
+		select {
+		case data := <-ex.Websocket.DataHandler:
+			t.Log(reflect.TypeOf(data), data)
+		case _time := <-timer.C:
+			t.Log(_time)
 		}
 	}
 }

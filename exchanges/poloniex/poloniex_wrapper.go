@@ -539,6 +539,10 @@ allTrades:
 	return resp, nil
 }
 
+func (p *Poloniex) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	return nil, common.ErrFunctionNotSupported
+}
+
 // SubmitOrder submits a new order
 func (p *Poloniex) SubmitOrder(ctx context.Context, s *order.Submit) (*order.SubmitResponse, error) {
 	if err := s.Validate(); err != nil {

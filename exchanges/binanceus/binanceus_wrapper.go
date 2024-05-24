@@ -2,6 +2,7 @@ package binanceus
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"sort"
 	"strconv"
@@ -523,6 +524,10 @@ func (bi *Binanceus) GetHistoricTrades(ctx context.Context, p currency.Pair, ass
 		result[i] = *t
 	}
 	return result, nil
+}
+
+func (bi *Binanceus) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	return nil, errors.New("not support")
 }
 
 // SubmitOrder submits a new order

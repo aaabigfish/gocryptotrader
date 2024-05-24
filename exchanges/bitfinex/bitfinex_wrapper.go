@@ -606,6 +606,10 @@ allTrades:
 	return trade.FilterTradesByTime(resp, timestampStart, timestampEnd), nil
 }
 
+func (b *Bitfinex) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	return nil, errors.New("not support")
+}
+
 // SubmitOrder submits a new order
 func (b *Bitfinex) SubmitOrder(ctx context.Context, o *order.Submit) (*order.SubmitResponse, error) {
 	if err := o.Validate(); err != nil {

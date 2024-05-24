@@ -2,6 +2,7 @@ package bitflyer
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"sort"
 	"strconv"
@@ -345,6 +346,10 @@ func (b *Bitflyer) GetRecentTrades(ctx context.Context, p currency.Pair, assetTy
 // GetHistoricTrades returns historic trade data within the timeframe provided
 func (b *Bitflyer) GetHistoricTrades(_ context.Context, _ currency.Pair, _ asset.Item, _, _ time.Time) ([]trade.Data, error) {
 	return nil, common.ErrFunctionNotSupported
+}
+
+func (b *Bitflyer) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	return nil, errors.New("not support")
 }
 
 // SubmitOrder submits a new order

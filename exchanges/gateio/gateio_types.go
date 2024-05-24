@@ -2342,13 +2342,16 @@ type WsPositionClose struct {
 
 // WsBalance represents a options and futures balance push data
 type WsBalance struct {
-	Balance float64    `json:"balance"`
-	Change  float64    `json:"change"`
-	Text    string     `json:"text"`
-	Time    gateioTime `json:"time"`
-	TimeMs  gateioTime `json:"time_ms"`
-	Type    string     `json:"type"`
-	User    string     `json:"user"`
+	Timestamp    string `json:"timestamp"`
+	TimestampMs  string `json:"timestamp_ms"`
+	User         string `json:"user"`
+	Currency     string `json:"currency"`
+	Change       string `json:"change"`
+	Total        string `json:"total"`
+	Available    string `json:"available"`
+	Freeze       string `json:"freeze"`
+	FreezeChange string `json:"freeze_change"`
+	ChangeType   string `json:"change_type"`
 }
 
 // WsFuturesReduceRiskLimitNotification represents a futures reduced risk limit push data
@@ -2544,42 +2547,53 @@ type WsOptionsOrderbookSnapshot struct {
 
 // WsOptionsOrder represents options order push data.
 type WsOptionsOrder struct {
-	ID             int64         `json:"id"`
-	Contract       currency.Pair `json:"contract"`
-	CreateTime     int64         `json:"create_time"`
-	FillPrice      float64       `json:"fill_price"`
-	FinishAs       string        `json:"finish_as"`
-	Iceberg        float64       `json:"iceberg"`
-	IsClose        bool          `json:"is_close"`
-	IsLiq          bool          `json:"is_liq"`
-	IsReduceOnly   bool          `json:"is_reduce_only"`
-	Left           float64       `json:"left"`
-	Mkfr           float64       `json:"mkfr"`
-	Price          float64       `json:"price"`
-	Refr           float64       `json:"refr"`
-	Refu           float64       `json:"refu"`
-	Size           float64       `json:"size"`
-	Status         string        `json:"status"`
-	Text           string        `json:"text"`
-	Tif            string        `json:"tif"`
-	Tkfr           float64       `json:"tkfr"`
-	Underlying     string        `json:"underlying"`
-	User           string        `json:"user"`
-	CreationTime   gateioTime    `json:"time"`
-	CreationTimeMs gateioTime    `json:"time_ms"`
+	ID                 string `json:"id"`
+	Text               string `json:"text"`
+	CreateTime         string `json:"create_time"`
+	UpdateTime         string `json:"update_time"`
+	CurrencyPair       string `json:"currency_pair"`
+	Type               string `json:"type"`
+	Account            string `json:"account"`
+	Side               string `json:"side"`
+	Amount             string `json:"amount"`
+	Price              string `json:"price"`
+	TimeInForce        string `json:"time_in_force"`
+	Left               string `json:"left"`
+	FilledTotal        string `json:"filled_total"`
+	AvgDealPrice       string `json:"avg_deal_price"`
+	Fee                string `json:"fee"`
+	FeeCurrency        string `json:"fee_currency"`
+	PointFee           string `json:"point_fee"`
+	GtFee              string `json:"gt_fee"`
+	RebatedFee         string `json:"rebated_fee"`
+	RebatedFeeCurrency string `json:"rebated_fee_currency"`
+	CreateTimeMs       string `json:"create_time_ms"`
+	UpdateTimeMs       string `json:"update_time_ms"`
+	User               int    `json:"user"`
+	Event              string `json:"event"`
+	StpID              int    `json:"stp_id"`
+	StpAct             string `json:"stp_act"`
+	FinishAs           string `json:"finish_as"`
+	BizInfo            string `json:"biz_info"`
+	AmendText          string `json:"amend_text"`
 }
 
 // WsOptionsUserTrade represents user's personal trades of option account.
 type WsOptionsUserTrade struct {
-	ID           string        `json:"id"`
-	Underlying   string        `json:"underlying"`
-	OrderID      string        `json:"order"`
-	Contract     currency.Pair `json:"contract"`
-	CreateTime   gateioTime    `json:"create_time"`
-	CreateTimeMs gateioTime    `json:"create_time_ms"`
-	Price        types.Number  `json:"price"`
-	Role         string        `json:"role"`
-	Size         float64       `json:"size"`
+	ID           int    `json:"id"`
+	UserID       int    `json:"user_id"`
+	OrderID      string `json:"order_id"`
+	CurrencyPair string `json:"currency_pair"`
+	CreateTime   int    `json:"create_time"`
+	CreateTimeMs string `json:"create_time_ms"`
+	Side         string `json:"side"`
+	Amount       string `json:"amount"`
+	Role         string `json:"role"`
+	Price        string `json:"price"`
+	Fee          string `json:"fee"`
+	PointFee     string `json:"point_fee"`
+	GtFee        string `json:"gt_fee"`
+	Text         string `json:"text"`
 }
 
 // WsOptionsLiquidates represents the liquidates push data of option account.

@@ -8,22 +8,21 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
-	"github.com/gorilla/websocket"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/currency"
 	"github.com/aaabigfish/gocryptotrader/exchanges/account"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
-	"github.com/aaabigfish/gocryptotrader/exchanges/fill"
 	"github.com/aaabigfish/gocryptotrader/exchanges/kline"
-	"github.com/aaabigfish/gocryptotrader/exchanges/order"
 	"github.com/aaabigfish/gocryptotrader/exchanges/orderbook"
 	"github.com/aaabigfish/gocryptotrader/exchanges/stream"
 	"github.com/aaabigfish/gocryptotrader/exchanges/subscription"
 	"github.com/aaabigfish/gocryptotrader/exchanges/ticker"
 	"github.com/aaabigfish/gocryptotrader/exchanges/trade"
 	"github.com/aaabigfish/gocryptotrader/log"
+	"github.com/gorilla/websocket"
 )
 
 const (
@@ -34,6 +33,7 @@ const (
 	optionsPingChannel                   = "options.ping"
 	optionsContractTickersChannel        = "options.contract_tickers"
 	optionsUnderlyingTickersChannel      = "options.ul_tickers"
+	optionsSpotTickersChannel            = "spot.tickers"
 	optionsTradesChannel                 = "options.trades"
 	optionsUnderlyingTradesChannel       = "options.ul_trades"
 	optionsUnderlyingPriceChannel        = "options.ul_price"
@@ -45,42 +45,47 @@ const (
 	optionsOrderbookChannel              = "options.order_book"
 	optionsOrderbookTickerChannel        = "options.book_ticker"
 	optionsOrderbookUpdateChannel        = "options.order_book_update"
-	optionsOrdersChannel                 = "options.orders"
-	optionsUserTradesChannel             = "options.usertrades"
+	optionsOrdersChannel                 = "spot.orders"
+	optionsUserTradesChannel             = "spot.usertrades"
 	optionsLiquidatesChannel             = "options.liquidates"
 	optionsUserSettlementChannel         = "options.user_settlements"
 	optionsPositionCloseChannel          = "options.position_closes"
-	optionsBalancesChannel               = "options.balances"
+	optionsBalancesChannel               = "spot.balances"
 	optionsPositionsChannel              = "options.positions"
 )
 
 var defaultOptionsSubscriptions = []string{
-	optionsContractTickersChannel,
-	optionsUnderlyingTickersChannel,
-	optionsTradesChannel,
-	optionsUnderlyingTradesChannel,
-	optionsContractCandlesticksChannel,
-	optionsUnderlyingCandlesticksChannel,
-	optionsOrderbookChannel,
-	optionsOrderbookUpdateChannel,
+	optionsSpotTickersChannel,
+	optionsBalancesChannel,
+	optionsUserTradesChannel,
+	optionsOrdersChannel,
 }
 
 var fetchedOptionsCurrencyPairSnapshotOrderbook = make(map[string]bool)
 
 // WsOptionsConnect initiates a websocket connection to options websocket endpoints.
 func (g *Gateio) WsOptionsConnect() error {
-	if !g.Websocket.IsEnabled() || !g.IsEnabled() {
-		return stream.ErrWebsocketNotEnabled
-	}
-	err := g.CurrencyPairs.IsAssetEnabled(asset.Options)
-	if err != nil {
-		return err
-	}
+	//if !g.Websocket.IsEnabled() || !g.IsEnabled() {
+	//	return stream.ErrWebsocketNotEnabled
+	//}
+	//err := g.CurrencyPairs.IsAssetEnabled(asset.Options)
+	//if err != nil {
+	//	return err
+	//}
 	var dialer websocket.Dialer
-	err = g.Websocket.SetWebsocketURL(optionsWebsocketURL, false, true)
+	err := g.Websocket.SetWebsocketURL(optionsWebsocketURL, false, true)
 	if err != nil {
 		return err
 	}
+	if g.Websocket.Wg == nil {
+		g.Websocket.Wg = &sync.WaitGroup{}
+	}
+	g.Websocket.SetupNewConnection(stream.ConnectionSetup{
+		URL:                  gateioWebsocketEndpoint,
+		RateLimit:            gateioWebsocketRateLimit,
+		ResponseCheckTimeout: time.Second * time.Duration(10),
+		ResponseMaxLimit:     time.Second * time.Duration(10),
+	})
 	err = g.Websocket.Conn.Dial(&dialer, http.Header{})
 	if err != nil {
 		return err
@@ -93,6 +98,7 @@ func (g *Gateio) WsOptionsConnect() error {
 	if err != nil {
 		return err
 	}
+
 	g.Websocket.Wg.Add(1)
 	go g.wsReadOptionsConnData()
 	g.Websocket.Conn.SetupPingHandler(stream.PingHandler{
@@ -105,9 +111,10 @@ func (g *Gateio) WsOptionsConnect() error {
 }
 
 // GenerateOptionsDefaultSubscriptions generates list of channel subscriptions for options asset type.
-func (g *Gateio) GenerateOptionsDefaultSubscriptions() ([]subscription.Subscription, error) {
+func (g *Gateio) GenerateOptionsDefaultSubscriptions(pairs currency.Pairs) ([]subscription.Subscription, error) {
 	channelsToSubscribe := defaultOptionsSubscriptions
 	var userID int64
+	_ = userID
 	if g.Websocket.CanUseAuthenticatedEndpoints() {
 		var err error
 		_, err = g.GetCredentials(context.TODO())
@@ -131,10 +138,6 @@ func (g *Gateio) GenerateOptionsDefaultSubscriptions() ([]subscription.Subscript
 	}
 getEnabledPairs:
 	var subscriptions []subscription.Subscription
-	pairs, err := g.GetEnabledPairs(asset.Options)
-	if err != nil {
-		return nil, err
-	}
 	for i := range channelsToSubscribe {
 		for j := range pairs {
 			params := make(map[string]interface{})
@@ -154,10 +157,10 @@ getEnabledPairs:
 				optionsPositionCloseChannel,
 				optionsBalancesChannel,
 				optionsPositionsChannel:
-				if userID == 0 {
-					continue
-				}
-				params["user_id"] = userID
+				//if userID == 0 {
+				//	continue
+				//}
+				//params["user_id"] = userID
 			}
 			fpair, err := g.FormatExchangeCurrency(pairs[j], asset.Options)
 			if err != nil {
@@ -173,6 +176,7 @@ getEnabledPairs:
 	return subscriptions, nil
 }
 
+// event in (subscribe,unsubscribe)
 func (g *Gateio) generateOptionsPayload(event string, channelsToSubscribe []subscription.Subscription) ([]WsInput, error) {
 	if len(channelsToSubscribe) == 0 {
 		return nil, errors.New("cannot generate payload, no channels supplied")
@@ -188,6 +192,7 @@ func (g *Gateio) generateOptionsPayload(event string, channelsToSubscribe []subs
 		case optionsUnderlyingTickersChannel,
 			optionsUnderlyingTradesChannel,
 			optionsUnderlyingPriceChannel,
+			optionsSpotTickersChannel,
 			optionsUnderlyingCandlesticksChannel:
 			var uly currency.Pair
 			uly, err = g.GetUnderlyingFromCurrencyPair(channelsToSubscribe[i].Pair)
@@ -218,16 +223,16 @@ func (g *Gateio) generateOptionsPayload(event string, channelsToSubscribe []subs
 			)
 		case optionsUserTradesChannel,
 			optionsBalancesChannel,
-			optionsOrdersChannel,
-			optionsLiquidatesChannel,
-			optionsUserSettlementChannel,
-			optionsPositionCloseChannel,
-			optionsPositionsChannel:
-			userID, ok := channelsToSubscribe[i].Params["user_id"].(int64)
-			if !ok {
-				continue
-			}
-			params = append([]string{strconv.FormatInt(userID, 10)}, params...)
+			optionsOrdersChannel:
+			//optionsLiquidatesChannel,
+			//optionsUserSettlementChannel,
+			//optionsPositionCloseChannel,
+			//optionsPositionsChannel:
+			//userID, ok := channelsToSubscribe[i].Params["user_id"].(int64)
+			//if !ok {
+			//	continue
+			//}
+			//params = append([]string{strconv.FormatInt(userID, 10)}, params...)
 			var creds *account.Credentials
 			creds, err = g.GetCredentials(context.Background())
 			if err != nil {
@@ -345,7 +350,6 @@ func (g *Gateio) wsHandleOptionsData(respRaw []byte) error {
 	if err != nil {
 		return err
 	}
-
 	if push.Event == "subscribe" || push.Event == "unsubscribe" {
 		if !g.Websocket.Match.IncomingWithData(push.ID, respRaw) {
 			return fmt.Errorf("couldn't match subscription message with ID: %d", push.ID)
@@ -354,6 +358,8 @@ func (g *Gateio) wsHandleOptionsData(respRaw []byte) error {
 	}
 
 	switch push.Channel {
+	case optionsSpotTickersChannel:
+		return g.processOptionsSpotTickers(push.Result)
 	case optionsContractTickersChannel:
 		return g.processOptionsContractTickers(push.Result)
 	case optionsUnderlyingTickersChannel:
@@ -398,6 +404,25 @@ func (g *Gateio) wsHandleOptionsData(respRaw []byte) error {
 		}
 		return errors.New(stream.UnhandledMessage)
 	}
+}
+
+func (g *Gateio) processOptionsSpotTickers(incoming []byte) error {
+	var data WsTicker
+	err := json.Unmarshal(incoming, &data)
+	if err != nil {
+		return err
+	}
+	g.Websocket.DataHandler <- &ticker.Price{
+		Pair:         data.CurrencyPair,
+		Last:         data.Last.Float64(),
+		Bid:          data.HighestBid.Float64(),
+		Ask:          data.LowestAsk.Float64(),
+		AskSize:      0,
+		BidSize:      0,
+		ExchangeName: g.Name,
+		AssetType:    asset.Options,
+	}
+	return nil
 }
 
 func (g *Gateio) processOptionsContractTickers(incoming []byte) error {
@@ -633,38 +658,12 @@ func (g *Gateio) processOptionsOrderPushData(data []byte) error {
 	if err != nil {
 		return err
 	}
-	orderDetails := make([]order.Detail, len(resp.Result))
-	for x := range resp.Result {
-		status, err := order.StringToOrderStatus(func() string {
-			if resp.Result[x].Status == "finished" {
-				return "cancelled"
-			}
-			return resp.Result[x].Status
-		}())
-		if err != nil {
-			return err
-		}
-		orderDetails[x] = order.Detail{
-			Amount:         resp.Result[x].Size,
-			Exchange:       g.Name,
-			OrderID:        strconv.FormatInt(resp.Result[x].ID, 10),
-			Status:         status,
-			Pair:           resp.Result[x].Contract,
-			Date:           resp.Result[x].CreationTimeMs.Time(),
-			ExecutedAmount: resp.Result[x].Size - resp.Result[x].Left,
-			Price:          resp.Result[x].Price,
-			AssetType:      asset.Options,
-			AccountID:      resp.Result[x].User,
-		}
-	}
-	g.Websocket.DataHandler <- orderDetails
+	g.Websocket.DataHandler <- resp.Result
 	return nil
 }
 
 func (g *Gateio) processOptionsUserTradesPushData(data []byte) error {
-	if !g.IsFillsFeedEnabled() {
-		return nil
-	}
+	println("processOptionsUserTradesPushData", len(data))
 	resp := struct {
 		Time    int64                `json:"time"`
 		Channel string               `json:"channel"`
@@ -675,19 +674,8 @@ func (g *Gateio) processOptionsUserTradesPushData(data []byte) error {
 	if err != nil {
 		return err
 	}
-	fills := make([]fill.Data, len(resp.Result))
-	for x := range resp.Result {
-		fills[x] = fill.Data{
-			Timestamp:    resp.Result[x].CreateTimeMs.Time(),
-			Exchange:     g.Name,
-			CurrencyPair: resp.Result[x].Contract,
-			OrderID:      resp.Result[x].OrderID,
-			TradeID:      resp.Result[x].ID,
-			Price:        resp.Result[x].Price.Float64(),
-			Amount:       resp.Result[x].Size,
-		}
-	}
-	return g.Websocket.Fills.Update(fills...)
+	g.Websocket.DataHandler <- resp.Result
+	return nil
 }
 
 func (g *Gateio) processOptionsLiquidatesPushData(data []byte) error {

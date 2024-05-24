@@ -447,6 +447,10 @@ func (b *Bithumb) GetHistoricTrades(_ context.Context, _ currency.Pair, _ asset.
 	return nil, common.ErrFunctionNotSupported
 }
 
+func (b *Bithumb) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	return nil, errors.New("not support")
+}
+
 // SubmitOrder submits a new order
 // TODO: Fill this out to support limit orders
 func (b *Bithumb) SubmitOrder(ctx context.Context, s *order.Submit) (*order.SubmitResponse, error) {

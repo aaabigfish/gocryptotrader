@@ -13,7 +13,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gorilla/websocket"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/currency"
 	"github.com/aaabigfish/gocryptotrader/exchanges/account"
@@ -26,6 +25,7 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/subscription"
 	"github.com/aaabigfish/gocryptotrader/exchanges/ticker"
 	"github.com/aaabigfish/gocryptotrader/exchanges/trade"
+	"github.com/gorilla/websocket"
 )
 
 const (
@@ -59,14 +59,14 @@ var fetchedCurrencyPairSnapshotOrderbook = make(map[string]bool)
 
 // WsConnect initiates a websocket connection
 func (g *Gateio) WsConnect() error {
-	if !g.Websocket.IsEnabled() || !g.IsEnabled() {
-		return stream.ErrWebsocketNotEnabled
-	}
-	err := g.CurrencyPairs.IsAssetEnabled(asset.Spot)
-	if err != nil {
-		return err
-	}
-	err = g.Websocket.Conn.Dial(&websocket.Dialer{}, http.Header{})
+	//if !g.Websocket.IsEnabled() || !g.IsEnabled() {
+	//	return stream.ErrWebsocketNotEnabled
+	//}
+	//err := g.CurrencyPairs.IsAssetEnabled(asset.Spot)
+	//if err != nil {
+	//	return err
+	//}
+	err := g.Websocket.Conn.Dial(&websocket.Dialer{}, http.Header{})
 	if err != nil {
 		return err
 	}

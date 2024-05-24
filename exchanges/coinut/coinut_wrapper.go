@@ -492,6 +492,10 @@ func (c *COINUT) GetHistoricTrades(_ context.Context, _ currency.Pair, _ asset.I
 	return nil, common.ErrFunctionNotSupported
 }
 
+func (c *COINUT) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	return nil, errors.New("not support")
+}
+
 // SubmitOrder submits a new order
 func (c *COINUT) SubmitOrder(ctx context.Context, o *order.Submit) (*order.SubmitResponse, error) {
 	err := o.Validate()

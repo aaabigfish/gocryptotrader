@@ -439,6 +439,10 @@ allTrades:
 	return trade.FilterTradesByTime(resp, timestampStart, timestampEnd), nil
 }
 
+func (l *Lbank) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	return nil, common.ErrFunctionNotSupported
+}
+
 // SubmitOrder submits a new order
 func (l *Lbank) SubmitOrder(ctx context.Context, s *order.Submit) (*order.SubmitResponse, error) {
 	if err := s.Validate(); err != nil {

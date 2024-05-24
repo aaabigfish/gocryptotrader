@@ -10,7 +10,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gorilla/websocket"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/currency"
 	"github.com/aaabigfish/gocryptotrader/exchanges/account"
@@ -24,6 +23,7 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/ticker"
 	"github.com/aaabigfish/gocryptotrader/exchanges/trade"
 	"github.com/aaabigfish/gocryptotrader/log"
+	"github.com/gorilla/websocket"
 )
 
 const (
@@ -784,22 +784,7 @@ func (g *Gateio) processBalancePushData(data []byte, assetType asset.Item) error
 	if err != nil {
 		return err
 	}
-	accountChange := make([]account.Change, len(resp.Result))
-	for x := range resp.Result {
-		info := strings.Split(resp.Result[x].Text, currency.UnderscoreDelimiter)
-		if len(info) != 2 {
-			return errors.New("malformed text")
-		}
-		code := currency.NewCode(info[0])
-		accountChange[x] = account.Change{
-			Exchange: g.Name,
-			Currency: code,
-			Asset:    assetType,
-			Amount:   resp.Result[x].Balance,
-			Account:  resp.Result[x].User,
-		}
-	}
-	g.Websocket.DataHandler <- accountChange
+	g.Websocket.DataHandler <- resp.Result
 	return nil
 }
 

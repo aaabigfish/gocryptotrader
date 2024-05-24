@@ -177,6 +177,11 @@ func (c *CustomEx) GetAccountFundingHistory(_ context.Context) ([]exchange.Fundi
 }
 
 // SubmitOrder is a mock method for CustomEx
+func (c *CustomEx) SubmitOrders(_ context.Context, _ ...*order.Submit) ([]*order.SubmitResponse, error) {
+	return nil, nil
+}
+
+// SubmitOrder is a mock method for CustomEx
 func (c *CustomEx) SubmitOrder(_ context.Context, _ *order.Submit) (*order.SubmitResponse, error) {
 	return nil, nil
 }

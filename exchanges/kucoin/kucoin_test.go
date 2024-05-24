@@ -10,9 +10,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gofrs/uuid"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/config"
@@ -31,6 +28,9 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/ticker"
 	testexch "github.com/aaabigfish/gocryptotrader/internal/testing/exchange"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
+	"github.com/gofrs/uuid"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 // Please supply your own keys here to do authenticated endpoint testing

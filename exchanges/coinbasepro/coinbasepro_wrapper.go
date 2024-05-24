@@ -2,6 +2,7 @@ package coinbasepro
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"sort"
 	"strconv"
@@ -428,6 +429,10 @@ func (c *CoinbasePro) GetRecentTrades(ctx context.Context, p currency.Pair, asse
 // GetHistoricTrades returns historic trade data within the timeframe provided
 func (c *CoinbasePro) GetHistoricTrades(_ context.Context, _ currency.Pair, _ asset.Item, _, _ time.Time) ([]trade.Data, error) {
 	return nil, common.ErrFunctionNotSupported
+}
+
+func (c *CoinbasePro) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	return nil, errors.New("not support")
 }
 
 // SubmitOrder submits a new order

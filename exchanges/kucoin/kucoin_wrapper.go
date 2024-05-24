@@ -297,14 +297,19 @@ func (ku *Kucoin) UpdateTradablePairs(ctx context.Context, forceUpdate bool) err
 
 // UpdateTicker updates and returns the ticker for a currency pair
 func (ku *Kucoin) UpdateTicker(ctx context.Context, p currency.Pair, assetType asset.Item) (*ticker.Price, error) {
-	p, err := ku.FormatExchangeCurrency(p, assetType)
+	getTicker, err := ku.GetTicker(ctx, p.String())
 	if err != nil {
 		return nil, err
 	}
-	if err := ku.UpdateTickers(ctx, assetType); err != nil {
-		return nil, err
+	price := &ticker.Price{
+		Bid:          getTicker.BestBid,
+		Ask:          getTicker.BestAsk,
+		Pair:         p,
+		AssetType:    assetType,
+		ExchangeName: ku.Name,
+		LastUpdated:  getTicker.Time.Time(),
 	}
-	return ticker.GetTicker(ku.Name, p, assetType)
+	return price, nil
 }
 
 // UpdateTickers updates all currency pairs of a given asset type
@@ -348,8 +353,10 @@ func (ku *Kucoin) UpdateTickers(ctx context.Context, assetType asset.Item) error
 		if err != nil {
 			return err
 		}
+
 		for t := range ticks.Tickers {
 			pair, enabled, err := ku.MatchSymbolCheckEnabled(ticks.Tickers[t].Symbol, assetType, true)
+			println("######## ", ticks.Tickers[t].Symbol, "err", err.Error(), "pair", pair.String(), "enabled", enabled)
 			if err != nil && !errors.Is(err, currency.ErrPairNotFound) {
 				return err
 			}
@@ -482,6 +489,7 @@ func (ku *Kucoin) UpdateAccountInfo(ctx context.Context, assetType asset.Item) (
 		if err != nil {
 			return account.Holdings{}, err
 		}
+		println("accountH################", "accountH.len", len(accountH))
 		for x := range accountH {
 			holding.Accounts = append(holding.Accounts, account.SubAccount{
 				AssetType: assetType,
@@ -870,8 +878,13 @@ func (ku *Kucoin) CancelOrder(ctx context.Context, ord *order.Cancel) error {
 }
 
 // CancelBatchOrders cancels orders by their corresponding ID numbers
-func (ku *Kucoin) CancelBatchOrders(_ context.Context, _ []order.Cancel) (*order.CancelBatchResponse, error) {
-	return nil, common.ErrFunctionNotSupported
+func (ku *Kucoin) CancelBatchOrders(ctx context.Context, orderCancellation []order.Cancel) (*order.CancelBatchResponse, error) {
+	orders, err := ku.CancelAllOrders(ctx, &orderCancellation[0])
+	if err != nil {
+		return nil, err
+	}
+	res := &order.CancelBatchResponse{Status: orders.Status}
+	return res, err
 }
 
 // CancelAllOrders cancels all orders associated with a currency pair
@@ -1191,18 +1204,6 @@ func (ku *Kucoin) GetActiveOrders(ctx context.Context, getOrdersRequest *order.M
 			if !spotOrders.Items[x].IsActive {
 				continue
 			}
-			var dPair currency.Pair
-			var isEnabled bool
-			dPair, isEnabled, err = ku.MatchSymbolCheckEnabled(spotOrders.Items[x].Symbol, getOrdersRequest.AssetType, true)
-			if err != nil {
-				return nil, err
-			}
-			if !isEnabled {
-				continue
-			}
-			if len(getOrdersRequest.Pairs) > 0 && !getOrdersRequest.Pairs.Contains(dPair, true) {
-				continue
-			}
 			side, err := order.StringToOrderSide(spotOrders.Items[x].Side)
 			if err != nil {
 				return nil, err
@@ -1211,6 +1212,7 @@ func (ku *Kucoin) GetActiveOrders(ctx context.Context, getOrdersRequest *order.M
 			if err != nil {
 				return nil, err
 			}
+			_pair, _ := currency.NewPairFromString(spotOrders.Items[x].Symbol)
 			orders = append(orders, order.Detail{
 				OrderID:         spotOrders.Items[x].ID,
 				Amount:          spotOrders.Items[x].Size,
@@ -1221,7 +1223,7 @@ func (ku *Kucoin) GetActiveOrders(ctx context.Context, getOrdersRequest *order.M
 				Price:           spotOrders.Items[x].Price,
 				Side:            side,
 				Type:            oType,
-				Pair:            dPair,
+				Pair:            _pair,
 			})
 		}
 	default:

@@ -8,11 +8,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gorilla/websocket"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/config"
 	"github.com/aaabigfish/gocryptotrader/exchanges/subscription"
 	"github.com/aaabigfish/gocryptotrader/log"
+	"github.com/gorilla/websocket"
 )
 
 const (
@@ -209,9 +209,9 @@ func (w *Websocket) SetupNewConnection(c ConnectionSetup) error {
 		return fmt.Errorf("%w: %w", errConnSetup, errExchangeConfigEmpty)
 	}
 
-	if w.exchangeName == "" {
-		return fmt.Errorf("%w: %w", errConnSetup, errExchangeConfigNameEmpty)
-	}
+	//if w.exchangeName == "" {
+	//	return fmt.Errorf("%w: %w", errConnSetup, errExchangeConfigNameEmpty)
+	//}
 
 	if w.TrafficAlert == nil {
 		return fmt.Errorf("%w: %w", errConnSetup, errTrafficAlertNil)

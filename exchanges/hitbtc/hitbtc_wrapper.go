@@ -458,6 +458,10 @@ allTrades:
 	return resp, nil
 }
 
+func (h *HitBTC) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	return nil, common.ErrFunctionNotSupported
+}
+
 // SubmitOrder submits a new order
 func (h *HitBTC) SubmitOrder(ctx context.Context, o *order.Submit) (*order.SubmitResponse, error) {
 	err := o.Validate()

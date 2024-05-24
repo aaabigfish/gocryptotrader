@@ -10,7 +10,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/shopspring/decimal"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/config"
@@ -31,6 +30,7 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/trade"
 	"github.com/aaabigfish/gocryptotrader/log"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
+	"github.com/shopspring/decimal"
 )
 
 // SetDefaults sets the basic defaults for BTSE
@@ -531,6 +531,10 @@ func (b *BTSE) GetRecentTrades(ctx context.Context, p currency.Pair, assetType a
 // GetHistoricTrades returns historic trade data within the timeframe provided
 func (b *BTSE) GetHistoricTrades(_ context.Context, _ currency.Pair, _ asset.Item, _, _ time.Time) ([]trade.Data, error) {
 	return nil, common.ErrFunctionNotSupported
+}
+
+func (b *BTSE) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	return nil, errors.New("not support")
 }
 
 // SubmitOrder submits a new order

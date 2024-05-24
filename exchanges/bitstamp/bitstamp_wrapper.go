@@ -488,6 +488,9 @@ func (b *Bitstamp) GetRecentTrades(ctx context.Context, p currency.Pair, assetTy
 func (b *Bitstamp) GetHistoricTrades(_ context.Context, _ currency.Pair, _ asset.Item, _, _ time.Time) ([]trade.Data, error) {
 	return nil, common.ErrFunctionNotSupported
 }
+func (b *Bitstamp) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	return nil, errors.New("not support")
+}
 
 // SubmitOrder submits a new order
 func (b *Bitstamp) SubmitOrder(ctx context.Context, s *order.Submit) (*order.SubmitResponse, error) {

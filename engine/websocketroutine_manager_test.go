@@ -122,7 +122,7 @@ func TestWebsocketRoutineManagerStop(t *testing.T) {
 }
 
 func TestWebsocketRoutineManagerHandleData(t *testing.T) {
-	var exchName = "Bitstamp"
+	var exchName = "gateio"
 	var wg sync.WaitGroup
 	em := NewExchangeManager()
 	exch, err := em.NewExchangeByName(exchName)
@@ -355,5 +355,141 @@ func TestSetWebsocketDataHandler(t *testing.T) {
 
 	if len(m.dataHandlers) != 1 {
 		t.Fatal("unexpected data handler count")
+	}
+}
+
+func TestRealEx(t *testing.T) {
+	var exchName = "gateio"
+	var wg sync.WaitGroup
+	em := NewExchangeManager()
+	exch, err := em.NewExchangeByName(exchName)
+	if !errors.Is(err, nil) {
+		t.Fatalf("error '%v', expected '%v'", err, nil)
+	}
+	exch.SetDefaults()
+	err = em.Add(exch)
+	if !errors.Is(err, nil) {
+		t.Fatalf("received: '%v' but expected: '%v'", err, nil)
+	}
+	om, err := SetupOrderManager(em, &CommunicationManager{}, &wg, &config.OrderManager{})
+	if !errors.Is(err, nil) {
+		t.Errorf("error '%v', expected '%v'", err, nil)
+	}
+	err = om.Start()
+	if !errors.Is(err, nil) {
+		t.Errorf("error '%v', expected '%v'", err, nil)
+	}
+	cfg := &currency.Config{CurrencyPairFormat: &currency.PairFormat{
+		Uppercase: false,
+		Delimiter: "-",
+	}}
+	m, err := setupWebsocketRoutineManager(em, om, &SyncManager{}, cfg, true)
+	if !errors.Is(err, nil) {
+		t.Errorf("error '%v', expected '%v'", err, nil)
+	}
+	err = m.Start()
+	if !errors.Is(err, nil) {
+		t.Errorf("error '%v', expected '%v'", err, nil)
+	}
+	var orderID = "1337"
+	err = m.websocketDataHandler(exchName, errors.New("error"))
+	if err == nil {
+		t.Error("Error not handled correctly")
+	}
+	err = m.websocketDataHandler(exchName, stream.FundingData{})
+	if err != nil {
+		t.Error(err)
+	}
+	err = m.websocketDataHandler(exchName, &ticker.Price{
+		ExchangeName: exchName,
+		Pair:         currency.NewPair(currency.BTC, currency.USDC),
+		AssetType:    asset.Spot,
+	})
+	if !errors.Is(err, nil) {
+		t.Errorf("error '%v', expected '%v'", err, nil)
+	}
+	err = m.websocketDataHandler(exchName, stream.KlineData{})
+	if err != nil {
+		t.Error(err)
+	}
+	origOrder := &order.Detail{
+		Exchange: exchName,
+		OrderID:  orderID,
+		Amount:   1337,
+		Price:    1337,
+	}
+	err = m.websocketDataHandler(exchName, origOrder)
+	if err != nil {
+		t.Error(err)
+	}
+	// Send it again since it exists now
+	err = m.websocketDataHandler(exchName, &order.Detail{
+		Exchange: exchName,
+		OrderID:  orderID,
+		Amount:   1338,
+	})
+	if err != nil {
+		t.Error(err)
+	}
+	updated, err := m.orderManager.GetByExchangeAndID(origOrder.Exchange, origOrder.OrderID)
+	if err != nil {
+		t.Error(err)
+	}
+	if updated.Amount != 1338 {
+		t.Error("Bad pipeline")
+	}
+
+	err = m.websocketDataHandler(exchName, &order.Detail{
+		Exchange: "Bitstamp",
+		OrderID:  orderID,
+		Status:   order.Active,
+	})
+	if err != nil {
+		t.Error(err)
+	}
+	updated, err = m.orderManager.GetByExchangeAndID(origOrder.Exchange, origOrder.OrderID)
+	if err != nil {
+		t.Error(err)
+	}
+	if updated.Status != order.Active {
+		t.Error("Expected order to be modified to Active")
+	}
+
+	// Send some gibberish
+	err = m.websocketDataHandler(exchName, order.Stop)
+	if err != nil {
+		t.Error(err)
+	}
+
+	err = m.websocketDataHandler(exchName, stream.UnhandledMessageWarning{
+		Message: "there's an issue here's a tissue"},
+	)
+	if err != nil {
+		t.Error(err)
+	}
+
+	classificationError := order.ClassificationError{
+		Exchange: "test",
+		OrderID:  "one",
+		Err:      errors.New("lol"),
+	}
+	err = m.websocketDataHandler(exchName, classificationError)
+	if err == nil {
+		t.Error("Expected error")
+	}
+	if !errors.Is(err, classificationError.Err) {
+		t.Errorf("error '%v', expected '%v'", err, classificationError.Err)
+	}
+
+	err = m.websocketDataHandler(exchName, &orderbook.Base{
+		Exchange: "Bitstamp",
+		Pair:     currency.NewPair(currency.BTC, currency.USD),
+	})
+	if err != nil {
+		t.Error(err)
+	}
+	err = m.websocketDataHandler(exchName, "this is a test string")
+	if err != nil {
+		t.Error(err)
 	}
 }
