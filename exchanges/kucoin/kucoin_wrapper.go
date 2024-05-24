@@ -297,7 +297,8 @@ func (ku *Kucoin) UpdateTradablePairs(ctx context.Context, forceUpdate bool) err
 
 // UpdateTicker updates and returns the ticker for a currency pair
 func (ku *Kucoin) UpdateTicker(ctx context.Context, p currency.Pair, assetType asset.Item) (*ticker.Price, error) {
-	getTicker, err := ku.GetTicker(ctx, p.String())
+
+	getTicker, err := ku.GetTicker(ctx, p.Format(currency.PairFormat{Delimiter: "-", Uppercase: true}).String())
 	if err != nil {
 		return nil, err
 	}
@@ -687,10 +688,7 @@ func (ku *Kucoin) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*ord
 	if err != nil {
 		return nil, err
 	}
-	sideString, err := ku.orderSideString(_s.Side)
-	if err != nil {
-		return nil, err
-	}
+
 	if _s.Type != order.UnknownType && _s.Type != order.Limit && _s.Type != order.Market {
 		return nil, fmt.Errorf("%w only limit and market are supported", order.ErrTypeIsInvalid)
 	}
@@ -706,6 +704,10 @@ func (ku *Kucoin) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*ord
 			v6, _ := uuid.NewGen().NewV6()
 			clientOID := strings.ReplaceAll(v6.String(), "-", "")
 			clientOIDs = append(clientOIDs, clientOID)
+			sideString, err := ku.orderSideString(s.Side)
+			if err != nil {
+				return nil, err
+			}
 			orderReq = append(orderReq, OrderRequest{
 				ClientOID: clientOID,
 				Side:      sideString,
