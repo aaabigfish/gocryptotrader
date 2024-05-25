@@ -21,7 +21,6 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/subscription"
 	"github.com/aaabigfish/gocryptotrader/exchanges/ticker"
 	"github.com/aaabigfish/gocryptotrader/exchanges/trade"
-	"github.com/aaabigfish/gocryptotrader/log"
 	"github.com/gorilla/websocket"
 )
 
@@ -33,7 +32,6 @@ const (
 	optionsPingChannel                   = "options.ping"
 	optionsContractTickersChannel        = "options.contract_tickers"
 	optionsUnderlyingTickersChannel      = "options.ul_tickers"
-	optionsSpotTickersChannel            = "spot.tickers"
 	optionsTradesChannel                 = "options.trades"
 	optionsUnderlyingTradesChannel       = "options.ul_trades"
 	optionsUnderlyingPriceChannel        = "options.ul_price"
@@ -45,17 +43,19 @@ const (
 	optionsOrderbookChannel              = "options.order_book"
 	optionsOrderbookTickerChannel        = "options.book_ticker"
 	optionsOrderbookUpdateChannel        = "options.order_book_update"
-	optionsOrdersChannel                 = "spot.orders"
-	optionsUserTradesChannel             = "spot.usertrades"
 	optionsLiquidatesChannel             = "options.liquidates"
 	optionsUserSettlementChannel         = "options.user_settlements"
 	optionsPositionCloseChannel          = "options.position_closes"
-	optionsBalancesChannel               = "spot.balances"
 	optionsPositionsChannel              = "options.positions"
+
+	optionsSpotTickersChannel = "spot.tickers"
+
+	optionsOrdersChannel     = "spot.orders"
+	optionsBalancesChannel   = "spot.balances"
+	optionsUserTradesChannel = "spot.usertrades"
 )
 
 var defaultOptionsSubscriptions = []string{
-	optionsSpotTickersChannel,
 	optionsBalancesChannel,
 	optionsUserTradesChannel,
 	optionsOrdersChannel,
@@ -113,30 +113,6 @@ func (g *Gateio) WsOptionsConnect() error {
 // GenerateOptionsDefaultSubscriptions generates list of channel subscriptions for options asset type.
 func (g *Gateio) GenerateOptionsDefaultSubscriptions(pairs currency.Pairs) ([]subscription.Subscription, error) {
 	channelsToSubscribe := defaultOptionsSubscriptions
-	var userID int64
-	_ = userID
-	if g.Websocket.CanUseAuthenticatedEndpoints() {
-		var err error
-		_, err = g.GetCredentials(context.TODO())
-		if err != nil {
-			g.Websocket.SetCanUseAuthenticatedEndpoints(false)
-			goto getEnabledPairs
-		}
-		response, err := g.GetSubAccountBalances(context.Background(), "")
-		if err != nil {
-			return nil, err
-		}
-		if len(response) != 0 {
-			channelsToSubscribe = append(channelsToSubscribe,
-				optionsUserTradesChannel,
-				optionsBalancesChannel,
-			)
-			userID = response[0].UserID
-		} else if g.Verbose {
-			log.Errorf(log.ExchangeSys, "no subaccount found for authenticated options channel subscriptions")
-		}
-	}
-getEnabledPairs:
 	var subscriptions []subscription.Subscription
 	for i := range channelsToSubscribe {
 		for j := range pairs {
@@ -157,10 +133,6 @@ getEnabledPairs:
 				optionsPositionCloseChannel,
 				optionsBalancesChannel,
 				optionsPositionsChannel:
-				//if userID == 0 {
-				//	continue
-				//}
-				//params["user_id"] = userID
 			}
 			fpair, err := g.FormatExchangeCurrency(pairs[j], asset.Options)
 			if err != nil {

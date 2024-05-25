@@ -11,8 +11,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/buger/jsonparser"
-	"github.com/gorilla/websocket"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/currency"
 	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
@@ -26,6 +24,8 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/ticker"
 	"github.com/aaabigfish/gocryptotrader/exchanges/trade"
 	"github.com/aaabigfish/gocryptotrader/log"
+	"github.com/buger/jsonparser"
+	"github.com/gorilla/websocket"
 )
 
 var fetchedFuturesSnapshotOrderbook map[string]bool
@@ -96,19 +96,14 @@ var (
 
 // WsConnect creates a new websocket connection.
 func (ku *Kucoin) WsConnect() error {
-	if !ku.Websocket.IsEnabled() || !ku.IsEnabled() {
-		return stream.ErrWebsocketNotEnabled
-	}
 	fetchedFuturesSnapshotOrderbook = map[string]bool{}
 	var dialer websocket.Dialer
-	dialer.HandshakeTimeout = ku.Config.HTTPTimeout
+	dialer.HandshakeTimeout = time.Second * 10
 	dialer.Proxy = http.ProxyFromEnvironment
 	var instances *WSInstanceServers
-	_, err := ku.GetCredentials(context.Background())
-	if err != nil {
-		ku.Websocket.SetCanUseAuthenticatedEndpoints(false)
-	}
-	if ku.Websocket.CanUseAuthenticatedEndpoints() {
+	var err error
+	cred, _ := ku.GetCredentials(context.Background())
+	if cred != nil && cred.Key != "" && cred.Secret != "" {
 		instances, err = ku.GetAuthenticatedInstanceServers(context.Background())
 		if err != nil {
 			ku.Websocket.DataHandler <- err
@@ -124,6 +119,15 @@ func (ku *Kucoin) WsConnect() error {
 	if len(instances.InstanceServers) == 0 {
 		return errors.New("no websocket instance server found")
 	}
+	if ku.Websocket.Wg == nil {
+		ku.Websocket.Wg = &sync.WaitGroup{}
+	}
+	ku.Websocket.SetupNewConnection(stream.ConnectionSetup{
+		RateLimit:            1000,
+		ResponseCheckTimeout: time.Second * time.Duration(10),
+		ResponseMaxLimit:     time.Second * time.Duration(10),
+	})
+
 	ku.Websocket.Conn.SetURL(instances.InstanceServers[0].Endpoint + "?token=" + instances.Token)
 	err = ku.Websocket.Conn.Dial(&dialer, http.Header{})
 	if err != nil {
@@ -137,7 +141,7 @@ func (ku *Kucoin) WsConnect() error {
 		MessageType: websocket.TextMessage,
 	})
 
-	ku.setupOrderbookManager()
+	//ku.setupOrderbookManager()
 	return nil
 }
 
@@ -634,7 +638,7 @@ func (ku *Kucoin) processAccountBalanceChange(respData []byte) error {
 	ku.Websocket.DataHandler <- account.Change{
 		Exchange: ku.Name,
 		Currency: currency.NewCode(response.Currency),
-		Asset:    asset.Futures,
+		Asset:    asset.Spot,
 		Amount:   response.Available,
 	}
 	return nil
@@ -662,28 +666,20 @@ func (ku *Kucoin) processOrderChangeEvent(respData []byte, topic string) error {
 	if err != nil {
 		return err
 	}
-	// TODO: should amend this function as we need to know the order asset type when we call it
-	assets, err := ku.CalculateAssets(topic, pair)
-	if err != nil {
-		return err
-	}
-	for x := range assets {
-		ku.Websocket.DataHandler <- &order.Detail{
-			Price:           response.Price,
-			Amount:          response.Size,
-			ExecutedAmount:  response.FilledSize,
-			RemainingAmount: response.RemainSize,
-			Exchange:        ku.Name,
-			OrderID:         response.OrderID,
-			ClientOrderID:   response.ClientOid,
-			Type:            oType,
-			Side:            side,
-			Status:          oStatus,
-			AssetType:       assets[x],
-			Date:            response.OrderTime.Time(),
-			LastUpdated:     response.Timestamp.Time(),
-			Pair:            pair,
-		}
+	ku.Websocket.DataHandler <- &order.Detail{
+		Price:           response.Price,
+		Amount:          response.Size,
+		ExecutedAmount:  response.FilledSize,
+		RemainingAmount: response.RemainSize,
+		Exchange:        ku.Name,
+		OrderID:         response.OrderID,
+		ClientOrderID:   response.ClientOid,
+		Type:            oType,
+		Side:            side,
+		Status:          oStatus,
+		Date:            response.OrderTime.Time(),
+		LastUpdated:     response.Timestamp.Time(),
+		Pair:            pair,
 	}
 	return nil
 }
