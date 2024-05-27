@@ -381,59 +381,6 @@ func (g *Gateio) processOrderbookSnapshot(incoming []byte) error {
 	if err != nil {
 		return err
 	}
-	assetPairEnabled := g.listOfAssetsCurrencyPairEnabledFor(data.CurrencyPair)
-	bases := orderbook.Base{
-		Exchange:        g.Name,
-		Pair:            data.CurrencyPair,
-		Asset:           asset.Spot,
-		LastUpdated:     data.UpdateTimeMs.Time(),
-		LastUpdateID:    data.LastUpdateID,
-		VerifyOrderbook: g.CanVerifyOrderbook,
-	}
-	bases.Asks = make([]orderbook.Tranche, len(data.Asks))
-	for x := range data.Asks {
-		bases.Asks[x].Price, err = strconv.ParseFloat(data.Asks[x][0], 64)
-		if err != nil {
-			return err
-		}
-		bases.Asks[x].Amount, err = strconv.ParseFloat(data.Asks[x][1], 64)
-		if err != nil {
-			return err
-		}
-	}
-	bases.Bids = make([]orderbook.Tranche, len(data.Bids))
-	for x := range data.Bids {
-		bases.Bids[x].Price, err = strconv.ParseFloat(data.Bids[x][0], 64)
-		if err != nil {
-			return err
-		}
-		bases.Bids[x].Amount, err = strconv.ParseFloat(data.Bids[x][1], 64)
-		if err != nil {
-			return err
-		}
-	}
-	if assetPairEnabled[asset.Spot] {
-		err = g.Websocket.Orderbook.LoadSnapshot(&bases)
-		if err != nil {
-			return err
-		}
-	}
-	if assetPairEnabled[asset.Margin] {
-		marginBases := bases
-		marginBases.Asset = asset.Margin
-		err = g.Websocket.Orderbook.LoadSnapshot(&marginBases)
-		if err != nil {
-			return err
-		}
-	}
-	if assetPairEnabled[asset.CrossMargin] {
-		crossMarginBases := bases
-		crossMarginBases.Asset = asset.CrossMargin
-		err = g.Websocket.Orderbook.LoadSnapshot(&crossMarginBases)
-		if err != nil {
-			return err
-		}
-	}
 	return nil
 }
 

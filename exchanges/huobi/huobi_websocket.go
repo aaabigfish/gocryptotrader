@@ -18,7 +18,6 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/account"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
 	"github.com/aaabigfish/gocryptotrader/exchanges/order"
-	"github.com/aaabigfish/gocryptotrader/exchanges/orderbook"
 	"github.com/aaabigfish/gocryptotrader/exchanges/stream"
 	"github.com/aaabigfish/gocryptotrader/exchanges/subscription"
 	"github.com/aaabigfish/gocryptotrader/exchanges/ticker"
@@ -222,7 +221,6 @@ func stringToOrderType(oType string) (order.Type, error) {
 func (h *HUOBI) wsHandleData(respRaw []byte) error {
 	var init WsResponse
 	err := json.Unmarshal(respRaw, &init)
-	fmt.Println("wsHandleData", "init", init)
 	if err != nil {
 		return err
 	}
@@ -471,65 +469,9 @@ func (h *HUOBI) sendPingResponse(pong int64) {
 
 // WsProcessOrderbook processes new orderbook data
 func (h *HUOBI) WsProcessOrderbook(update *WsDepth, symbol string) error {
-	pairs, err := h.GetEnabledPairs(asset.Spot)
-	if err != nil {
-		return err
-	}
-
-	format, err := h.GetPairFormat(asset.Spot, true)
-	if err != nil {
-		return err
-	}
-
-	p, err := currency.NewPairFromFormattedPairs(symbol,
-		pairs,
-		format)
-	if err != nil {
-		return err
-	}
-
-	bids := make(orderbook.Tranches, len(update.Tick.Bids))
-	for i := range update.Tick.Bids {
-		price, ok := update.Tick.Bids[i][0].(float64)
-		if !ok {
-			return errors.New("unable to type assert bid price")
-		}
-		amount, ok := update.Tick.Bids[i][1].(float64)
-		if !ok {
-			return errors.New("unable to type assert bid amount")
-		}
-		bids[i] = orderbook.Tranche{
-			Price:  price,
-			Amount: amount,
-		}
-	}
-
-	asks := make(orderbook.Tranches, len(update.Tick.Asks))
-	for i := range update.Tick.Asks {
-		price, ok := update.Tick.Asks[i][0].(float64)
-		if !ok {
-			return errors.New("unable to type assert ask price")
-		}
-		amount, ok := update.Tick.Asks[i][1].(float64)
-		if !ok {
-			return errors.New("unable to type assert ask amount")
-		}
-		asks[i] = orderbook.Tranche{
-			Price:  price,
-			Amount: amount,
-		}
-	}
-
-	var newOrderBook orderbook.Base
-	newOrderBook.Asks = asks
-	newOrderBook.Bids = bids
-	newOrderBook.Pair = p
-	newOrderBook.Asset = asset.Spot
-	newOrderBook.Exchange = h.Name
-	newOrderBook.VerifyOrderbook = h.CanVerifyOrderbook
-	newOrderBook.LastUpdated = time.UnixMilli(update.Timestamp)
-
-	return h.Websocket.Orderbook.LoadSnapshot(&newOrderBook)
+	update.Symbol = symbol
+	h.Websocket.DataHandler <- update
+	return nil
 }
 
 // GenerateDefaultSubscriptions Adds default subscriptions to websocket to be handled by ManageSubscriptions()
@@ -591,14 +533,14 @@ func (h *HUOBI) GenerateDefaultSubscriptions() ([]subscription.Subscription, err
 func (h *HUOBI) Subscribe(channelsToSubscribe []subscription.Subscription) error {
 	var creds *account.Credentials
 	var err error
-	creds, err = h.GetCredentials(context.TODO())
-	if err != nil {
-		return err
-	}
 	var errs error
 	for i := range channelsToSubscribe {
-		if (strings.Contains(channelsToSubscribe[i].Channel, "orders.") ||
-			strings.Contains(channelsToSubscribe[i].Channel, "accounts")) && creds != nil {
+		if strings.Contains(channelsToSubscribe[i].Channel, "orders.") ||
+			strings.Contains(channelsToSubscribe[i].Channel, "accounts") {
+			creds, err = h.GetCredentials(context.TODO())
+			if err != nil {
+				return err
+			}
 			err := h.wsAuthenticatedSubscribe(creds,
 				"sub",
 				wsAccountsOrdersEndPoint+channelsToSubscribe[i].Channel,

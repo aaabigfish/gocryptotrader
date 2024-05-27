@@ -842,11 +842,12 @@ type WsHeartBeat struct {
 type WsDepth struct {
 	Channel   string `json:"ch"`
 	Timestamp int64  `json:"ts"`
+	Symbol    string `json:"symbol"`
 	Tick      struct {
-		Bids      [][]interface{} `json:"bids"`
-		Asks      [][]interface{} `json:"asks"`
-		Timestamp int64           `json:"ts"`
-		Version   int64           `json:"version"`
+		Bids      [][2]float64 `json:"bids"`
+		Asks      [][2]float64 `json:"asks"`
+		Timestamp int64        `json:"ts"`
+		Version   int64        `json:"version"`
 	} `json:"tick"`
 }
 
