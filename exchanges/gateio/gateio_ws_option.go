@@ -40,7 +40,6 @@ const (
 	optionsContractsChannel              = "options.contracts"
 	optionsContractCandlesticksChannel   = "options.contract_candlesticks"
 	optionsUnderlyingCandlesticksChannel = "options.ul_candlesticks"
-	optionsOrderbookChannel              = "options.order_book"
 	optionsOrderbookTickerChannel        = "options.book_ticker"
 	optionsOrderbookUpdateChannel        = "options.order_book_update"
 	optionsLiquidatesChannel             = "options.liquidates"
@@ -53,6 +52,7 @@ const (
 	optionsOrdersChannel     = "spot.orders"
 	optionsBalancesChannel   = "spot.balances"
 	optionsUserTradesChannel = "spot.usertrades"
+	optionsOrderbookChannel  = "spot.order_book"
 )
 
 var defaultOptionsSubscriptions = []string{
@@ -262,6 +262,7 @@ func (g *Gateio) generateOptionsPayload(event string, channelsToSubscribe []subs
 
 // wsReadOptionsConnData receives and passes on websocket messages for processing
 func (g *Gateio) wsReadOptionsConnData() {
+	println("wsReadOptionsConnData")
 	defer g.Websocket.Wg.Done()
 	for {
 		resp := g.Websocket.Conn.ReadMessage()
@@ -328,7 +329,6 @@ func (g *Gateio) wsHandleOptionsData(respRaw []byte) error {
 		}
 		return nil
 	}
-
 	switch push.Channel {
 	case optionsSpotTickersChannel:
 		return g.processOptionsSpotTickers(push.Result)
@@ -351,7 +351,7 @@ func (g *Gateio) wsHandleOptionsData(respRaw []byte) error {
 		optionsUnderlyingCandlesticksChannel:
 		return g.processOptionsCandlestickPushData(respRaw)
 	case optionsOrderbookChannel:
-		return g.processOptionsOrderbookSnapshotPushData(push.Event, push.Result, push.Time)
+		return g.processOrderbook(push.Result)
 	case optionsOrderbookTickerChannel:
 		return g.processOrderbookTickerPushData(respRaw)
 	case optionsOrderbookUpdateChannel:
@@ -537,6 +537,16 @@ func (g *Gateio) processOptionsCandlestickPushData(data []byte) error {
 
 func (g *Gateio) processOrderbookTickerPushData(incoming []byte) error {
 	var data WsOptionsOrderbookTicker
+	err := json.Unmarshal(incoming, &data)
+	if err != nil {
+		return err
+	}
+	g.Websocket.DataHandler <- &data
+	return nil
+}
+
+func (g *Gateio) processOrderbook(incoming []byte) error {
+	var data WsOrderbookSnapshot
 	err := json.Unmarshal(incoming, &data)
 	if err != nil {
 		return err

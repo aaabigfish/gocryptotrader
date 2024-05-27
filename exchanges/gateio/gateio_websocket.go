@@ -115,14 +115,12 @@ func (g *Gateio) wsHandleData(respRaw []byte) error {
 	if err != nil {
 		return err
 	}
-
 	if push.Event == "subscribe" || push.Event == "unsubscribe" {
 		if !g.Websocket.Match.IncomingWithData(push.ID, respRaw) {
 			return fmt.Errorf("couldn't match subscription message with ID: %d", push.ID)
 		}
 		return nil
 	}
-
 	switch push.Channel { // TODO: Convert function params below to only use push.Result
 	case spotTickerChannel:
 		return g.processTicker(push.Result, push.Time)
