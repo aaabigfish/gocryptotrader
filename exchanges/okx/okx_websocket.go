@@ -10,9 +10,9 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
-	"github.com/gorilla/websocket"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/crypto"
 	"github.com/aaabigfish/gocryptotrader/currency"
@@ -24,6 +24,7 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/ticker"
 	"github.com/aaabigfish/gocryptotrader/exchanges/trade"
 	"github.com/aaabigfish/gocryptotrader/log"
+	"github.com/gorilla/websocket"
 )
 
 var (
@@ -215,12 +216,18 @@ const (
 
 // WsConnect initiates a websocket connection
 func (ok *Okx) WsConnect() error {
-	if !ok.Websocket.IsEnabled() || !ok.IsEnabled() {
-		return stream.ErrWebsocketNotEnabled
-	}
 	var dialer websocket.Dialer
 	dialer.ReadBufferSize = 8192
 	dialer.WriteBufferSize = 8192
+	if ok.Websocket.Wg == nil {
+		ok.Websocket.Wg = &sync.WaitGroup{}
+	}
+	ok.Websocket.SetupNewConnection(stream.ConnectionSetup{
+		URL:                  okxAPIWebsocketPublicURL,
+		ResponseCheckTimeout: time.Second * time.Duration(10),
+		ResponseMaxLimit:     okxWebsocketResponseMaxLimit,
+		RateLimit:            500,
+	})
 
 	err := ok.Websocket.Conn.Dial(&dialer, http.Header{})
 	if err != nil {
@@ -740,7 +747,6 @@ func (ok *Okx) wsProcessOrderbook5(data []byte) error {
 	if err != nil {
 		return err
 	}
-
 	if len(resp.Data) != 1 {
 		return fmt.Errorf("%s - no data returned", ok.Name)
 	}
@@ -809,52 +815,18 @@ func (ok *Okx) wsProcessOrderBooks(data []byte) error {
 		response.Action != wsOrderbookSnapshot {
 		return errors.New("invalid order book action")
 	}
-	var pair currency.Pair
-	var assets []asset.Item
-	assets, err = ok.GetAssetsFromInstrumentTypeOrID(response.Argument.InstrumentType, response.Argument.InstrumentID)
-	if err != nil {
-		return err
-	}
-	pair, err = ok.GetPairFromInstrumentID(response.Argument.InstrumentID)
-	if err != nil {
-		return err
-	}
-	if !pair.IsPopulated() {
-		return errIncompleteCurrencyPair
-	}
-	pair.Delimiter = currency.DashDelimiter
-	for i := range response.Data {
-		if response.Action == wsOrderbookSnapshot {
-			err = ok.WsProcessSnapshotOrderBook(response.Data[i], pair, assets)
-		} else {
-			if len(response.Data[i].Asks) == 0 && len(response.Data[i].Bids) == 0 {
-				return nil
-			}
-			err = ok.WsProcessUpdateOrderbook(response.Data[i], pair, assets)
-		}
-		if err != nil {
-			if errors.Is(err, errInvalidChecksum) {
-				err = ok.Subscribe([]subscription.Subscription{
-					{
-						Channel: response.Argument.Channel,
-						Asset:   assets[0],
-						Pair:    pair,
-					},
-				})
-				if err != nil {
-					ok.Websocket.DataHandler <- err
-				}
-			} else {
-				return err
-			}
-		}
-	}
-	if ok.Verbose {
-		log.Debugf(log.ExchangeSys,
-			"%s passed checksum for pair %v",
-			ok.Name, pair,
-		)
-	}
+	ok.Websocket.DataHandler <- response
+
+	//for i := range response.Data {
+	//	if response.Action == wsOrderbookSnapshot {
+	//		err = ok.WsProcessSnapshotOrderBook(response.Data[i], pair, assets)
+	//	} else {
+	//		if len(response.Data[i].Asks) == 0 && len(response.Data[i].Bids) == 0 {
+	//			return nil
+	//		}
+	//		response.Data[i].Pair = pair.String()
+	//	}
+	//}
 	return nil
 }
 
@@ -1255,11 +1227,6 @@ func (ok *Okx) wsProcessTickers(data []byte) error {
 		return err
 	}
 	for i := range response.Data {
-		var assets []asset.Item
-		assets, err = ok.GetAssetsFromInstrumentTypeOrID(response.Argument.InstrumentType, response.Data[i].InstrumentID)
-		if err != nil {
-			return err
-		}
 		var c currency.Pair
 		c, err = ok.GetPairFromInstrumentID(response.Data[i].InstrumentID)
 		if err != nil {
@@ -1267,32 +1234,26 @@ func (ok *Okx) wsProcessTickers(data []byte) error {
 		}
 		var baseVolume float64
 		var quoteVolume float64
-		if cap(assets) == 2 {
-			baseVolume = response.Data[i].Vol24H.Float64()
-			quoteVolume = response.Data[i].VolCcy24H.Float64()
-		} else {
-			baseVolume = response.Data[i].VolCcy24H.Float64()
-			quoteVolume = response.Data[i].Vol24H.Float64()
+		baseVolume = response.Data[i].Vol24H.Float64()
+		quoteVolume = response.Data[i].VolCcy24H.Float64()
+
+		tickData := &ticker.Price{
+			ExchangeName: ok.Name,
+			Open:         response.Data[i].Open24H.Float64(),
+			Volume:       baseVolume,
+			QuoteVolume:  quoteVolume,
+			High:         response.Data[i].High24H.Float64(),
+			Low:          response.Data[i].Low24H.Float64(),
+			Bid:          response.Data[i].BestBidPrice.Float64(),
+			Ask:          response.Data[i].BestAskPrice.Float64(),
+			BidSize:      response.Data[i].BestBidSize.Float64(),
+			AskSize:      response.Data[i].BestAskSize.Float64(),
+			Last:         response.Data[i].LastTradePrice.Float64(),
+			AssetType:    asset.Spot,
+			Pair:         c,
+			LastUpdated:  response.Data[i].TickerDataGenerationTime.Time(),
 		}
-		for j := range assets {
-			tickData := &ticker.Price{
-				ExchangeName: ok.Name,
-				Open:         response.Data[i].Open24H.Float64(),
-				Volume:       baseVolume,
-				QuoteVolume:  quoteVolume,
-				High:         response.Data[i].High24H.Float64(),
-				Low:          response.Data[i].Low24H.Float64(),
-				Bid:          response.Data[i].BestBidPrice.Float64(),
-				Ask:          response.Data[i].BestAskPrice.Float64(),
-				BidSize:      response.Data[i].BestBidSize.Float64(),
-				AskSize:      response.Data[i].BestAskSize.Float64(),
-				Last:         response.Data[i].LastTradePrice.Float64(),
-				AssetType:    assets[j],
-				Pair:         c,
-				LastUpdated:  response.Data[i].TickerDataGenerationTime.Time(),
-			}
-			ok.Websocket.DataHandler <- tickData
-		}
+		ok.Websocket.DataHandler <- tickData
 	}
 	return nil
 }
