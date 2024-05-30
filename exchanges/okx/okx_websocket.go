@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"hash/crc32"
 	"net/http"
+	"slices"
 	"strconv"
 	"strings"
 	"sync"
@@ -233,6 +234,7 @@ func (ok *Okx) WsConnect() error {
 	if err != nil {
 		return err
 	}
+	orderBookDataMap = make(map[string]*WsOrderBookDataV2)
 	ok.Websocket.Wg.Add(1)
 	go ok.wsReadData(ok.Websocket.Conn)
 	if ok.Verbose {
@@ -803,6 +805,8 @@ func (ok *Okx) wsProcessOrderbook5(data []byte) error {
 	return nil
 }
 
+var orderBookDataMap map[string]*WsOrderBookDataV2
+
 // wsProcessOrderBooks processes "snapshot" and "update" order book
 func (ok *Okx) wsProcessOrderBooks(data []byte) error {
 	var response WsOrderBook
@@ -815,18 +819,80 @@ func (ok *Okx) wsProcessOrderBooks(data []byte) error {
 		response.Action != wsOrderbookSnapshot {
 		return errors.New("invalid order book action")
 	}
-	ok.Websocket.DataHandler <- response
+	pair, err := currency.NewPairFromString(response.Argument.InstrumentID)
+	if err != nil {
+		return err
+	}
+	pairName := pair.String()
+	orderBookData, _has := orderBookDataMap[pairName]
+	if response.Action == wsOrderbookSnapshot {
+		if !_has {
+			orderBookData = new(WsOrderBookDataV2)
+			orderBookData.Pair = pairName
+			orderBookDataMap[pairName] = orderBookData
+		}
+		for _, _data := range response.Data {
+			newAsks, _ := ok.AppendWsOrderbookItems(_data.Asks)
+			for _, newAsk := range newAsks {
+				orderBookData.Asks = append(orderBookData.Asks, [2]float64{newAsk.Price, newAsk.Amount})
+			}
+			newBids, _ := ok.AppendWsOrderbookItems(_data.Bids)
+			for _, newBid := range newBids {
+				orderBookData.Bids = append(orderBookData.Bids, [2]float64{newBid.Price, newBid.Amount})
+			}
+			orderBookData.Timestamp = int64(_data.Timestamp)
+		}
+	} else {
+		for _, _data := range response.Data {
+			newAsks, _ := ok.AppendWsOrderbookItems(_data.Asks)
+			for _, newAsk := range newAsks {
+				// update or add
+				update := false
+				for _, ask := range orderBookData.Asks {
+					if ask[0] == newAsk.Price {
+						ask[1] = newAsk.Amount
+						update = true
+						break
+					}
+				}
+				if !update { //add
+					orderBookData.Asks = append(orderBookData.Asks, [2]float64{newAsk.Price, newAsk.Amount})
+					slices.SortFunc(orderBookData.Asks, func(a, b [2]float64) int {
+						if a[0] < b[0] {
+							return 1
+						} else {
+							return 0
+						}
+					})
+				}
+			}
 
-	//for i := range response.Data {
-	//	if response.Action == wsOrderbookSnapshot {
-	//		err = ok.WsProcessSnapshotOrderBook(response.Data[i], pair, assets)
-	//	} else {
-	//		if len(response.Data[i].Asks) == 0 && len(response.Data[i].Bids) == 0 {
-	//			return nil
-	//		}
-	//		response.Data[i].Pair = pair.String()
-	//	}
-	//}
+			newBids, _ := ok.AppendWsOrderbookItems(_data.Bids)
+			for _, newBid := range newBids {
+				// update or add
+				update := false
+				for _, bid := range orderBookData.Bids {
+					if bid[0] == newBid.Price {
+						bid[1] = newBid.Amount
+						update = true
+						break
+					}
+				}
+				if !update { //add
+					orderBookData.Bids = append(orderBookData.Bids, [2]float64{newBid.Price, newBid.Amount})
+					slices.SortFunc(orderBookData.Bids, func(a, b [2]float64) int {
+						if a[0] < b[0] {
+							return 1
+						} else {
+							return 0
+						}
+					})
+				}
+			}
+			orderBookData.Timestamp = int64(_data.Timestamp)
+		}
+	}
+	ok.Websocket.DataHandler <- orderBookData
 	return nil
 }
 

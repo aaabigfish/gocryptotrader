@@ -2894,6 +2894,13 @@ type WsOrderBookData struct {
 	Pair      string           `json:"pair"`
 }
 
+type WsOrderBookDataV2 struct {
+	Asks      [][2]float64 `json:"asks"`
+	Bids      [][2]float64 `json:"bids"`
+	Timestamp int64        `json:"timestamp"`
+	Pair      string       `json:"pair"`
+}
+
 // WsOptionSummary represents option summary
 type WsOptionSummary struct {
 	Argument SubscriptionInfo           `json:"arg"`
