@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/gofrs/uuid"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -490,7 +491,6 @@ func (ku *Kucoin) UpdateAccountInfo(ctx context.Context, assetType asset.Item) (
 		if err != nil {
 			return account.Holdings{}, err
 		}
-		println("accountH################", "accountH.len", len(accountH))
 		for x := range accountH {
 			holding.Accounts = append(holding.Accounts, account.SubAccount{
 				AssetType: assetType,
@@ -1006,13 +1006,14 @@ func (ku *Kucoin) GetOrderInfo(ctx context.Context, orderID string, pair currenc
 		if !pair.IsEmpty() && !nPair.Equal(pair) {
 			return nil, fmt.Errorf("order with id %s and currency Pair %v does not exist", orderID, pair)
 		}
+		_fee, _ := strconv.ParseFloat(orderDetail.Fee, 64)
 		return &order.Detail{
 			Exchange:        ku.Name,
 			OrderID:         orderDetail.ID,
 			Pair:            pair,
 			Type:            oType,
 			Side:            side,
-			Fee:             orderDetail.Fee,
+			Fee:             _fee,
 			AssetType:       assetType,
 			ExecutedAmount:  orderDetail.DealSize,
 			RemainingAmount: orderDetail.Size - orderDetail.DealSize,
@@ -1326,7 +1327,8 @@ func (ku *Kucoin) GetOrderHistory(ctx context.Context, getOrdersRequest *order.M
 			}
 		} else {
 			for x := range getOrdersRequest.Pairs {
-				newOrders, err = ku.ListOrders(ctx, "", getOrdersRequest.Pairs[x].String(), sideString, getOrdersRequest.Type.Lower(), "", getOrdersRequest.StartTime, getOrdersRequest.EndTime)
+				_pair, _ := currency.NewPairFromString(getOrdersRequest.Pairs[x].Base.String() + "-" + getOrdersRequest.Pairs[x].Quote.String())
+				newOrders, err = ku.ListOrders(ctx, "", _pair.String(), sideString, getOrdersRequest.Type.Lower(), "", getOrdersRequest.StartTime, getOrdersRequest.EndTime)
 				if err != nil {
 					return nil, fmt.Errorf("%w while fetching for symbol %s", err, getOrdersRequest.Pairs[x].String())
 				}
@@ -1353,6 +1355,8 @@ func (ku *Kucoin) GetOrderHistory(ctx context.Context, getOrdersRequest *order.M
 			if err != nil {
 				log.Errorf(log.ExchangeSys, "%s %v", ku.Name, err)
 			}
+			_fee, _ := strconv.ParseFloat(responseOrders.Items[i].Fee, 64)
+
 			orders[i] = order.Detail{
 				Price:           responseOrders.Items[i].Price,
 				Amount:          responseOrders.Items[i].Size,
@@ -1365,6 +1369,7 @@ func (ku *Kucoin) GetOrderHistory(ctx context.Context, getOrdersRequest *order.M
 				Status:          orderStatus,
 				Type:            oType,
 				Pair:            pair,
+				Fee:             _fee,
 			}
 			orders[i].InferCostsAndTimes()
 		}

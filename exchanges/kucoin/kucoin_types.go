@@ -525,7 +525,7 @@ type OrderDetail struct {
 	Funds         string               `json:"funds"`
 	DealFunds     string               `json:"dealFunds"`
 	DealSize      float64              `json:"dealSize,string"`
-	Fee           float64              `json:"fee,string"`
+	Fee           string               `json:"fee"`
 	FeeCurrency   string               `json:"feeCurrency"`
 	StopTriggered bool                 `json:"stopTriggered"`
 	Tags          string               `json:"tags"`
