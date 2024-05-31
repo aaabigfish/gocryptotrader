@@ -824,13 +824,11 @@ func (ok *Okx) wsProcessOrderBooks(data []byte) error {
 		return err
 	}
 	pairName := pair.String()
-	orderBookData, _has := orderBookDataMap[pairName]
+	orderBookData, _ := orderBookDataMap[pairName]
 	if response.Action == wsOrderbookSnapshot {
-		if !_has {
-			orderBookData = new(WsOrderBookDataV2)
-			orderBookData.Pair = pairName
-			orderBookDataMap[pairName] = orderBookData
-		}
+		orderBookData = new(WsOrderBookDataV2)
+		orderBookData.Pair = pairName
+		orderBookDataMap[pairName] = orderBookData
 		for _, _data := range response.Data {
 			newAsks, _ := ok.AppendWsOrderbookItems(_data.Asks)
 			for _, newAsk := range newAsks {
@@ -861,7 +859,7 @@ func (ok *Okx) wsProcessOrderBooks(data []byte) error {
 						if a[0] < b[0] {
 							return 1
 						} else {
-							return 0
+							return -1
 						}
 					})
 				}
@@ -884,7 +882,7 @@ func (ok *Okx) wsProcessOrderBooks(data []byte) error {
 						if a[0] < b[0] {
 							return 1
 						} else {
-							return 0
+							return -1
 						}
 					})
 				}
