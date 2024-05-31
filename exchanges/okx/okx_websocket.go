@@ -857,9 +857,9 @@ func (ok *Okx) wsProcessOrderBooks(data []byte) error {
 					orderBookData.Asks = append(orderBookData.Asks, [2]float64{newAsk.Price, newAsk.Amount})
 					slices.SortFunc(orderBookData.Asks, func(a, b [2]float64) int {
 						if a[0] < b[0] {
-							return 1
-						} else {
 							return -1
+						} else {
+							return 1
 						}
 					})
 				}
