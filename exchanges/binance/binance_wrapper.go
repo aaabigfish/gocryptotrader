@@ -881,7 +881,17 @@ func (b *Binance) GetHistoricTrades(ctx context.Context, p currency.Pair, a asse
 }
 
 func (b *Binance) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
-	return nil, fmt.Errorf("%s SubmitOrders not support", b.Name)
+	var res []*order.SubmitResponse
+	var errStr string
+	for i := range ss {
+		submitOrder, _err := b.SubmitOrder(ctx, ss[i])
+		if _err != nil {
+			errStr += _err.Error() + "\n"
+		} else {
+			res = append(res, submitOrder)
+		}
+	}
+	return res, errors.New(errStr)
 }
 
 // SubmitOrder submits a new order
@@ -1096,8 +1106,18 @@ func (b *Binance) CancelOrder(ctx context.Context, o *order.Cancel) error {
 }
 
 // CancelBatchOrders cancels an orders by their corresponding ID numbers
-func (b *Binance) CancelBatchOrders(_ context.Context, _ []order.Cancel) (*order.CancelBatchResponse, error) {
-	return nil, common.ErrFunctionNotSupported
+func (b *Binance) CancelBatchOrders(ctx context.Context, os []order.Cancel) (*order.CancelBatchResponse, error) {
+	var res = new(order.CancelBatchResponse)
+	res.Status = make(map[string]string)
+	var err error
+	for i := range os {
+		if _err := b.CancelOrder(ctx, &os[i]); _err != nil {
+			err = _err
+		} else {
+			res.Status[os[i].OrderID] = "ok"
+		}
+	}
+	return res, err
 }
 
 // CancelAllOrders cancels all orders associated with a currency pair
@@ -2428,9 +2448,9 @@ func (b *Binance) GetFuturesPositionSummary(ctx context.Context, req *futures.Po
 		}
 		var accountPosition *UPosition
 		var leverage, maintenanceMargin, initialMargin,
-		liquidationPrice, markPrice, positionSize,
-		collateralTotal, collateralUsed, collateralAvailable,
-		unrealisedPNL, openPrice, isolatedMargin float64
+			liquidationPrice, markPrice, positionSize,
+			collateralTotal, collateralUsed, collateralAvailable,
+			unrealisedPNL, openPrice, isolatedMargin float64
 
 		for i := range ai.Positions {
 			if ai.Positions[i].Symbol != fPair.String() {
@@ -2560,9 +2580,9 @@ func (b *Binance) GetFuturesPositionSummary(ctx context.Context, req *futures.Po
 		}
 		collateralMode := collateral.SingleMode
 		var leverage, maintenanceMargin, initialMargin,
-		liquidationPrice, markPrice, positionSize,
-		collateralTotal, collateralUsed, collateralAvailable,
-		pnl, openPrice, isolatedMargin float64
+			liquidationPrice, markPrice, positionSize,
+			collateralTotal, collateralUsed, collateralAvailable,
+			pnl, openPrice, isolatedMargin float64
 
 		var accountPosition *FuturesAccountInformationPosition
 		fps := fPair.String()
