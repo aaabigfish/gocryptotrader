@@ -26,7 +26,7 @@ const (
 	UnsubscribingState              // UnsubscribingState means the channel has started to unsubscribe, but not yet confirmed
 
 	TickerChannel    = "ticker"    // TickerChannel Subscription Type
-	OrderbookChannel = "orderbook" // OrderbookChannel Subscription Type
+	OrderbookChannel = "orderbook" // Subscription Type
 	CandlesChannel   = "candles"   // CandlesChannel Subscription Type
 	AllOrdersChannel = "allOrders" // AllOrdersChannel Subscription Type
 	AllTradesChannel = "allTrades" // AllTradesChannel Subscription Type

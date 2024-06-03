@@ -8,10 +8,9 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
-	"github.com/buger/jsonparser"
-	"github.com/gorilla/websocket"
 	"github.com/aaabigfish/gocryptotrader/currency"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
 	"github.com/aaabigfish/gocryptotrader/exchanges/order"
@@ -21,10 +20,12 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/ticker"
 	"github.com/aaabigfish/gocryptotrader/exchanges/trade"
 	"github.com/aaabigfish/gocryptotrader/log"
+	"github.com/buger/jsonparser"
+	"github.com/gorilla/websocket"
 )
 
 const (
-	binanceDefaultWebsocketURL = "wss://stream.binance.com:9443/stream"
+	binanceDefaultWebsocketURL = "wss://stream.binance.com/stream"
 	pingDelay                  = time.Minute * 9
 
 	wsSubscribeMethod         = "SUBSCRIBE"
@@ -49,12 +50,9 @@ var (
 
 // WsConnect initiates a websocket connection
 func (b *Binance) WsConnect() error {
-	if !b.Websocket.IsEnabled() || !b.IsEnabled() {
-		return stream.ErrWebsocketNotEnabled
-	}
 
 	var dialer websocket.Dialer
-	dialer.HandshakeTimeout = b.Config.HTTPTimeout
+	dialer.HandshakeTimeout = time.Second * 5
 	dialer.Proxy = http.ProxyFromEnvironment
 	var err error
 	if b.Websocket.CanUseAuthenticatedEndpoints() {
@@ -75,6 +73,16 @@ func (b *Binance) WsConnect() error {
 			}
 		}
 	}
+
+	if b.Websocket.Wg == nil {
+		b.Websocket.Wg = &sync.WaitGroup{}
+	}
+	b.Websocket.SetupNewConnection(stream.ConnectionSetup{
+		URL:                  binanceDefaultWebsocketURL,
+		RateLimit:            1000,
+		ResponseCheckTimeout: time.Second * time.Duration(10),
+		ResponseMaxLimit:     time.Second * time.Duration(10),
+	})
 
 	err = b.Websocket.Conn.Dial(&dialer, http.Header{})
 	if err != nil {
@@ -305,21 +313,13 @@ func (b *Binance) wsHandleData(respRaw []byte) error {
 		return fmt.Errorf("%s %s %s", b.Name, stream.UnhandledMessage, string(respRaw))
 	}
 	var (
-		pair      currency.Pair
-		isEnabled bool
-		symbol    string
+		pair   currency.Pair
+		symbol string
 	)
 	symbol, err = jsonparser.GetUnsafeString(jsonData, "s")
 	if err != nil {
 		// there should be a symbol returned for all data types below
 		return err
-	}
-	pair, isEnabled, err = b.MatchSymbolCheckEnabled(symbol, asset.Spot, false)
-	if err != nil {
-		return err
-	}
-	if !isEnabled {
-		return nil
 	}
 	switch streamType[1] {
 	case "trade":
@@ -402,16 +402,8 @@ func (b *Binance) wsHandleData(respRaw []byte) error {
 				b.Name,
 				err)
 		}
-		var init bool
-		init, err = b.UpdateLocalBuffer(&depth)
-		if err != nil {
-			if init {
-				return nil
-			}
-			return fmt.Errorf("%v - UpdateLocalCache error: %s",
-				b.Name,
-				err)
-		}
+		depth.Symbol = symbol
+		b.Websocket.DataHandler <- &depth
 		return nil
 	default:
 		return fmt.Errorf("%s %s %s", b.Name, stream.UnhandledMessage, string(respRaw))

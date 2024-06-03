@@ -4,10 +4,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/shopspring/decimal"
 	"github.com/aaabigfish/gocryptotrader/currency"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
 	"github.com/aaabigfish/gocryptotrader/types"
+	"github.com/shopspring/decimal"
 )
 
 const wsRateLimitMilliseconds = 250
@@ -171,6 +171,7 @@ type WebsocketDepthStream struct {
 	LastUpdateID  int64             `json:"u"`
 	UpdateBids    [][2]types.Number `json:"b"`
 	UpdateAsks    [][2]types.Number `json:"a"`
+	Symbol        string            `json:"symbol"`
 }
 
 // RecentTradeRequestParams represents Klines request data.
