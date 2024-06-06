@@ -65,13 +65,6 @@ var fetchedOptionsCurrencyPairSnapshotOrderbook = make(map[string]bool)
 
 // WsOptionsConnect initiates a websocket connection to options websocket endpoints.
 func (g *Gateio) WsOptionsConnect() error {
-	//if !g.Websocket.IsEnabled() || !g.IsEnabled() {
-	//	return stream.ErrWebsocketNotEnabled
-	//}
-	//err := g.CurrencyPairs.IsAssetEnabled(asset.Options)
-	//if err != nil {
-	//	return err
-	//}
 	var dialer websocket.Dialer
 	err := g.Websocket.SetWebsocketURL(optionsWebsocketURL, false, true)
 	if err != nil {
@@ -262,7 +255,6 @@ func (g *Gateio) generateOptionsPayload(event string, channelsToSubscribe []subs
 
 // wsReadOptionsConnData receives and passes on websocket messages for processing
 func (g *Gateio) wsReadOptionsConnData() {
-	println("wsReadOptionsConnData")
 	defer g.Websocket.Wg.Done()
 	for {
 		resp := g.Websocket.Conn.ReadMessage()

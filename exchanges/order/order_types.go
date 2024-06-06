@@ -47,6 +47,7 @@ type Submit struct {
 	// Time in force values ------ TODO: Time In Force uint8
 	ImmediateOrCancel bool
 	FillOrKill        bool
+	Ioc               bool
 
 	PostOnly bool
 	// ReduceOnly reduces a position instead of opening an opposing

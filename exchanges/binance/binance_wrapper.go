@@ -1114,7 +1114,7 @@ func (b *Binance) CancelBatchOrders(ctx context.Context, os []order.Cancel) (*or
 		if _err := b.CancelOrder(ctx, &os[i]); _err != nil {
 			err = _err
 		} else {
-			res.Status[os[i].OrderID] = "ok"
+			res.Status[os[i].OrderID] = "success"
 		}
 	}
 	return res, err

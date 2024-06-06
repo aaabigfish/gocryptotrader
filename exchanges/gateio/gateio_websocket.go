@@ -8,7 +8,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"net/http"
 	"strconv"
 	"strings"
 	"time"
@@ -25,7 +24,6 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/subscription"
 	"github.com/aaabigfish/gocryptotrader/exchanges/ticker"
 	"github.com/aaabigfish/gocryptotrader/exchanges/trade"
-	"github.com/gorilla/websocket"
 )
 
 const (
@@ -59,30 +57,44 @@ var fetchedCurrencyPairSnapshotOrderbook = make(map[string]bool)
 
 // WsConnect initiates a websocket connection
 func (g *Gateio) WsConnect() error {
-	//if !g.Websocket.IsEnabled() || !g.IsEnabled() {
-	//	return stream.ErrWebsocketNotEnabled
-	//}
-	//err := g.CurrencyPairs.IsAssetEnabled(asset.Spot)
-	//if err != nil {
-	//	return err
-	//}
-	err := g.Websocket.Conn.Dial(&websocket.Dialer{}, http.Header{})
-	if err != nil {
-		return err
+	return g.WsOptionsConnect()
+}
+
+//func (g *Gateio) WsConnect() error {
+//	err := g.Websocket.Conn.Dial(&websocket.Dialer{}, http.Header{})
+//	if err != nil {
+//		return err
+//	}
+//	pingMessage, err := json.Marshal(WsInput{Channel: spotPingChannel})
+//	if err != nil {
+//		return err
+//	}
+//	g.Websocket.Conn.SetupPingHandler(stream.PingHandler{
+//		Websocket:   true,
+//		Delay:       time.Second * 15,
+//		Message:     pingMessage,
+//		MessageType: websocket.TextMessage,
+//	})
+//	g.Websocket.Wg.Add(1)
+//	go g.wsReadConnData()
+//	return nil
+//}
+
+func (g *Gateio) SubscriptionUserOrder(pairs currency.Pairs) error {
+	var subscriptions []subscription.Subscription
+	for j := range pairs {
+		params := make(map[string]interface{})
+		fpair, err := g.FormatExchangeCurrency(pairs[j], asset.Options)
+		if err != nil {
+			return nil
+		}
+		subscriptions = append(subscriptions, subscription.Subscription{
+			Channel: optionsOrdersChannel,
+			Pair:    fpair.Upper(),
+			Params:  params,
+		})
 	}
-	pingMessage, err := json.Marshal(WsInput{Channel: spotPingChannel})
-	if err != nil {
-		return err
-	}
-	g.Websocket.Conn.SetupPingHandler(stream.PingHandler{
-		Websocket:   true,
-		Delay:       time.Second * 15,
-		Message:     pingMessage,
-		MessageType: websocket.TextMessage,
-	})
-	g.Websocket.Wg.Add(1)
-	go g.wsReadConnData()
-	return nil
+	return g.OptionsSubscribe(subscriptions)
 }
 
 func (g *Gateio) generateWsSignature(secret, event, channel string, dtime time.Time) (string, error) {
