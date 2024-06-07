@@ -441,9 +441,6 @@ func (ok *Okx) UpdateOrderbook(ctx context.Context, pair currency.Pair, assetTyp
 	if pair.IsEmpty() {
 		return nil, currency.ErrCurrencyPairEmpty
 	}
-	if err := ok.CurrencyPairs.IsAssetEnabled(assetType); err != nil {
-		return nil, err
-	}
 	book := &orderbook.Base{
 		Exchange:        ok.Name,
 		Pair:            pair,
@@ -452,10 +449,6 @@ func (ok *Okx) UpdateOrderbook(ctx context.Context, pair currency.Pair, assetTyp
 	}
 	var orderbookNew *OrderBookResponse
 	var err error
-	err = ok.CurrencyPairs.IsAssetEnabled(assetType)
-	if err != nil {
-		return nil, err
-	}
 	var instrumentID string
 	pairFormat, err := ok.GetPairFormat(assetType, true)
 	if err != nil {
