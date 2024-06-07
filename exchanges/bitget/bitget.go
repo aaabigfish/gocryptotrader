@@ -390,12 +390,13 @@ func (b *Bitget) GetOrderHistory(_ context.Context, req *order.MultiOrderRequest
 	var res order.FilteredOrders
 	for _, fill := range fills {
 		od := order.Detail{
+			Exchange:             b.Name,
 			Pair:                 req.Pairs[0],
 			AccountID:            fill.UserId,
 			Price:                stf(fill.PriceAvg),
 			Amount:               stf(fill.Size),
 			OrderID:              fill.OrderId,
-			Fee:                  stf(fill.FeeDetail.TotalFee),
+			Fee:                  -stf(fill.FeeDetail.TotalFee),
 			AverageExecutedPrice: stf(fill.PriceAvg),
 		}
 		od.Side, _ = order.StringToOrderSide(fill.Side)
