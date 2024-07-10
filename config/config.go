@@ -17,7 +17,6 @@ import (
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/convert"
 	"github.com/aaabigfish/gocryptotrader/common/file"
-	"github.com/aaabigfish/gocryptotrader/communications/base"
 	"github.com/aaabigfish/gocryptotrader/currency"
 	"github.com/aaabigfish/gocryptotrader/currency/forexprovider"
 	"github.com/aaabigfish/gocryptotrader/database"
@@ -174,22 +173,6 @@ func (c *Config) PurgeExchangeAPICredentials() {
 	}
 }
 
-// GetCommunicationsConfig returns the communications configuration
-func (c *Config) GetCommunicationsConfig() base.CommunicationsConfig {
-	m.Lock()
-	comms := c.Communications
-	m.Unlock()
-	return comms
-}
-
-// UpdateCommunicationsConfig sets a new updated version of a Communications
-// configuration
-func (c *Config) UpdateCommunicationsConfig(config *base.CommunicationsConfig) {
-	m.Lock()
-	c.Communications = *config
-	m.Unlock()
-}
-
 // GetCryptocurrencyProviderConfig returns the communications configuration
 func (c *Config) GetCryptocurrencyProviderConfig() currency.Provider {
 	m.Lock()
@@ -210,140 +193,6 @@ func (c *Config) UpdateCryptocurrencyProviderConfig(config currency.Provider) {
 func (c *Config) CheckCommunicationsConfig() {
 	m.Lock()
 	defer m.Unlock()
-
-	// If the communications config hasn't been populated, populate
-	// with example settings
-
-	if c.Communications.SlackConfig.Name == "" {
-		c.Communications.SlackConfig = base.SlackConfig{
-			Name:              "Slack",
-			TargetChannel:     "general",
-			VerificationToken: "testtest",
-		}
-	}
-
-	if c.Communications.SMSGlobalConfig.Name == "" {
-		if c.SMS != nil {
-			if c.SMS.Contacts != nil {
-				c.Communications.SMSGlobalConfig = base.SMSGlobalConfig{
-					Name:     "SMSGlobal",
-					Enabled:  c.SMS.Enabled,
-					Verbose:  c.SMS.Verbose,
-					Username: c.SMS.Username,
-					Password: c.SMS.Password,
-					Contacts: c.SMS.Contacts,
-				}
-				// flush old SMS config
-				c.SMS = nil
-			} else {
-				c.Communications.SMSGlobalConfig = base.SMSGlobalConfig{
-					Name:     "SMSGlobal",
-					From:     c.Name,
-					Username: "main",
-					Password: "test",
-
-					Contacts: []base.SMSContact{
-						{
-							Name:    "bob",
-							Number:  "1234",
-							Enabled: false,
-						},
-					},
-				}
-			}
-		} else {
-			c.Communications.SMSGlobalConfig = base.SMSGlobalConfig{
-				Name:     "SMSGlobal",
-				Username: "main",
-				Password: "test",
-
-				Contacts: []base.SMSContact{
-					{
-						Name:    "bob",
-						Number:  "1234",
-						Enabled: false,
-					},
-				},
-			}
-		}
-	} else {
-		if c.Communications.SMSGlobalConfig.From == "" {
-			c.Communications.SMSGlobalConfig.From = c.Name
-		}
-
-		if len(c.Communications.SMSGlobalConfig.From) > 11 {
-			log.Warnf(log.ConfigMgr, "SMSGlobal config supplied from name exceeds 11 characters, trimming.\n")
-			c.Communications.SMSGlobalConfig.From = c.Communications.SMSGlobalConfig.From[:11]
-		}
-
-		if c.SMS != nil {
-			// flush old SMS config
-			c.SMS = nil
-		}
-	}
-
-	if c.Communications.SMTPConfig.Name == "" {
-		c.Communications.SMTPConfig = base.SMTPConfig{
-			Name:            "SMTP",
-			Host:            "smtp.google.com",
-			Port:            "537",
-			AccountName:     "some",
-			AccountPassword: "password",
-			RecipientList:   "lol123@gmail.com",
-		}
-	}
-
-	if c.Communications.TelegramConfig.Name == "" {
-		c.Communications.TelegramConfig = base.TelegramConfig{
-			Name:              "Telegram",
-			VerificationToken: "testest",
-		}
-	}
-
-	if c.Communications.TelegramConfig.AuthorisedClients == nil {
-		c.Communications.TelegramConfig.AuthorisedClients = map[string]int64{"user_example": 0}
-	}
-
-	if c.Communications.SlackConfig.Name != "Slack" ||
-		c.Communications.SMSGlobalConfig.Name != "SMSGlobal" ||
-		c.Communications.SMTPConfig.Name != "SMTP" ||
-		c.Communications.TelegramConfig.Name != "Telegram" {
-		log.Warnln(log.ConfigMgr, "Communications config name/s not set correctly")
-	}
-	if c.Communications.SlackConfig.Enabled {
-		if c.Communications.SlackConfig.TargetChannel == "" ||
-			c.Communications.SlackConfig.VerificationToken == "" ||
-			c.Communications.SlackConfig.VerificationToken == "testtest" {
-			c.Communications.SlackConfig.Enabled = false
-			log.Warnln(log.ConfigMgr, "Slack enabled in config but variable data not set, disabling.")
-		}
-	}
-	if c.Communications.SMSGlobalConfig.Enabled {
-		if c.Communications.SMSGlobalConfig.Username == "" ||
-			c.Communications.SMSGlobalConfig.Password == "" ||
-			len(c.Communications.SMSGlobalConfig.Contacts) == 0 {
-			c.Communications.SMSGlobalConfig.Enabled = false
-			log.Warnln(log.ConfigMgr, "SMSGlobal enabled in config but variable data not set, disabling.")
-		}
-	}
-	if c.Communications.SMTPConfig.Enabled {
-		if c.Communications.SMTPConfig.Host == "" ||
-			c.Communications.SMTPConfig.Port == "" ||
-			c.Communications.SMTPConfig.AccountName == "" ||
-			c.Communications.SMTPConfig.AccountPassword == "" {
-			c.Communications.SMTPConfig.Enabled = false
-			log.Warnln(log.ConfigMgr, "SMTP enabled in config but variable data not set, disabling.")
-		}
-	}
-	if c.Communications.TelegramConfig.Enabled {
-		if _, ok := c.Communications.TelegramConfig.AuthorisedClients["user_example"]; ok ||
-			len(c.Communications.TelegramConfig.AuthorisedClients) == 0 ||
-			c.Communications.TelegramConfig.VerificationToken == "" ||
-			c.Communications.TelegramConfig.VerificationToken == "testest" {
-			c.Communications.TelegramConfig.Enabled = false
-			log.Warnln(log.ConfigMgr, "Telegram enabled in config but variable data not set, disabling.")
-		}
-	}
 }
 
 // GetExchangeAssetTypes returns the exchanges supported asset types
