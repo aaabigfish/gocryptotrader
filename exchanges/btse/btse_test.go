@@ -21,7 +21,6 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/sharedtestvalues"
 	"github.com/aaabigfish/gocryptotrader/exchanges/stream"
 	"github.com/aaabigfish/gocryptotrader/exchanges/ticker"
-	testexch "github.com/aaabigfish/gocryptotrader/internal/testing/exchange"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -61,7 +60,7 @@ func TestMain(m *testing.M) {
 
 func TestUpdateTradablePairs(t *testing.T) {
 	t.Parallel()
-	testexch.UpdatePairsOnce(t, b)
+
 	expected := map[asset.Item][]string{
 		asset.Spot:    {"BTCUSD", "BTCUSDT", "ETHBTC"},
 		asset.Futures: {"BTCPFC", "ETHPFC"},
@@ -601,7 +600,7 @@ func seedOrderSizeLimitMap() {
 
 func TestWithinLimits(t *testing.T) {
 	t.Parallel()
-	testexch.UpdatePairsOnce(t, b)
+
 	seedOrderSizeLimitMap()
 	p, _ := currency.NewPairDelimiter("XRP-USD", "-")
 	assert.NoError(t, b.withinLimits(p, 1.0), "withinLimits should not error")
@@ -718,7 +717,7 @@ func TestIsPerpetualFutureCurrency(t *testing.T) {
 
 func TestGetOpenInterest(t *testing.T) {
 	t.Parallel()
-	testexch.UpdatePairsOnce(t, b)
+
 	cp1 := currency.NewPair(currency.BTC, currency.PFC)
 	cp2 := currency.NewPair(currency.ETH, currency.PFC)
 	sharedtestvalues.SetupCurrencyPairsForExchangeAsset(t, b, asset.Futures, futuresPair, cp1, cp2)
@@ -759,7 +758,7 @@ func TestGetOpenInterest(t *testing.T) {
 
 func TestGetCurrencyTradeURL(t *testing.T) {
 	t.Parallel()
-	testexch.UpdatePairsOnce(t, b)
+
 	for _, a := range b.GetAssetTypes(false) {
 		pairs, err := b.CurrencyPairs.GetPairs(a, false)
 		require.NoError(t, err, "cannot get pairs for %s", a)

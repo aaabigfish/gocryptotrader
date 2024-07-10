@@ -15,7 +15,6 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
 	"github.com/aaabigfish/gocryptotrader/exchanges/order"
 	"github.com/aaabigfish/gocryptotrader/exchanges/sharedtestvalues"
-	testexch "github.com/aaabigfish/gocryptotrader/internal/testing/exchange"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -158,7 +157,7 @@ func TestCheckFXString(t *testing.T) {
 
 func TestFetchTicker(t *testing.T) {
 	t.Parallel()
-	testexch.UpdatePairsOnce(t, b)
+
 	currencies, err := b.GetAvailablePairs(asset.Spot)
 	if err != nil {
 		t.Fatal(err)
@@ -449,12 +448,12 @@ func TestGetHistoricTrades(t *testing.T) {
 
 func TestUpdateTradablePairs(t *testing.T) {
 	t.Parallel()
-	testexch.UpdatePairsOnce(t, b)
+
 }
 
 func TestGetCurrencyTradeURL(t *testing.T) {
 	t.Parallel()
-	testexch.UpdatePairsOnce(t, b)
+
 	err := b.CurrencyPairs.SetAssetEnabled(asset.Futures, true)
 	require.NoError(t, err)
 	for _, a := range b.GetAssetTypes(false) {

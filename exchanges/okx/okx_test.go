@@ -26,7 +26,6 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/order"
 	"github.com/aaabigfish/gocryptotrader/exchanges/orderbook"
 	"github.com/aaabigfish/gocryptotrader/exchanges/sharedtestvalues"
-	testexch "github.com/aaabigfish/gocryptotrader/internal/testing/exchange"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -207,8 +206,6 @@ func TestGetBlockTrade(t *testing.T) {
 		assert.Contains(t, []order.Side{order.Buy, order.Sell}, trade.Side, "Side should be a side")
 		assert.WithinRange(t, trade.Timestamp.Time(), time.Now().Add(time.Hour*-24*7), time.Now(), "Timestamp should be within last 7 days")
 	}
-
-	testexch.UpdatePairsOnce(t, ok)
 
 	pairs, err := ok.GetAvailablePairs(asset.Options)
 	assert.NoError(t, err, "GetAvailablePairs should not error")
@@ -1921,7 +1918,7 @@ func TestFetchTradablePairs(t *testing.T) {
 
 func TestUpdateTradablePairs(t *testing.T) {
 	t.Parallel()
-	testexch.UpdatePairsOnce(t, ok)
+
 }
 
 func TestUpdateOrderExecutionLimits(t *testing.T) {
@@ -3770,7 +3767,7 @@ func TestGetOpenInterest(t *testing.T) {
 
 func TestGetCurrencyTradeURL(t *testing.T) {
 	t.Parallel()
-	testexch.UpdatePairsOnce(t, ok)
+
 	for _, a := range ok.GetAssetTypes(false) {
 		pairs, err := ok.CurrencyPairs.GetPairs(a, false)
 		require.NoError(t, err, "cannot get pairs for %s", a)

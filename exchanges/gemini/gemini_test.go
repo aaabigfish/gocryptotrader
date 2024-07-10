@@ -16,7 +16,6 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/order"
 	"github.com/aaabigfish/gocryptotrader/exchanges/sharedtestvalues"
 	"github.com/aaabigfish/gocryptotrader/exchanges/stream"
-	testexch "github.com/aaabigfish/gocryptotrader/internal/testing/exchange"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
 	"github.com/gorilla/websocket"
 	"github.com/stretchr/testify/assert"
@@ -1289,7 +1288,7 @@ func TestSetExchangeOrderExecutionLimits(t *testing.T) {
 
 func TestGetCurrencyTradeURL(t *testing.T) {
 	t.Parallel()
-	testexch.UpdatePairsOnce(t, g)
+
 	for _, a := range g.GetAssetTypes(false) {
 		pairs, err := g.CurrencyPairs.GetPairs(a, false)
 		require.NoError(t, err, "cannot get pairs for %s", a)

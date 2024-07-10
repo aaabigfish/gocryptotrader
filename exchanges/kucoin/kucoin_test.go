@@ -26,7 +26,6 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/stream/buffer"
 	"github.com/aaabigfish/gocryptotrader/exchanges/subscription"
 	"github.com/aaabigfish/gocryptotrader/exchanges/ticker"
-	testexch "github.com/aaabigfish/gocryptotrader/internal/testing/exchange"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
 	"github.com/gofrs/uuid"
 	"github.com/stretchr/testify/assert"
@@ -2736,7 +2735,6 @@ func TestGetOpenInterest(t *testing.T) {
 	t.Parallel()
 
 	nu := new(Kucoin)
-	require.NoError(t, testexch.Setup(nu), "Test exchange Setup must not error")
 	_, err := nu.GetOpenInterest(context.Background(), key.PairAsset{
 		Base:  currency.ETH.Item,
 		Quote: currency.USDT.Item,
@@ -2776,7 +2774,6 @@ func TestGetOpenInterest(t *testing.T) {
 
 func TestGetCurrencyTradeURL(t *testing.T) {
 	t.Parallel()
-	testexch.UpdatePairsOnce(t, ku)
 	for _, a := range ku.GetAssetTypes(false) {
 		pairs, err := ku.CurrencyPairs.GetPairs(a, false)
 		require.NoError(t, err, "cannot get pairs for %s", a)

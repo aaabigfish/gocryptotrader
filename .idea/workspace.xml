@@ -5,20 +5,48 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad82d063-a25f-4545-aea1-218aa83f5ebe" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/config/config_types.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config_types.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/ADD_NEW_EXCHANGE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/EXCHANGE_API.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/FILES.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/MULTICHAIN_TRANSFER_SUPPORT.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/OHLCV.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/WS_ORDER_EVENTS.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portfolio/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portfolio/banking/banking_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portfolio/portfolio.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portfolio/portfolio_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portfolio/portfolio_types.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portfolio/withdraw/validate_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/common.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/common.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/common_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config_encryption_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/binance/binance_live_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/binance/binance_mock_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/bitfinex/bitfinex_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/bitfinex/bitfinex_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/bitflyer/bitflyer_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/bitflyer/bitflyer_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/bithumb/bithumb_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/bithumb/bithumb_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/bitmex/bitmex_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/bitmex/bitmex_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/bitstamp/bitstamp_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/bitstamp/bitstamp_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/blackbox_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/btcmarkets/btcmarkets_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/btcmarkets/btcmarkets_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/btse/btse_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/btse/btse_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/bybit/bybit_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/bybit/bybit_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/coinbasepro/coinbasepro_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/coinbasepro/coinbasepro_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/coinut/coinut_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/coinut/coinut_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/credentials_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/exmo/exmo_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/exmo/exmo_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/gateio/gateio_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/gateio/gateio_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/gemini/gemini_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/gemini/gemini_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/hitbtc/hitbtc_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/hitbtc/hitbtc_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/huobi/huobi_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/huobi/huobi_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/kraken/kraken_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/kucoin/kucoin_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/kucoin/kucoin_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/lbank/lbank_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/lbank/lbank_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/mock/common_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/mock/recording.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/mock/recording.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/mock/recording_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/mock/server_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/okx/okx_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/okx/okx_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/poloniex/poloniex_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/poloniex/poloniex_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/support_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/yobit/yobit_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/yobit/yobit_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/testing/exchange/exchange.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/testing/exchange/exchange_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/testing/exchange/testdata/http.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/testing/utils/path.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/testing/utils/path_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/types/number_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/utils.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/utils_test.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

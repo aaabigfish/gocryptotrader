@@ -20,7 +20,6 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/sharedtestvalues"
 	"github.com/aaabigfish/gocryptotrader/exchanges/stream"
 	"github.com/aaabigfish/gocryptotrader/exchanges/subscription"
-	testexch "github.com/aaabigfish/gocryptotrader/internal/testing/exchange"
 	"github.com/aaabigfish/gocryptotrader/portfolio/banking"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
 	"github.com/gorilla/websocket"
@@ -1061,7 +1060,7 @@ func TestGetTransfers(t *testing.T) {
 
 func TestGetCurrencyTradeURL(t *testing.T) {
 	t.Parallel()
-	testexch.UpdatePairsOnce(t, c)
+
 	for _, a := range c.GetAssetTypes(false) {
 		pairs, err := c.CurrencyPairs.GetPairs(a, false)
 		require.NoError(t, err, "cannot get pairs for %s", a)

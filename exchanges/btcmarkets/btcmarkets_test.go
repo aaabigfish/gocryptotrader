@@ -9,8 +9,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/config"
 	"github.com/aaabigfish/gocryptotrader/currency"
@@ -19,7 +17,8 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/order"
 	"github.com/aaabigfish/gocryptotrader/exchanges/orderbook"
 	"github.com/aaabigfish/gocryptotrader/exchanges/sharedtestvalues"
-	testexch "github.com/aaabigfish/gocryptotrader/internal/testing/exchange"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 var b = &BTCMarkets{}
@@ -1125,7 +1124,7 @@ func TestCancelBatchOrders(t *testing.T) {
 
 func TestGetCurrencyTradeURL(t *testing.T) {
 	t.Parallel()
-	testexch.UpdatePairsOnce(t, b)
+
 	for _, a := range b.GetAssetTypes(false) {
 		pairs, err := b.CurrencyPairs.GetPairs(a, false)
 		require.NoError(t, err, "cannot get pairs for %s", a)

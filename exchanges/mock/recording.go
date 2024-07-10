@@ -53,7 +53,6 @@ func HTTPRecord(res *http.Response, service string, respContents []byte) error {
 		if os.IsExist(err) {
 			return err
 		}
-		// check alternative path to add compatibility with /internal/testing/exchange/exchange.go MockHTTPInstance
 		outputFilePath = filepath.Join("..", service, "testdata", "http.json")
 		_, err = os.Stat(outputFilePath)
 		if err != nil {

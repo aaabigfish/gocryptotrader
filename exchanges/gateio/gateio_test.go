@@ -22,7 +22,6 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/kline"
 	"github.com/aaabigfish/gocryptotrader/exchanges/order"
 	"github.com/aaabigfish/gocryptotrader/exchanges/sharedtestvalues"
-	testexch "github.com/aaabigfish/gocryptotrader/internal/testing/exchange"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -65,7 +64,7 @@ func TestMain(m *testing.M) {
 
 func TestUpdateTradablePairs(t *testing.T) {
 	t.Parallel()
-	testexch.UpdatePairsOnce(t, g)
+
 }
 
 func TestCancelAllExchangeOrders(t *testing.T) {
@@ -3231,7 +3230,6 @@ func TestParseGateioTimeUnmarshal(t *testing.T) {
 
 func TestUpdateOrderExecutionLimits(t *testing.T) {
 	t.Parallel()
-	testexch.UpdatePairsOnce(t, g)
 
 	err := g.UpdateOrderExecutionLimits(context.Background(), 1336)
 	if !errors.Is(err, asset.ErrNotSupported) {
@@ -3465,7 +3463,6 @@ func getPair(tb testing.TB, a asset.Item) currency.Pair {
 		return p
 	}
 
-	testexch.UpdatePairsOnce(tb, g)
 	enabledPairs, err := g.GetEnabledPairs(a)
 	assert.NoErrorf(tb, err, "%s GetEnabledPairs should not error", a)
 	if !assert.NotEmpty(tb, enabledPairs, "%s GetEnabledPairs should not be empty", a) {
@@ -3585,7 +3582,7 @@ func TestProcessFuturesOrdersPushData(t *testing.T) {
 
 func TestGetCurrencyTradeURL(t *testing.T) {
 	t.Parallel()
-	testexch.UpdatePairsOnce(t, g)
+
 	for _, a := range g.GetAssetTypes(false) {
 		pairs, err := g.CurrencyPairs.GetPairs(a, false)
 		require.NoError(t, err, "cannot get pairs for %s", a)

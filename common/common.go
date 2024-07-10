@@ -103,29 +103,6 @@ func SetHTTPClientWithTimeout(t time.Duration) error {
 	return nil
 }
 
-// SetHTTPUserAgent sets the user agent which will be used for all common HTTP
-// requests.
-func SetHTTPUserAgent(agent string) error {
-	if agent == "" {
-		return errUserAgentInvalid
-	}
-	m.Lock()
-	_HTTPUserAgent = agent
-	m.Unlock()
-	return nil
-}
-
-// SetHTTPClient sets a custom HTTP client.
-func SetHTTPClient(client *http.Client) error {
-	if client == nil {
-		return errHTTPClientInvalid
-	}
-	m.Lock()
-	_HTTPClient = client
-	m.Unlock()
-	return nil
-}
-
 // NewHTTPClientWithTimeout initialises a new HTTP client and its underlying
 // transport IdleConnTimeout with the specified timeout duration
 func NewHTTPClientWithTimeout(t time.Duration) *http.Client {
