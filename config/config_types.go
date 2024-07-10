@@ -9,7 +9,6 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/protocol"
 	"github.com/aaabigfish/gocryptotrader/exchanges/subscription"
 	"github.com/aaabigfish/gocryptotrader/log"
-	"github.com/aaabigfish/gocryptotrader/portfolio"
 	"github.com/aaabigfish/gocryptotrader/portfolio/banking"
 )
 
@@ -84,7 +83,6 @@ var (
 )
 
 // Config is the overarching object that holds all the information for
-// prestart management of Portfolio, Communications, Webserver and Enabled
 // Exchanges
 type Config struct {
 	Name                 string                  `json:"name"`
@@ -101,7 +99,6 @@ type Config struct {
 	NTPClient            NTPClientConfig         `json:"ntpclient"`
 	Currency             currency.Config         `json:"currencyConfig"`
 	RemoteControl        RemoteControlConfig     `json:"remoteControl"`
-	Portfolio            portfolio.Base          `json:"portfolioAddresses"`
 	Exchanges            []Exchange              `json:"exchanges"`
 	BankAccounts         []banking.Account       `json:"bankAccounts"`
 
