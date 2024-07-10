@@ -18,12 +18,10 @@ import (
 	"github.com/aaabigfish/gocryptotrader/common/convert"
 	"github.com/aaabigfish/gocryptotrader/common/file"
 	"github.com/aaabigfish/gocryptotrader/communications/base"
-	"github.com/aaabigfish/gocryptotrader/connchecker"
 	"github.com/aaabigfish/gocryptotrader/currency"
 	"github.com/aaabigfish/gocryptotrader/currency/forexprovider"
 	"github.com/aaabigfish/gocryptotrader/database"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
-	gctscript "github.com/aaabigfish/gocryptotrader/gctscript/vm"
 	"github.com/aaabigfish/gocryptotrader/log"
 	"github.com/aaabigfish/gocryptotrader/portfolio/banking"
 )
@@ -1269,14 +1267,6 @@ func (c *Config) checkGCTScriptConfig() error {
 	m.Lock()
 	defer m.Unlock()
 
-	if c.GCTScript.ScriptTimeout <= 0 {
-		c.GCTScript.ScriptTimeout = gctscript.DefaultTimeoutValue
-	}
-
-	if c.GCTScript.MaxVirtualMachines == 0 {
-		c.GCTScript.MaxVirtualMachines = gctscript.DefaultMaxVirtualMachines
-	}
-
 	scriptPath := c.GetDataPath("scripts")
 	err := common.CreateDir(scriptPath)
 	if err != nil {
@@ -1288,8 +1278,6 @@ func (c *Config) checkGCTScriptConfig() error {
 	if err != nil {
 		return err
 	}
-
-	gctscript.ScriptPath = scriptPath
 
 	return nil
 }
@@ -1433,17 +1421,6 @@ func (c *Config) CheckConnectionMonitorConfig() {
 	m.Lock()
 	defer m.Unlock()
 
-	if c.ConnectionMonitor.CheckInterval == 0 {
-		c.ConnectionMonitor.CheckInterval = connchecker.DefaultCheckInterval
-	}
-
-	if len(c.ConnectionMonitor.DNSList) == 0 {
-		c.ConnectionMonitor.DNSList = connchecker.DefaultDNSList
-	}
-
-	if len(c.ConnectionMonitor.PublicDomainList) == 0 {
-		c.ConnectionMonitor.PublicDomainList = connchecker.DefaultDomainList
-	}
 }
 
 // DefaultFilePath returns the default config file path

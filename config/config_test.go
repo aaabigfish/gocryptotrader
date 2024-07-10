@@ -9,18 +9,16 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/convert"
 	"github.com/aaabigfish/gocryptotrader/common/file"
 	"github.com/aaabigfish/gocryptotrader/communications/base"
-	"github.com/aaabigfish/gocryptotrader/connchecker"
 	"github.com/aaabigfish/gocryptotrader/currency"
 	"github.com/aaabigfish/gocryptotrader/database"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
-	gctscript "github.com/aaabigfish/gocryptotrader/gctscript/vm"
 	"github.com/aaabigfish/gocryptotrader/log"
 	"github.com/aaabigfish/gocryptotrader/portfolio/banking"
+	"github.com/stretchr/testify/assert"
 )
 
 const (
@@ -1726,24 +1724,6 @@ func TestSaveConfigToFile(t *testing.T) {
 	}
 }
 
-func TestCheckConnectionMonitorConfig(t *testing.T) {
-	t.Parallel()
-
-	var c Config
-	c.ConnectionMonitor.CheckInterval = 0
-	c.ConnectionMonitor.DNSList = nil
-	c.ConnectionMonitor.PublicDomainList = nil
-	c.CheckConnectionMonitorConfig()
-
-	if c.ConnectionMonitor.CheckInterval != connchecker.DefaultCheckInterval ||
-		len(common.StringSliceDifference(
-			c.ConnectionMonitor.DNSList, connchecker.DefaultDNSList)) != 0 ||
-		len(common.StringSliceDifference(
-			c.ConnectionMonitor.PublicDomainList, connchecker.DefaultDomainList)) != 0 {
-		t.Error("unexpected values")
-	}
-}
-
 func TestDefaultFilePath(t *testing.T) {
 	// This is tricky to test because we're dealing with a config file stored
 	// in a persons default directory and to properly test it, it would
@@ -1953,23 +1933,6 @@ func TestDisableNTPCheck(t *testing.T) {
 	_, err = c.SetNTPCheck(strings.NewReader(" "))
 	if err.Error() != "EOF" {
 		t.Errorf("failed expected EOF got: %v", err)
-	}
-}
-
-func TestCheckGCTScriptConfig(t *testing.T) {
-	t.Parallel()
-
-	var c Config
-	if err := c.checkGCTScriptConfig(); err != nil {
-		t.Error(err)
-	}
-
-	if c.GCTScript.ScriptTimeout != gctscript.DefaultTimeoutValue {
-		t.Fatal("unexpected value return")
-	}
-
-	if c.GCTScript.MaxVirtualMachines != gctscript.DefaultMaxVirtualMachines {
-		t.Fatal("unexpected value return")
 	}
 }
 

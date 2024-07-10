@@ -10,7 +10,6 @@ import (
 	"github.com/aaabigfish/gocryptotrader/database"
 	"github.com/aaabigfish/gocryptotrader/exchanges/protocol"
 	"github.com/aaabigfish/gocryptotrader/exchanges/subscription"
-	gctscript "github.com/aaabigfish/gocryptotrader/gctscript/vm"
 	"github.com/aaabigfish/gocryptotrader/log"
 	"github.com/aaabigfish/gocryptotrader/portfolio"
 	"github.com/aaabigfish/gocryptotrader/portfolio/banking"
@@ -103,7 +102,6 @@ type Config struct {
 	CurrencyStateManager CurrencyStateManager      `json:"currencyStateManager"`
 	Profiler             Profiler                  `json:"profiler"`
 	NTPClient            NTPClientConfig           `json:"ntpclient"`
-	GCTScript            gctscript.Config          `json:"gctscript"`
 	Currency             currency.Config           `json:"currencyConfig"`
 	Communications       base.CommunicationsConfig `json:"communications"`
 	RemoteControl        RemoteControlConfig       `json:"remoteControl"`
