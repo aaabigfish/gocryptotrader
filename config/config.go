@@ -19,7 +19,6 @@ import (
 	"github.com/aaabigfish/gocryptotrader/common/file"
 	"github.com/aaabigfish/gocryptotrader/currency"
 	"github.com/aaabigfish/gocryptotrader/currency/forexprovider"
-	"github.com/aaabigfish/gocryptotrader/database"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
 	"github.com/aaabigfish/gocryptotrader/log"
 	"github.com/aaabigfish/gocryptotrader/portfolio/banking"
@@ -1135,30 +1134,7 @@ func (c *Config) checkDatabaseConfig() error {
 	m.Lock()
 	defer m.Unlock()
 
-	if (c.Database == database.Config{}) {
-		c.Database.Driver = database.DBSQLite3
-		c.Database.Database = database.DefaultSQLiteDatabase
-	}
-
-	if !c.Database.Enabled {
-		return nil
-	}
-
-	if !common.StringDataCompare(database.SupportedDrivers, c.Database.Driver) {
-		c.Database.Enabled = false
-		return fmt.Errorf("unsupported database driver %v, database disabled", c.Database.Driver)
-	}
-
-	if c.Database.Driver == database.DBSQLite || c.Database.Driver == database.DBSQLite3 {
-		databaseDir := c.GetDataPath("database")
-		err := common.CreateDir(databaseDir)
-		if err != nil {
-			return err
-		}
-		database.DB.DataPath = databaseDir
-	}
-
-	return database.DB.SetConfig(&c.Database)
+	return nil
 }
 
 // CheckNTPConfig checks for missing or incorrectly configured NTPClient and recreates with known safe defaults
@@ -1649,7 +1625,6 @@ func (c *Config) UpdateConfig(configPath string, newCfg *Config, dryrun bool) er
 	c.Currency = newCfg.Currency
 	c.GlobalHTTPTimeout = newCfg.GlobalHTTPTimeout
 	c.Portfolio = newCfg.Portfolio
-	c.Communications = newCfg.Communications
 	c.Webserver = newCfg.Webserver
 	c.Exchanges = newCfg.Exchanges
 

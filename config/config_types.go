@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/aaabigfish/gocryptotrader/currency"
-	"github.com/aaabigfish/gocryptotrader/database"
 	"github.com/aaabigfish/gocryptotrader/exchanges/protocol"
 	"github.com/aaabigfish/gocryptotrader/exchanges/subscription"
 	"github.com/aaabigfish/gocryptotrader/log"
@@ -92,7 +91,6 @@ type Config struct {
 	DataDirectory        string                  `json:"dataDirectory"`
 	EncryptConfig        int                     `json:"encryptConfig"`
 	GlobalHTTPTimeout    time.Duration           `json:"globalHTTPTimeout"`
-	Database             database.Config         `json:"database"`
 	Logging              log.Config              `json:"logging"`
 	SyncManagerConfig    SyncManagerConfig       `json:"syncManager"`
 	ConnectionMonitor    ConnectionMonitorConfig `json:"connectionMonitor"`
