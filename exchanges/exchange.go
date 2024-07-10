@@ -1365,8 +1365,6 @@ func (e *Endpoints) GetURLMap() map[string]string {
 	return urlMap
 }
 
-// GetCachedOpenInterest returns open interest data if the exchange
-// supports open interest in ticker data
 func (b *Base) GetCachedOpenInterest(_ context.Context, k ...key.PairAsset) ([]futures.OpenInterest, error) {
 	if !b.Features.Supports.FuturesCapabilities.OpenInterest.Supported ||
 		!b.Features.Supports.FuturesCapabilities.OpenInterest.SupportedViaTicker {

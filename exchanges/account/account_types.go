@@ -4,12 +4,11 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/gofrs/uuid"
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/currency"
-	"github.com/aaabigfish/gocryptotrader/dispatch"
 	"github.com/aaabigfish/gocryptotrader/exchanges/alert"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	"github.com/gofrs/uuid"
 )
 
 // Vars for the ticker package
@@ -21,7 +20,6 @@ var (
 // Service holds ticker information for each individual exchange
 type Service struct {
 	exchangeAccounts map[string]*Accounts
-	mux              *dispatch.Mux
 	mu               sync.Mutex
 }
 

@@ -6,12 +6,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gofrs/uuid"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/currency"
-	"github.com/aaabigfish/gocryptotrader/dispatch"
 	"github.com/aaabigfish/gocryptotrader/exchanges/alert"
-	"github.com/aaabigfish/gocryptotrader/log"
+	"github.com/gofrs/uuid"
 )
 
 var (
@@ -38,7 +36,6 @@ type Depth struct {
 
 	alert.Notice
 
-	mux *dispatch.Mux
 	_ID uuid.UUID
 
 	options
@@ -49,16 +46,8 @@ type Depth struct {
 	m sync.Mutex
 }
 
-// NewDepth returns a new orderbook depth
-func NewDepth(id uuid.UUID) *Depth {
-	return &Depth{_ID: id, mux: service.Mux}
-}
-
 // Publish alerts any subscribed routines using a dispatch mux
 func (d *Depth) Publish() {
-	if err := d.mux.Publish(Outbound(d), d._ID); err != nil {
-		log.Errorf(log.ExchangeSys, "Cannot publish orderbook update to mux %v", err)
-	}
 }
 
 // Retrieve returns the orderbook base a copy of the underlying linked list

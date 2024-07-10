@@ -4,11 +4,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gofrs/uuid"
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/currency"
-	"github.com/aaabigfish/gocryptotrader/dispatch"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	"github.com/gofrs/uuid"
 )
 
 // const values for the ticker package
@@ -27,7 +26,6 @@ var (
 type Service struct {
 	Tickers  map[key.ExchangePairAsset]*Ticker
 	Exchange map[string]uuid.UUID
-	mux      *dispatch.Mux
 	mu       sync.Mutex
 }
 

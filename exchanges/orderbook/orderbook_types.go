@@ -5,11 +5,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gofrs/uuid"
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/currency"
-	"github.com/aaabigfish/gocryptotrader/dispatch"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
+	"github.com/gofrs/uuid"
 )
 
 // const values for orderbook package
@@ -38,14 +37,12 @@ var (
 
 var service = Service{
 	books: make(map[string]Exchange),
-	Mux:   dispatch.GetNewMux(nil),
 }
 
 // Service provides a store for difference exchange orderbooks
 type Service struct {
 	books map[string]Exchange
-	*dispatch.Mux
-	mu sync.Mutex
+	mu    sync.Mutex
 }
 
 // Exchange defines a holder for the exchange specific depth items with a

@@ -2,15 +2,12 @@ package orderbook
 
 import (
 	"fmt"
-	"sort"
-	"strings"
-	"time"
-
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/currency"
-	"github.com/aaabigfish/gocryptotrader/dispatch"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
 	"github.com/aaabigfish/gocryptotrader/log"
+	"sort"
+	"strings"
 )
 
 // Get checks and returns the orderbook given an exchange name and currency pair
@@ -18,112 +15,13 @@ func Get(exchange string, p currency.Pair, a asset.Item) (*Base, error) {
 	return service.Retrieve(exchange, p, a)
 }
 
-// GetDepth returns a Depth pointer allowing the caller to stream orderbook changes
-func GetDepth(exchange string, p currency.Pair, a asset.Item) (*Depth, error) {
-	return service.GetDepth(exchange, p, a)
-}
-
 // DeployDepth sets a depth struct and returns a depth pointer. This allows for
 // the loading of a new orderbook snapshot and incremental updates via the
 // streaming package.
 func DeployDepth(exchange string, p currency.Pair, a asset.Item) (*Depth, error) {
-	return service.DeployDepth(exchange, p, a)
+	return nil, nil
 }
 
-// SubscribeToExchangeOrderbooks returns a pipe to an exchange feed
-func SubscribeToExchangeOrderbooks(exchange string) (dispatch.Pipe, error) {
-	service.mu.Lock()
-	defer service.mu.Unlock()
-	exch, ok := service.books[strings.ToLower(exchange)]
-	if !ok {
-		return dispatch.Pipe{}, fmt.Errorf("%w for %s exchange",
-			errCannotFindOrderbook, exchange)
-	}
-	return service.Mux.Subscribe(exch.ID)
-}
-
-// Update stores orderbook data
-func (s *Service) Update(b *Base) error {
-	name := strings.ToLower(b.Exchange)
-	mapKey := key.PairAsset{
-		Base:  b.Pair.Base.Item,
-		Quote: b.Pair.Quote.Item,
-		Asset: b.Asset,
-	}
-
-	s.mu.Lock()
-	m1, ok := s.books[name]
-	if !ok {
-		id, err := s.Mux.GetID()
-		if err != nil {
-			s.mu.Unlock()
-			return err
-		}
-		m1 = Exchange{
-			m:  make(map[key.PairAsset]*Depth),
-			ID: id,
-		}
-		s.books[name] = m1
-	}
-	book, ok := m1.m[mapKey]
-	if !ok {
-		book = NewDepth(m1.ID)
-		book.AssignOptions(b)
-		m1.m[mapKey] = book
-	}
-	err := book.LoadSnapshot(b.Bids, b.Asks, b.LastUpdateID, b.LastUpdated, true)
-	s.mu.Unlock()
-	if err != nil {
-		return err
-	}
-	return s.Mux.Publish(book, m1.ID)
-}
-
-// DeployDepth used for subsystem deployment creates a depth item in the struct
-// then returns a ptr to that Depth item
-func (s *Service) DeployDepth(exchange string, p currency.Pair, a asset.Item) (*Depth, error) {
-	if exchange == "" {
-		return nil, errExchangeNameUnset
-	}
-	if p.IsEmpty() {
-		return nil, errPairNotSet
-	}
-	if !a.IsValid() {
-		return nil, errAssetTypeNotSet
-	}
-	mapKey := key.PairAsset{
-		Base:  p.Base.Item,
-		Quote: p.Quote.Item,
-		Asset: a,
-	}
-
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	m1, ok := s.books[strings.ToLower(exchange)]
-	if !ok {
-		id, err := s.Mux.GetID()
-		if err != nil {
-			return nil, err
-		}
-		m1 = Exchange{
-			m:  make(map[key.PairAsset]*Depth),
-			ID: id,
-		}
-		s.books[strings.ToLower(exchange)] = m1
-	}
-	book, ok := m1.m[mapKey]
-	if !ok {
-		book = NewDepth(m1.ID)
-		book.exchange = exchange
-		book.pair = p
-		book.asset = a
-		m1.m[mapKey] = book
-	}
-	return book, nil
-}
-
-// GetDepth returns the actual depth struct for potential subsystems and
-// strategies to interact with
 func (s *Service) GetDepth(exchange string, p currency.Pair, a asset.Item) (*Depth, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -299,26 +197,7 @@ func checkAlignment(depth Tranches, fundingRate, priceDuplication, isIDAligned, 
 // Process processes incoming orderbooks, creating or updating the orderbook
 // list
 func (b *Base) Process() error {
-	if b.Exchange == "" {
-		return errExchangeNameUnset
-	}
-
-	if b.Pair.IsEmpty() {
-		return errPairNotSet
-	}
-
-	if b.Asset.String() == "" {
-		return errAssetTypeNotSet
-	}
-
-	if b.LastUpdated.IsZero() {
-		b.LastUpdated = time.Now()
-	}
-
-	if err := b.Verify(); err != nil {
-		return err
-	}
-	return service.Update(b)
+	return nil
 }
 
 // Reverse reverses the order of orderbook items; some bid/asks are

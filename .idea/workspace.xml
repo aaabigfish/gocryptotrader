@@ -6,151 +6,26 @@
   <component name="ChangeListManager">
     <list default="true" id="ad82d063-a25f-4545-aea1-218aa83f5ebe" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config_types.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config_types.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/database.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/database_logger.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/database_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/database_types.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/drivers/drivers_type.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/drivers/postgres/postgres.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/drivers/sqlite3/sqlite3.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20190916104959_audit_event/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20190916104959_audit_event/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20191210124551_enable_pgcrypto/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20191210124551_enable_pgcrypto/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20191210124558_script/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20191210124558_script/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20191220155234_withdrawal_history/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20191220155234_withdrawal_history/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20191220155237_withdrawal_fiat/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20191220155237_withdrawal_fiat/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20191220155242_withdrawal_crypto/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20191220155242_withdrawal_crypto/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200114141913_script_execution/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200114141913_script_execution/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200518131133_exchange/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200518131133_exchange/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200520103816_candle/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200520103816_candle/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200715122118_asset/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200715122118_asset/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200715123925_update_withdrawal_history_exchange/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200715123925_update_withdrawal_history_exchange/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200805131503_update_candle_interval_type/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200805131503_update_candle_interval_type/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200805151208_update_candle_add_asset_to_uniq_index/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200805151208_update_candle_add_asset_to_uniq_index/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200814113829_update_withdrawal_history_add_not_null_to_exchange_name_id/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200814113829_update_withdrawal_history_add_not_null_to_exchange_name_id/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200814121412_update_candle_add_not_null_to_asset/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200814121412_update_candle_add_not_null_to_asset/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200819150038_update_candle_exchange_id_to_exchange_name_id/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200819150038_update_candle_exchange_id_to_exchange_name_id/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200909083123_trade/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20200909083123_trade/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20201013122046_ammend_trade_constraints/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20201013122046_ammend_trade_constraints/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20201013151813_trade_nullable_sides/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20201013151813_trade_nullable_sides/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20210503143338_datahistoryjob/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20210503143338_datahistoryjob/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20210617165159_datahistoryjob_relations/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20210617165159_datahistoryjob_relations/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20210630125121_datahistoryjob_conversions/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20210630125121_datahistoryjob_conversions/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20210709133512_candle_details/postgres.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/20210709133512_candle_details/sqlite3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/audit_event.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/audit_event_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/boil_main_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/boil_queries.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/boil_queries_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/boil_suites_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/boil_table_names.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/boil_types.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/candle.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/candle_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/datahistoryjob.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/datahistoryjob_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/datahistoryjobresult.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/datahistoryjobresult_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/exchange.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/exchange_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/psql_main_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/psql_suites_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/psql_upsert.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/script.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/script_execution.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/script_execution_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/script_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/trade.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/trade_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/withdrawal_crypto.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/withdrawal_crypto_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/withdrawal_fiat.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/withdrawal_fiat_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/withdrawal_history.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/postgres/withdrawal_history_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/audit_event.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/audit_event_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/boil_main_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/boil_queries.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/boil_queries_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/boil_suites_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/boil_table_names.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/boil_types.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/candle.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/candle_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/datahistoryjob.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/datahistoryjob_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/datahistoryjobresult.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/datahistoryjobresult_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/exchange.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/exchange_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/script.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/script_execution.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/script_execution_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/script_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/sqlite3_main_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/trade.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/trade_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/withdrawal_crypto.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/withdrawal_crypto_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/withdrawal_fiat.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/withdrawal_fiat_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/withdrawal_history.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/models/sqlite3/withdrawal_history_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/audit/audit.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/audit/audit_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/candle/candle.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/candle/candle_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/candle/candle_types.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/datahistoryjob/datahistoryjob.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/datahistoryjob/datahistoryjob_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/datahistoryjob/datahistoryjob_types.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/datahistoryjobresult/datahistoryjobresult.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/datahistoryjobresult/datahistoryjobresult_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/datahistoryjobresult/datahistoryjobresult_types.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/exchange/exchange.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/exchange/exchange_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/exchange/exchange_types.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/repository.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/repository_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/script/script.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/script/script_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/trade/trade.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/trade/trade_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/trade/trade_types.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/withdraw/withdraw.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/repository/withdraw/withdraw_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/testhelpers/test_helpers.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/testhelpers/test_helpers_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/exchanges/kline/kline_datastorage.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/exchanges/kline/kline_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/exchanges/trade/trade.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/trade/trade.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/exchanges/trade/trade_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dispatch/dispatch.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dispatch/dispatch_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dispatch/dispatch_types.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dispatch/mux.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/account/account.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/account/account.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/account/account_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/account/account_types.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/account/account_types.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/account/credentials_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/exchange.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/exchange.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/exchange_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/orderbook/calculator_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/orderbook/depth.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/orderbook/depth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/orderbook/depth_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/orderbook/orderbook.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/orderbook/orderbook.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/orderbook/orderbook_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/orderbook/orderbook_types.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/orderbook/orderbook_types.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/orderbook/tranches_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/ticker/ticker.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/ticker/ticker.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/ticker/ticker_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exchanges/ticker/ticker_types.go" beforeDir="false" afterPath="$PROJECT_DIR$/exchanges/ticker/ticker_types.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
