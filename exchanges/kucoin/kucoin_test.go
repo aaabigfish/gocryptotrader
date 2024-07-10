@@ -13,7 +13,7 @@ import (
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/config"
-	"github.com/aaabigfish/gocryptotrader/core"
+
 	"github.com/aaabigfish/gocryptotrader/currency"
 	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
@@ -2189,7 +2189,7 @@ func TestWithdrawCryptocurrencyFunds(t *testing.T) {
 		Amount:   0.00000000001,
 		Currency: currency.BTC,
 		Crypto: withdraw.CryptoRequest{
-			Address: core.BitcoinDonationAddress,
+			Address: "",
 		},
 	}
 	if _, err := ku.WithdrawCryptocurrencyFunds(context.Background(), &withdrawCryptoRequest); err != nil {
@@ -2259,7 +2259,7 @@ func TestCancelOrder(t *testing.T) {
 	sharedtestvalues.SkipTestIfCredentialsUnset(t, ku, canManipulateRealOrders)
 	var orderCancellation = &order.Cancel{
 		OrderID:       "1",
-		WalletAddress: core.BitcoinDonationAddress,
+		WalletAddress: "",
 		AccountID:     "1",
 		Pair:          spotTradablePair,
 		AssetType:     asset.Spot,

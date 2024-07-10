@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/aaabigfish/gocryptotrader/config"
-	"github.com/aaabigfish/gocryptotrader/core"
+
 	"github.com/aaabigfish/gocryptotrader/currency"
 	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
@@ -1438,7 +1438,7 @@ func TestCancelOrder(t *testing.T) {
 	sharedtestvalues.SkipTestIfCredentialsUnset(t, o, canManipulateRealOrders)
 	var orderCancellation = &order.Cancel{
 		OrderID:       "1",
-		WalletAddress: core.BitcoinDonationAddress,
+		WalletAddress: "",
 		AccountID:     "1",
 		Pair:          spotTradablePair,
 		AssetType:     asset.Spot,
@@ -1495,7 +1495,7 @@ func TestWithdraw(t *testing.T) {
 		Description: "WITHDRAW IT ALL",
 		Crypto: withdraw.CryptoRequest{
 			Chain:     currencyInfo[0].Chain,
-			Address:   core.BitcoinDonationAddress,
+			Address:   "",
 			FeeAmount: 0.01,
 		},
 		ClientOrderID: "1234",

@@ -12,13 +12,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gorilla/websocket"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/convert"
 	"github.com/aaabigfish/gocryptotrader/common/key"
-	"github.com/aaabigfish/gocryptotrader/core"
+
 	"github.com/aaabigfish/gocryptotrader/currency"
 	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
@@ -33,6 +30,9 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/ticker"
 	testexch "github.com/aaabigfish/gocryptotrader/internal/testing/exchange"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
+	"github.com/gorilla/websocket"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 var k *Kraken
@@ -1057,7 +1057,7 @@ func TestWithdraw(t *testing.T) {
 	withdrawCryptoRequest := withdraw.Request{
 		Exchange: k.Name,
 		Crypto: withdraw.CryptoRequest{
-			Address: core.BitcoinDonationAddress,
+			Address: "",
 		},
 		Amount:        -1,
 		Currency:      currency.XXBT,

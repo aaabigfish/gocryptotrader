@@ -9,13 +9,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gorilla/websocket"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/config"
-	"github.com/aaabigfish/gocryptotrader/core"
+
 	"github.com/aaabigfish/gocryptotrader/currency"
 	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
@@ -27,6 +24,9 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/stream"
 	testexch "github.com/aaabigfish/gocryptotrader/internal/testing/exchange"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
+	"github.com/gorilla/websocket"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 // Please supply your own keys here for due diligence testing
@@ -647,7 +647,7 @@ func TestCancelExchangeOrder(t *testing.T) {
 	currencyPair := currency.NewPair(currency.LTC, currency.BTC)
 	var orderCancellation = &order.Cancel{
 		OrderID:       "123456789012345678901234567890123456",
-		WalletAddress: core.BitcoinDonationAddress,
+		WalletAddress: "",
 		AccountID:     "1",
 		Pair:          currencyPair,
 		AssetType:     asset.Futures,
@@ -669,7 +669,7 @@ func TestCancelAllExchangeOrders(t *testing.T) {
 	currencyPair := currency.NewPair(currency.LTC, currency.BTC)
 	var orderCancellation = &order.Cancel{
 		OrderID:       "123456789012345678901234567890123456",
-		WalletAddress: core.BitcoinDonationAddress,
+		WalletAddress: "",
 		AccountID:     "1",
 		Pair:          currencyPair,
 		AssetType:     asset.Futures,
@@ -731,7 +731,7 @@ func TestWithdraw(t *testing.T) {
 	withdrawCryptoRequest := withdraw.Request{
 		Exchange: b.Name,
 		Crypto: withdraw.CryptoRequest{
-			Address: core.BitcoinDonationAddress,
+			Address: "",
 		},
 		Amount:          -1,
 		Currency:        currency.BTC,

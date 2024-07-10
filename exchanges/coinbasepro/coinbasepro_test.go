@@ -9,13 +9,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gorilla/websocket"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/convert"
 	"github.com/aaabigfish/gocryptotrader/config"
-	"github.com/aaabigfish/gocryptotrader/core"
 	"github.com/aaabigfish/gocryptotrader/currency"
 	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
@@ -27,6 +23,9 @@ import (
 	testexch "github.com/aaabigfish/gocryptotrader/internal/testing/exchange"
 	"github.com/aaabigfish/gocryptotrader/portfolio/banking"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
+	"github.com/gorilla/websocket"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 var (
@@ -551,7 +550,7 @@ func TestCancelExchangeOrder(t *testing.T) {
 
 	var orderCancellation = &order.Cancel{
 		OrderID:       "1",
-		WalletAddress: core.BitcoinDonationAddress,
+		WalletAddress: "",
 		AccountID:     "1",
 		Pair:          testPair,
 		AssetType:     asset.Spot,
@@ -572,7 +571,7 @@ func TestCancelAllExchangeOrders(t *testing.T) {
 
 	var orderCancellation = &order.Cancel{
 		OrderID:       "1",
-		WalletAddress: core.BitcoinDonationAddress,
+		WalletAddress: "",
 		AccountID:     "1",
 		Pair:          testPair,
 		AssetType:     asset.Spot,
@@ -613,7 +612,7 @@ func TestWithdraw(t *testing.T) {
 		Currency:    currency.BTC,
 		Description: "WITHDRAW IT ALL",
 		Crypto: withdraw.CryptoRequest{
-			Address: core.BitcoinDonationAddress,
+			Address: "",
 		},
 	}
 

@@ -6,7 +6,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/aaabigfish/gocryptotrader/core"
 	"github.com/aaabigfish/gocryptotrader/currency"
 	"github.com/aaabigfish/gocryptotrader/exchanges/validate"
 	"github.com/aaabigfish/gocryptotrader/portfolio"
@@ -45,7 +44,7 @@ var (
 	validCryptoRequest = &Request{
 		Exchange: "Binance",
 		Crypto: CryptoRequest{
-			Address: core.BitcoinDonationAddress,
+			Address: "",
 		},
 		Currency:    currency.BTC,
 		Description: "Test Withdrawal",
@@ -64,7 +63,7 @@ var (
 	invalidCryptoNegativeFeeRequest = &Request{
 		Exchange: "Binance",
 		Crypto: CryptoRequest{
-			Address:   core.BitcoinDonationAddress,
+			Address:   "",
 			FeeAmount: -0.1,
 		},
 		Currency:    currency.BTC,
@@ -76,7 +75,7 @@ var (
 	invalidCurrencyCryptoRequest = &Request{
 		Exchange: "Binance",
 		Crypto: CryptoRequest{
-			Address: core.BitcoinDonationAddress,
+			Address: "",
 		},
 		Currency: currency.AUD,
 		Amount:   0,
@@ -102,7 +101,7 @@ var (
 
 func TestMain(m *testing.M) {
 	var p portfolio.Base
-	err := p.AddAddress(core.BitcoinDonationAddress, "test", currency.BTC, 1500)
+	err := p.AddAddress("", "test", currency.BTC, 1500)
 	if err != nil {
 		fmt.Printf("failed to add portfolio address with reason: %v, unable to continue tests", err)
 		os.Exit(0)

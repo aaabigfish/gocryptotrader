@@ -14,7 +14,7 @@ import (
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/config"
-	"github.com/aaabigfish/gocryptotrader/core"
+
 	"github.com/aaabigfish/gocryptotrader/currency"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
 	"github.com/aaabigfish/gocryptotrader/exchanges/fundingrate"
@@ -77,7 +77,7 @@ func TestCancelAllExchangeOrders(t *testing.T) {
 	}
 	var orderCancellation = &order.Cancel{
 		OrderID:       "1",
-		WalletAddress: core.BitcoinDonationAddress,
+		WalletAddress: "",
 		AccountID:     "1",
 		Pair:          getPair(t, asset.Options),
 		AssetType:     asset.Options,
@@ -175,7 +175,7 @@ func TestWithdraw(t *testing.T) {
 		Currency:    currency.BTC,
 		Description: "WITHDRAW IT ALL",
 		Crypto: withdraw.CryptoRequest{
-			Address: core.BitcoinDonationAddress,
+			Address: "",
 			Chain:   cryptocurrencyChains[0],
 		},
 	}
@@ -1927,7 +1927,7 @@ func TestWithdrawCurrency(t *testing.T) {
 		Currency: currency.BTC,
 		Amount:   0.00000001,
 		Chain:    "BTC",
-		Address:  core.BitcoinDonationAddress,
+		Address:  "",
 	})
 	if err != nil {
 		t.Errorf("%s WithdrawCurrency() expecting error %v, but found %v", g.Name, errInvalidAmount, err)
@@ -2203,7 +2203,7 @@ func TestCancelExchangeOrder(t *testing.T) {
 	sharedtestvalues.SkipTestIfCredentialsUnset(t, g, canManipulateRealOrders)
 	var orderCancellation = &order.Cancel{
 		OrderID:       "1",
-		WalletAddress: core.BitcoinDonationAddress,
+		WalletAddress: "",
 		AccountID:     "1",
 		Pair:          currency.NewPair(currency.LTC, currency.BTC),
 		AssetType:     asset.Spot,
@@ -2244,13 +2244,13 @@ func TestCancelBatchOrders(t *testing.T) {
 	_, err := g.CancelBatchOrders(context.Background(), []order.Cancel{
 		{
 			OrderID:       "1",
-			WalletAddress: core.BitcoinDonationAddress,
+			WalletAddress: "",
 			AccountID:     "1",
 			Pair:          getPair(t, asset.Spot),
 			AssetType:     asset.Spot,
 		}, {
 			OrderID:       "2",
-			WalletAddress: core.BitcoinDonationAddress,
+			WalletAddress: "",
 			AccountID:     "1",
 			Pair:          getPair(t, asset.Spot),
 			AssetType:     asset.Spot,
@@ -2261,13 +2261,13 @@ func TestCancelBatchOrders(t *testing.T) {
 	_, err = g.CancelBatchOrders(context.Background(), []order.Cancel{
 		{
 			OrderID:       "1",
-			WalletAddress: core.BitcoinDonationAddress,
+			WalletAddress: "",
 			AccountID:     "1",
 			Pair:          getPair(t, asset.Futures),
 			AssetType:     asset.Futures,
 		}, {
 			OrderID:       "2",
-			WalletAddress: core.BitcoinDonationAddress,
+			WalletAddress: "",
 			AccountID:     "1",
 			Pair:          getPair(t, asset.Futures),
 			AssetType:     asset.Futures,
@@ -2278,13 +2278,13 @@ func TestCancelBatchOrders(t *testing.T) {
 	_, err = g.CancelBatchOrders(context.Background(), []order.Cancel{
 		{
 			OrderID:       "1",
-			WalletAddress: core.BitcoinDonationAddress,
+			WalletAddress: "",
 			AccountID:     "1",
 			Pair:          getPair(t, asset.DeliveryFutures),
 			AssetType:     asset.DeliveryFutures,
 		}, {
 			OrderID:       "2",
-			WalletAddress: core.BitcoinDonationAddress,
+			WalletAddress: "",
 			AccountID:     "1",
 			Pair:          getPair(t, asset.DeliveryFutures),
 			AssetType:     asset.DeliveryFutures,
@@ -2295,13 +2295,13 @@ func TestCancelBatchOrders(t *testing.T) {
 	_, err = g.CancelBatchOrders(context.Background(), []order.Cancel{
 		{
 			OrderID:       "1",
-			WalletAddress: core.BitcoinDonationAddress,
+			WalletAddress: "",
 			AccountID:     "1",
 			Pair:          getPair(t, asset.Options),
 			AssetType:     asset.Options,
 		}, {
 			OrderID:       "2",
-			WalletAddress: core.BitcoinDonationAddress,
+			WalletAddress: "",
 			AccountID:     "1",
 			Pair:          getPair(t, asset.Options),
 			AssetType:     asset.Options,
@@ -2312,13 +2312,13 @@ func TestCancelBatchOrders(t *testing.T) {
 	_, err = g.CancelBatchOrders(context.Background(), []order.Cancel{
 		{
 			OrderID:       "1",
-			WalletAddress: core.BitcoinDonationAddress,
+			WalletAddress: "",
 			AccountID:     "1",
 			Pair:          getPair(t, asset.Margin),
 			AssetType:     asset.Margin,
 		}, {
 			OrderID:       "2",
-			WalletAddress: core.BitcoinDonationAddress,
+			WalletAddress: "",
 			AccountID:     "1",
 			Pair:          getPair(t, asset.Margin),
 			AssetType:     asset.Margin,

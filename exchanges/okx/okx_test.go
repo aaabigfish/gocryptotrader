@@ -11,12 +11,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/config"
-	"github.com/aaabigfish/gocryptotrader/core"
+
 	"github.com/aaabigfish/gocryptotrader/currency"
 	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
@@ -30,6 +28,8 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/sharedtestvalues"
 	testexch "github.com/aaabigfish/gocryptotrader/internal/testing/exchange"
 	"github.com/aaabigfish/gocryptotrader/portfolio/withdraw"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 // Please supply your own keys here to do authenticated endpoint testing
@@ -1136,7 +1136,7 @@ func TestWithdrawal(t *testing.T) {
 	t.Parallel()
 	sharedtestvalues.SkipTestIfCredentialsUnset(t, ok, canManipulateRealOrders)
 
-	_, err := ok.Withdrawal(contextGenerate(), &WithdrawalInput{Amount: 0.1, TransactionFee: 0.00005, Currency: "BTC", WithdrawalDestination: "4", ToAddress: core.BitcoinDonationAddress})
+	_, err := ok.Withdrawal(contextGenerate(), &WithdrawalInput{Amount: 0.1, TransactionFee: 0.00005, Currency: "BTC", WithdrawalDestination: "4", ToAddress: ""})
 	if err != nil {
 		t.Error("Okx Withdrawal error", err)
 	}
@@ -2100,7 +2100,7 @@ func TestCancelOrder(t *testing.T) {
 
 	var orderCancellation = &order.Cancel{
 		OrderID:       "1",
-		WalletAddress: core.BitcoinDonationAddress,
+		WalletAddress: "",
 		AccountID:     "1",
 		Pair:          currency.NewPair(currency.LTC, currency.BTC),
 		AssetType:     asset.Spot,
@@ -2117,14 +2117,14 @@ func TestCancelBatchOrders(t *testing.T) {
 	var orderCancellationParams = []order.Cancel{
 		{
 			OrderID:       "1",
-			WalletAddress: core.BitcoinDonationAddress,
+			WalletAddress: "",
 			AccountID:     "1",
 			Pair:          currency.NewPair(currency.LTC, currency.BTC),
 			AssetType:     asset.Spot,
 		},
 		{
 			OrderID:       "1",
-			WalletAddress: core.BitcoinDonationAddress,
+			WalletAddress: "",
 			AccountID:     "1",
 			Pair:          currency.NewPair(currency.LTC, currency.BTC),
 			AssetType:     asset.PerpetualSwap,
@@ -2198,7 +2198,7 @@ func TestWithdraw(t *testing.T) {
 		Amount:   0.00000000001,
 		Currency: currency.BTC,
 		Crypto: withdraw.CryptoRequest{
-			Address: core.BitcoinDonationAddress,
+			Address: "",
 		},
 	}
 	if _, err := ok.WithdrawCryptocurrencyFunds(contextGenerate(), &withdrawCryptoRequest); err != nil {

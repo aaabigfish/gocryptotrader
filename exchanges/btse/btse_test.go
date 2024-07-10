@@ -7,12 +7,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"github.com/aaabigfish/gocryptotrader/common"
 	"github.com/aaabigfish/gocryptotrader/common/key"
 	"github.com/aaabigfish/gocryptotrader/config"
-	"github.com/aaabigfish/gocryptotrader/core"
+
 	"github.com/aaabigfish/gocryptotrader/currency"
 	exchange "github.com/aaabigfish/gocryptotrader/exchanges"
 	"github.com/aaabigfish/gocryptotrader/exchanges/asset"
@@ -24,6 +22,8 @@ import (
 	"github.com/aaabigfish/gocryptotrader/exchanges/stream"
 	"github.com/aaabigfish/gocryptotrader/exchanges/ticker"
 	testexch "github.com/aaabigfish/gocryptotrader/internal/testing/exchange"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 // Please supply your own keys here to do better tests
@@ -428,7 +428,7 @@ func TestCancelExchangeOrder(t *testing.T) {
 	// TODO: Place an order to make sure we can cancel it
 	var orderCancellation = &order.Cancel{
 		OrderID:       "b334ecef-2b42-4998-b8a4-b6b14f6d2671",
-		WalletAddress: core.BitcoinDonationAddress,
+		WalletAddress: "",
 		AccountID:     "1",
 		Pair:          spotPair,
 		AssetType:     asset.Spot,
@@ -452,7 +452,7 @@ func TestCancelAllExchangeOrders(t *testing.T) {
 
 	var orderCancellation = &order.Cancel{
 		OrderID:       "1",
-		WalletAddress: core.BitcoinDonationAddress,
+		WalletAddress: "",
 		AccountID:     "1",
 		Pair:          spotPair,
 		AssetType:     asset.Spot,
