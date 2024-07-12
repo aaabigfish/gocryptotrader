@@ -607,11 +607,8 @@ func (b *Binance) UpdateOrderbook(ctx context.Context, p currency.Pair, assetTyp
 		}
 	}
 
-	err = book.Process()
-	if err != nil {
-		return book, err
-	}
-	return orderbook.Get(b.Name, p, assetType)
+	book.LastUpdated = time.Now()
+	return book, nil
 }
 
 // UpdateAccountInfo retrieves balances for all enabled currencies for the

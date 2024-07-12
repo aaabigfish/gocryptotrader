@@ -1624,7 +1624,6 @@ func (c *Config) UpdateConfig(configPath string, newCfg *Config, dryrun bool) er
 	c.EncryptConfig = newCfg.EncryptConfig
 	c.Currency = newCfg.Currency
 	c.GlobalHTTPTimeout = newCfg.GlobalHTTPTimeout
-	c.Portfolio = newCfg.Portfolio
 	c.Webserver = newCfg.Webserver
 	c.Exchanges = newCfg.Exchanges
 

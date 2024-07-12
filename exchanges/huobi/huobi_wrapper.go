@@ -583,7 +583,7 @@ func (h *HUOBI) UpdateOrderbook(ctx context.Context, p currency.Pair, assetType 
 		if err != nil {
 			return book, err
 		}
-
+		book.LastUpdated = time.UnixMilli(orderbookNew.Timetstamp)
 		book.Bids = make(orderbook.Tranches, len(orderbookNew.Bids))
 		for x := range orderbookNew.Bids {
 			book.Bids[x] = orderbook.Tranche{
@@ -644,11 +644,7 @@ func (h *HUOBI) UpdateOrderbook(ctx context.Context, p currency.Pair, assetType 
 			}
 		}
 	}
-	err = book.Process()
-	if err != nil {
-		return book, err
-	}
-	return orderbook.Get(h.Name, p, assetType)
+	return book, nil
 }
 
 // GetAccountID returns the account ID for trades
@@ -738,7 +734,7 @@ func (h *HUOBI) UpdateAccountInfo(ctx context.Context, assetType asset.Item) (ac
 							account.Balance{
 								Currency: currency.NewCode(balances[j].Currency),
 								Total:    balances[j].Balance,
-								Free:    balances[j].Balance,
+								Free:     balances[j].Balance,
 							})
 					}
 				}

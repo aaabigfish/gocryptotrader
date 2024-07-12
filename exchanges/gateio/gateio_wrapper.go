@@ -706,11 +706,7 @@ func (g *Gateio) UpdateOrderbook(ctx context.Context, p currency.Pair, a asset.I
 			Price:  orderbookNew.Asks[x].Price.Float64(),
 		}
 	}
-	err = book.Process()
-	if err != nil {
-		return book, err
-	}
-	return orderbook.Get(g.Name, book.Pair, a)
+	return book, nil
 }
 
 // UpdateAccountInfo retrieves balances for all enabled currencies for the

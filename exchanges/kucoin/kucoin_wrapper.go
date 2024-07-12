@@ -451,12 +451,9 @@ func (ku *Kucoin) UpdateOrderbook(ctx context.Context, pair currency.Pair, asset
 		VerifyOrderbook: ku.CanVerifyOrderbook,
 		Asks:            ordBook.Asks,
 		Bids:            ordBook.Bids,
+		LastUpdated:     ordBook.Time,
 	}
-	err = book.Process()
-	if err != nil {
-		return book, err
-	}
-	return orderbook.Get(ku.Name, pair, assetType)
+	return book, nil
 }
 
 // UpdateAccountInfo retrieves balances for all enabled currencies
