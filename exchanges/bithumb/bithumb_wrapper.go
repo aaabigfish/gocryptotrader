@@ -275,9 +275,6 @@ func (b *Bithumb) UpdateOrderbook(ctx context.Context, p currency.Pair, assetTyp
 	if p.IsEmpty() {
 		return nil, currency.ErrCurrencyPairEmpty
 	}
-	if err := b.CurrencyPairs.IsAssetEnabled(assetType); err != nil {
-		return nil, err
-	}
 	book := &orderbook.Base{
 		Exchange:        b.Name,
 		Pair:            p,
@@ -290,7 +287,7 @@ func (b *Bithumb) UpdateOrderbook(ctx context.Context, p currency.Pair, assetTyp
 	if err != nil {
 		return book, err
 	}
-
+	book.LastUpdated = time.UnixMilli(orderbookNew.Data.Timestamp)
 	book.Bids = make(orderbook.Tranches, len(orderbookNew.Data.Bids))
 	for i := range orderbookNew.Data.Bids {
 		book.Bids[i] = orderbook.Tranche{
@@ -307,11 +304,7 @@ func (b *Bithumb) UpdateOrderbook(ctx context.Context, p currency.Pair, assetTyp
 		}
 	}
 
-	err = book.Process()
-	if err != nil {
-		return book, err
-	}
-	return orderbook.Get(b.Name, p, assetType)
+	return book, nil
 }
 
 // UpdateAccountInfo retrieves balances for all enabled currencies for the
@@ -448,6 +441,19 @@ func (b *Bithumb) GetHistoricTrades(_ context.Context, _ currency.Pair, _ asset.
 }
 
 func (b *Bithumb) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
+	var errBuild string
+	for _, s := range ss {
+		var transactionType string
+		if s.Side.Lower() == "buy" {
+			transactionType = "bid"
+		} else {
+			transactionType = "ask"
+		}
+		_, err := b.PlaceTrade(ctx, s.Pair.Base.String(), transactionType, s.Amount, int64(s.Price))
+		if err != nil {
+			errBuild = errBuild + "\n" + err.Error()
+		}
+	}
 	return nil, errors.New("not support")
 }
 
