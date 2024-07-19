@@ -399,7 +399,7 @@ func (b *Bithumb) PlaceTrade(ctx context.Context, orderCurrency, transactionType
 	params := url.Values{}
 	params.Set("order_currency", strings.ToUpper(orderCurrency))
 	params.Set("payment_currency", "KRW")
-	params.Set("type", strings.ToUpper(transactionType))
+	params.Set("type", strings.ToLower(transactionType))
 	params.Set("units", strconv.FormatFloat(units, 'f', -1, 64))
 	params.Set("price", strconv.FormatInt(price, 10))
 
@@ -435,8 +435,13 @@ func (b *Bithumb) CancelTrade(ctx context.Context, transactionType, orderID, cur
 
 	params := url.Values{}
 	params.Set("order_id", strings.ToUpper(orderID))
-	params.Set("type", strings.ToUpper(transactionType))
-	params.Set("currency", strings.ToUpper(currency))
+	if strings.ToLower(transactionType) == "sell" {
+		params.Set("type", "ask")
+	} else {
+		params.Set("type", "bid")
+	}
+	params.Set("order_currency", strings.ToUpper(currency))
+	params.Set("payment_currency", "KRW")
 
 	return response,
 		b.SendAuthenticatedHTTPRequest(ctx, exchange.RestSpot, privateCancelTrade, nil, &response)

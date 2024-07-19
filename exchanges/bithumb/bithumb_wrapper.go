@@ -443,6 +443,7 @@ func (b *Bithumb) GetHistoricTrades(_ context.Context, _ currency.Pair, _ asset.
 
 func (b *Bithumb) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*order.SubmitResponse, error) {
 	var errBuild string
+	var res []*order.SubmitResponse
 	for _, s := range ss {
 		var transactionType string
 		if s.Side.Lower() == "buy" {
@@ -450,12 +451,14 @@ func (b *Bithumb) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*ord
 		} else {
 			transactionType = "ask"
 		}
-		_, err := b.PlaceTrade(ctx, s.Pair.Base.String(), transactionType, s.Amount, int64(s.Price))
+		oo, err := b.PlaceTrade(ctx, s.Pair.Base.String(), transactionType, s.Amount, int64(s.Price))
 		if err != nil {
 			errBuild = errBuild + "\n" + err.Error()
 		}
+		o, _ := s.DeriveSubmitResponse(oo.Data[0].ContID)
+		res = append(res, o)
 	}
-	return nil, errors.New("not support")
+	return res, nil
 }
 
 // SubmitOrder submits a new order
@@ -506,8 +509,17 @@ func (b *Bithumb) CancelOrder(ctx context.Context, o *order.Cancel) error {
 }
 
 // CancelBatchOrders cancels an orders by their corresponding ID numbers
-func (b *Bithumb) CancelBatchOrders(_ context.Context, _ []order.Cancel) (*order.CancelBatchResponse, error) {
-	return nil, common.ErrFunctionNotSupported
+func (b *Bithumb) CancelBatchOrders(ctx context.Context, allOrders []order.Cancel) (*order.CancelBatchResponse, error) {
+	var resp = &order.CancelBatchResponse{
+		Status: make(map[string]string),
+	}
+	for i := range allOrders {
+		_, err := b.CancelAllOrders(ctx, &allOrders[i])
+		if err != nil {
+
+		}
+	}
+	return resp, nil
 }
 
 // CancelAllOrders cancels all orders associated with a currency pair
