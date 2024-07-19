@@ -393,7 +393,7 @@ func (b *Bithumb) GetUserTransactions(ctx context.Context, offset, count, search
 // transactionType: Transaction type(bid : purchase, ask : sales)
 // units: Order quantity
 // price: Transaction amount per currency
-func (b *Bithumb) PlaceTrade(ctx context.Context, orderCurrency, transactionType string, units float64, price int64) (OrderPlace, error) {
+func (b *Bithumb) PlaceTrade(ctx context.Context, orderCurrency, transactionType string, units float64, price float64) (OrderPlace, error) {
 	response := OrderPlace{}
 
 	params := url.Values{}
@@ -401,7 +401,7 @@ func (b *Bithumb) PlaceTrade(ctx context.Context, orderCurrency, transactionType
 	params.Set("payment_currency", "KRW")
 	params.Set("type", strings.ToLower(transactionType))
 	params.Set("units", strconv.FormatFloat(units, 'f', -1, 64))
-	params.Set("price", strconv.FormatInt(price, 10))
+	params.Set("price", fmt.Sprintf("%v", price))
 
 	return response,
 		b.SendAuthenticatedHTTPRequest(ctx, exchange.RestSpot, privatePlaceTrade, params, &response)
@@ -434,17 +434,17 @@ func (b *Bithumb) CancelTrade(ctx context.Context, transactionType, orderID, cur
 	response := ActionStatus{}
 
 	params := url.Values{}
-	params.Set("order_id", strings.ToUpper(orderID))
+	params.Set("order_id", orderID)
+	var side = "bid"
 	if strings.ToLower(transactionType) == "sell" {
-		params.Set("type", "ask")
-	} else {
-		params.Set("type", "bid")
+		side = "ask"
 	}
+	params.Set("type", side)
 	params.Set("order_currency", strings.ToUpper(currency))
 	params.Set("payment_currency", "KRW")
 
 	return response,
-		b.SendAuthenticatedHTTPRequest(ctx, exchange.RestSpot, privateCancelTrade, nil, &response)
+		b.SendAuthenticatedHTTPRequest(ctx, exchange.RestSpot, privateCancelTrade, params, &response)
 }
 
 // WithdrawCrypto withdraws a customer currency to an address

@@ -451,7 +451,7 @@ func (b *Bithumb) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*ord
 		} else {
 			transactionType = "ask"
 		}
-		oo, err := b.PlaceTrade(ctx, s.Pair.Base.String(), transactionType, s.Amount, int64(s.Price))
+		oo, err := b.PlaceTrade(ctx, s.Pair.Base.String(), transactionType, s.Amount, s.Price)
 		if err != nil {
 			errBuild = errBuild + "\n" + err.Error()
 		}
