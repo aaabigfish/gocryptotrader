@@ -7,6 +7,7 @@ import (
 	"math"
 	"sort"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/aaabigfish/gocryptotrader/common"
@@ -560,13 +561,13 @@ func (b *Bithumb) GetOrderInfo(ctx context.Context, orderID string, pair currenc
 			continue
 		}
 		orderDetail := order.Detail{
-			Amount:          orders.Data[i].Units,
+			Amount:          purify(orders.Data[i].Units),
 			Exchange:        b.Name,
-			ExecutedAmount:  orders.Data[i].Units - orders.Data[i].UnitsRemaining,
+			ExecutedAmount:  purify(orders.Data[i].Units) - purify(orders.Data[i].UnitsRemaining),
 			OrderID:         orders.Data[i].OrderID,
 			Date:            orders.Data[i].OrderDate.Time(),
-			Price:           orders.Data[i].Price,
-			RemainingAmount: orders.Data[i].UnitsRemaining,
+			Price:           purify(orders.Data[i].Price),
+			RemainingAmount: purify(orders.Data[i].UnitsRemaining),
 			Pair:            pair,
 		}
 
@@ -660,6 +661,12 @@ func (b *Bithumb) GetFeeByType(ctx context.Context, feeBuilder *exchange.FeeBuil
 	return b.GetFee(feeBuilder)
 }
 
+func purify(str string) float64 {
+	str = strings.ReplaceAll(str, ",", "")
+	res, _ := strconv.ParseFloat(str, 64)
+	return res
+}
+
 // GetActiveOrders retrieves any orders that are active/open
 func (b *Bithumb) GetActiveOrders(ctx context.Context, req *order.MultiOrderRequest) (order.FilteredOrders, error) {
 	err := req.Validate()
@@ -685,18 +692,15 @@ func (b *Bithumb) GetActiveOrders(ctx context.Context, req *order.MultiOrderRequ
 		}
 
 		for i := range resp.Data {
-			if resp.Data[i].Status != "placed" {
-				continue
-			}
-
 			orderDetail := order.Detail{
-				Amount:          resp.Data[i].Units,
+				Amount:          purify(resp.Data[i].Units),
 				Exchange:        b.Name,
-				ExecutedAmount:  resp.Data[i].Units - resp.Data[i].UnitsRemaining,
+				ExecutedAmount:  purify(resp.Data[i].Units) - purify(resp.Data[i].UnitsRemaining),
 				OrderID:         resp.Data[i].OrderID,
 				Date:            resp.Data[i].OrderDate.Time(),
-				Price:           resp.Data[i].Price,
-				RemainingAmount: resp.Data[i].UnitsRemaining,
+				Price:           purify(resp.Data[i].Price),
+				Type:            order.Limit,
+				RemainingAmount: purify(resp.Data[i].UnitsRemaining),
 				Status:          order.Active,
 				Pair: currency.NewPairWithDelimiter(resp.Data[i].OrderCurrency,
 					resp.Data[i].PaymentCurrency,
@@ -746,13 +750,13 @@ func (b *Bithumb) GetOrderHistory(ctx context.Context, req *order.MultiOrderRequ
 			}
 
 			orderDetail := order.Detail{
-				Amount:          resp.Data[i].Units,
-				ExecutedAmount:  resp.Data[i].Units - resp.Data[i].UnitsRemaining,
-				RemainingAmount: resp.Data[i].UnitsRemaining,
+				Amount:          purify(resp.Data[i].Units),
+				ExecutedAmount:  purify(resp.Data[i].Units) - purify(resp.Data[i].UnitsRemaining),
+				RemainingAmount: purify(resp.Data[i].UnitsRemaining),
 				Exchange:        b.Name,
 				OrderID:         resp.Data[i].OrderID,
 				Date:            resp.Data[i].OrderDate.Time(),
-				Price:           resp.Data[i].Price,
+				Price:           purify(resp.Data[i].Price),
 				Pair: currency.NewPairWithDelimiter(resp.Data[i].OrderCurrency,
 					resp.Data[i].PaymentCurrency,
 					format.Delimiter),

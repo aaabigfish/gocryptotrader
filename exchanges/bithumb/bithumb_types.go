@@ -133,11 +133,11 @@ type OrderData struct {
 	PaymentCurrency string      `json:"payment_currency"`
 	Type            string      `json:"type"`
 	Status          string      `json:"status"`
-	Units           float64     `json:"units,string"`
-	UnitsRemaining  float64     `json:"units_remaining,string"`
-	Price           float64     `json:"price,string"`
-	Fee             float64     `json:"fee,string"`
-	Total           float64     `json:"total,string"`
+	Units           string      `json:"units"`
+	UnitsRemaining  string      `json:"units_remaining"`
+	Price           string      `json:"price"`
+	Fee             string      `json:"fee"`
+	Total           string      `json:"total"`
 }
 
 // UserTransactions holds users full transaction list
