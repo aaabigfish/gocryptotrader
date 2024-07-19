@@ -169,6 +169,7 @@ type OrderPlace struct {
 		Total  float64 `json:"total,string"`
 		Fee    float64 `json:"fee,string"`
 	} `json:"data"`
+	OrderId string `json:"order_id"`
 	Message string `json:"message"`
 }
 

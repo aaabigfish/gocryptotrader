@@ -455,7 +455,7 @@ func (b *Bithumb) SubmitOrders(ctx context.Context, ss ...*order.Submit) ([]*ord
 		if err != nil {
 			errBuild = errBuild + "\n" + err.Error()
 		}
-		o, _ := s.DeriveSubmitResponse(oo.Data[0].ContID)
+		o, _ := s.DeriveSubmitResponse(oo.OrderId)
 		res = append(res, o)
 	}
 	return res, nil

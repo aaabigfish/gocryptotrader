@@ -606,6 +606,7 @@ func (b *Bithumb) SendAuthenticatedHTTPRequest(ctx context.Context, ep exchange.
 
 	errCapture := struct {
 		Status  string `json:"status"`
+		OrderId string `json:"order_id"`
 		Message string `json:"message"`
 	}{}
 	err = json.Unmarshal(intermediary, &errCapture)
